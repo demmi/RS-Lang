@@ -1,0 +1,45 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "react-hooks",
+    "babel",
+    "import",
+    "eslint-plugin-no-inline-styles"
+  ],
+  "rules": {
+    "react/prop-types": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/display-name": "warn",
+    "no-alert": "error",
+    "no-console": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "newline-before-return": "error",
+    "import/newline-after-import": ["error", { "count": 1 }],
+    "react/react-in-jsx-scope": "off",
+    "no-inline-styles/no-inline-styles": 2,
+    "no-magic-numbers": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*styles.ts", "*styles.js"],
+      "rules": {
+        "no-magic-numbers": "off"
+      }
+    }
+  ]
+}
