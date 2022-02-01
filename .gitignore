@@ -9,6 +9,7 @@ build
 
 #secrets
 .env
+.idea
 
 # misc
 npm-debug.log*
