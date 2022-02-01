@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const paths = require('./paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
@@ -27,7 +27,7 @@ module.exports = {
       title: 'webpack Boilerplate',
       template: path.resolve(__dirname, './src/template.html'),
       filename: 'index.html',
-      favicon: './favicon.png',
+      favicon: './src/assets/icon/favicon.png',
     }),
   ],
 
@@ -36,12 +36,16 @@ module.exports = {
     minimizer: [new TerserPlugin()],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    modules: [paths.src, 'node_modules'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx',],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js[x]$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
@@ -57,8 +61,16 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+      {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/i,
+        type: 'asset',
       },
     ],
   },
