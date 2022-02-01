@@ -3,8 +3,11 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
-  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "plugin:react/recommended",
+    "eslint:recommended",
+    "plugin:import/recommended"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -14,7 +17,6 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint",
     "react-hooks",
     "babel",
     "import",
@@ -27,7 +29,6 @@
     "react/display-name": "warn",
     "no-alert": "error",
     "no-console": "warn",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
     "newline-before-return": "error",
     "import/newline-after-import": ["error", { "count": 1 }],
     "react/react-in-jsx-scope": "off",
@@ -41,5 +42,13 @@
         "no-magic-numbers": "off"
       }
     }
-  ]
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx"]
+      }
+    }
+  }
 }
