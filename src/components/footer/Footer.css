@@ -1,0 +1,57 @@
+.footer {
+  height: 70px;
+  padding: 10px 20px;
+  background-color: #64aef8;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-github-link {
+  font-size: 14px;
+  transition: .3s;
+  color: #ffffff;
+}
+
+.footer-github-link:hover {
+  color: #000000;
+  transition: .3s;
+}
+
+.footer-github-link:hover .author svg{
+  fill: #000000;
+  transition: .3s;
+}
+
+.rss-logo svg {
+  fill: white;
+  transition: .3s;
+}
+
+.rss-logo svg:hover {
+  fill: #000000;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.author-name {
+  margin-left: 10px;
+}
+
+.footer-center {
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffffff;
+}
