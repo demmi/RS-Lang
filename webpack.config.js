@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 const path = require('path')
-const paths = require('./paths');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const paths = require('./paths');
 
 module.exports = {
   mode: 'development',

@@ -1,60 +1,36 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "plugin:react/recommended",
-    "eslint:recommended",
-    "plugin:import/recommended"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
+    "env": {
+        "browser": true,
+        "es2021": true
     },
-    "ecmaVersion": 12,
-    "sourceType": "module"
-  },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "babel",
-    "import",
-    "eslint-plugin-no-inline-styles"
-  ],
-  "rules": {
-    "react/prop-types": "warn",
-    "react-hooks/rules-of-hooks": "warn",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/display-name": "warn",
-    "no-alert": "error",
-    "no-console": "warn",
-    "newline-before-return": "error",
-    "import/newline-after-import": ["error", { "count": 1 }],
-    "react/react-in-jsx-scope": "off",
-    "no-inline-styles/no-inline-styles": 2,
-    "no-magic-numbers": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*styles.ts", "*styles.js"],
-      "rules": {
-        "no-magic-numbers": "off"
-      }
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "airbnb",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                    [ "@", "./src" ]
+                ],
+                "extensions": [".ts", ".js", ".jsx", ".tsx"]
+
+            }
+        }
     }
-  ],
-  "settings": {
-    "import/resolver": {
-      "alias": {
-        "map" : [
-          ["@", "./src"]
-        ]
-      },
-      "extensions": [".js", ".jsx", ".ts", ".tsx"],
-      "node": {
-        "paths": ["src"],
-        "extensions": [".js", ".jsx"]
-      }
-    }
-  }
 }
