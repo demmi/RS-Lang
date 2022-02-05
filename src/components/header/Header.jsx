@@ -14,19 +14,22 @@ import {
   Typography,
 } from '@mui/material'
 import createUser from '@/components/api/createUser'
-import signIn from '@/components/api/signIn'
+// import signIn from '@/components/api/signIn'
+import LoginComponent from '@/components/login/LoginComponent';
 
 /* https://mui.com/components/app-bar/ */
 
 
 /* For future use: Use user name and logging state */
-const isLogged = false;
+// const isLogged = false;
 const userName = 'Pablo'
 
 const pages = ['Главная', 'Учебник', 'Игры', 'Статистика'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+  const [isLogin, setLogin] = React.useState(true);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,24 +40,30 @@ function ResponsiveAppBar() {
     console.log(await createUser('Andrew', 'a@aa.ru', 'andrew123'))
   };
 
-  const handleLogin = async () => {
-    console.log(await signIn('a@aa.ru', 'andrew123'))
+  // const handleLogin = async () => {
+  //   console.log(await signIn('a@aa.ru', 'andrew123'))
+  // }
+
+  const handleLogout = () => {
+    setLogin(false);
   }
 
-  const component = isLogged ?
+  // const component = isLogged ?
+  const component = isLogin ?
     <Tooltip title="Logout">
-      <Avatar>{userName[0]}</Avatar>
+      <Avatar onClick={handleLogout}>{userName[0]}</Avatar>
     </Tooltip> :
-    <Button
-      color="inherit"
-      variant="h6"
-      sx={{
-        fontSize: 16,
-        color: 'common.white',
-        ml: 3,
-      }}
-      onClick={handleLogin}
-    >Login</Button>
+    // <Button
+    //   color="inherit"
+    //   variant="h6"
+    //   sx={{
+    //     fontSize: 16,
+    //     color: 'common.white',
+    //     ml: 3,
+    //   }}
+    //   onClick={handleLogin}
+    // >Login</Button>
+    <LoginComponent />
 
   return (
 
