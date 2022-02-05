@@ -1,6 +1,6 @@
 import Url from '@/components/const'
 
-async function createUser(id) {
+async function getUser(id) {
   const urlString = `${Url}users/${id}`
   const response = await fetch(urlString)
   if (response.ok) {
@@ -13,4 +13,4 @@ async function createUser(id) {
   return response.status
 }
 
-export default createUser
+export default getUser
