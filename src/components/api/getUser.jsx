@@ -1,8 +1,14 @@
 import Url from '@/components/const'
 
-async function createUser(id) {
+async function getUser(id) {
   const urlString = `${Url}users/${id}`
-  const response = await fetch(urlString)
+  const response = await fetch(urlString, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${localStorage.demmiUserToken}`,
+      Accept: 'application/json',
+    },
+  })
   if (response.ok) {
     const user = await response.json()
     return user
@@ -13,4 +19,4 @@ async function createUser(id) {
   return response.status
 }
 
-export default createUser
+export default getUser
