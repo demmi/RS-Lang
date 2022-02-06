@@ -3,6 +3,10 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 
 function LoginComponent() {
     const [open, setOpen] = React.useState(false);
+    /* const [emailValue, setEmail] = React.useState('')
+    const [passValue, setPass] = React.useState('') */
+    let emailValue = ''
+    let passValue = ''
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -14,7 +18,15 @@ function LoginComponent() {
 
     const handleLogin = () => {
         handleClose();
-        console.log('handleLogin - нужна логика для входа');
+        console.log(passValue, emailValue);
+    }
+
+    const handlePass = (event) => {
+        passValue = event.target.value
+    }
+
+    const handleMail = (event) => {
+        emailValue = event.target.value
     }
 
     return (
@@ -28,18 +40,19 @@ function LoginComponent() {
                     <TextField
                         autoFocus
                         margin='dense'
-                        id='name'
+                        id='mail'
                         label='Email Address'
                         type='email'
                         fullWidth
+                        onChange={handleMail}
                     />
                     <TextField
-                        autoFocus
                         margin='dense'
                         id='pass'
                         label='Password'
                         type='password'
                         fullWidth
+                        onChange={handlePass}
                     />
                 </DialogContent>
                 <DialogActions>
