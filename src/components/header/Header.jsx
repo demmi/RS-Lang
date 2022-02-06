@@ -13,8 +13,6 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import createUser from '@/components/api/createUser'
-// import signIn from '@/components/api/signIn'
 import LoginComponent from '@/components/login/LoginComponent';
 
 /* https://mui.com/components/app-bar/ */
@@ -29,20 +27,15 @@ const pages = ['Главная', 'Учебник', 'Игры', 'Статисти
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  const [isLogin, setLogin] = React.useState(true);
+  const [isLogin, setLogin] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = async () => {
+  const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    console.log(await createUser('Andrew', 'a@aa.ru', 'andrew123'))
   };
-
-  // const handleLogin = async () => {
-  //   console.log(await signIn('a@aa.ru', 'andrew123'))
-  // }
 
   const handleLogout = () => {
     setLogin(false);
@@ -53,16 +46,6 @@ function ResponsiveAppBar() {
     <Tooltip title="Logout">
       <Avatar onClick={handleLogout}>{userName[0]}</Avatar>
     </Tooltip> :
-    // <Button
-    //   color="inherit"
-    //   variant="h6"
-    //   sx={{
-    //     fontSize: 16,
-    //     color: 'common.white',
-    //     ml: 3,
-    //   }}
-    //   onClick={handleLogin}
-    // >Login</Button>
     <LoginComponent />
 
   return (
