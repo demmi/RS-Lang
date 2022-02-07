@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
+// eslint-disable-next-line import/no-unresolved
+import { makeStyles } from '@material-ui/core'
 import signIn from '@/components/api/signIn'
+import { styles } from '@/components/login/LoginComponent.styles'
 
+const useStyles = makeStyles(styles)
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
 
 function LoginComponent() {
-    const [open, setOpen] = React.useState(false);
-    const [, setLogged] = React.useState(false)
+    const classes = useStyles()
+    const [open, setOpen] = useState(false);
+    const [, setLogged] = useState(false)
     /* const [emailValue, setEmail] = React.useState('')
     const [passValue, setPass] = React.useState('') */
     let emailValue = ''
     let passValue = ''
+    const isError = false
+    const errorText = ''
+
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -24,6 +33,10 @@ function LoginComponent() {
         const response = await signIn(emailValue, passValue)
         if (typeof await response === 'object') {
             setLogged(true)
+            localStorage.demmiUserToken = await response.token
+            localStorage.demmiRefrechToken = await response.refreshToken
+            localStorage.demmiUserId = await response.userId
+            localStorage.demmiName = await response.name
             handleClose()
         } else {
             console.log(response)
@@ -36,6 +49,10 @@ function LoginComponent() {
 
     const handleMail = (event) => {
         emailValue = event.target.value
+    }
+
+    const handleRegister = () => {
+
     }
 
     return (
@@ -54,6 +71,8 @@ function LoginComponent() {
                         type='email'
                         fullWidth
                         onChange={handleMail}
+                        error = {isError}
+                        helperText={errorText}
                     />
                     <TextField
                         margin='dense'
@@ -64,9 +83,15 @@ function LoginComponent() {
                         onChange={handlePass}
                     />
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color='primary'>Cancel</Button>
-                    <Button onClick={handleLogin} color='primary'>Log in</Button>
+                <DialogActions className={classes.testClass}>
+                    <Box>
+                        <Button onClick={handleRegister} color='primary' variant="outlined">Registration</Button>
+                    </Box>
+                    <Box>
+                        <Button onClick={handleLogin} color='primary'>Log in</Button>
+                        <Button onClick={handleClose} color='primary'>Cancel</Button>
+                    </Box>
+
                 </DialogActions>
 
             </Dialog>
