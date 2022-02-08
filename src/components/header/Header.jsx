@@ -11,16 +11,15 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material'
 import LoginComponent from '@/components/login/LoginComponent'
 import IsLogged from '../context'
+import AvatarMenu from './AvatarMenu'
 
 /* https://mui.com/components/app-bar/ */
 
 /* For future use: Use user name and logging state */
-const userName = 'Pablo'
 
 const pages = ['Главная', 'Учебник', 'Игры', 'Статистика']
 
@@ -36,14 +35,11 @@ function ResponsiveAppBar() {
     setAnchorElNav(null)
   }
 
-  const handleLogout = () => {
-    setLogged(false)
-  }
-
   const component = isLogged ? (
-    <Tooltip title="Logout">
-      <Avatar onClick={handleLogout}>{userName[0]}</Avatar>
-    </Tooltip>
+    <AvatarMenu />
+    // <Tooltip title="Logout">
+    //   <Avatar onClick={handleLogout}>{localStorage.demmiName[0]}</Avatar>
+    // </Tooltip>
   ) : (
     <LoginComponent />
   )
