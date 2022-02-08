@@ -15,7 +15,7 @@ async function signIn(email, password) {
     const user = await response.json()
     return user
   } if (response.status === 403 || response.status === 404) {
-    const error = await response.text()
+    const error = response.status
     return error
   }
   return response.status
