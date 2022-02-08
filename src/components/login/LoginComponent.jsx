@@ -4,6 +4,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { makeStyles } from '@material-ui/core'
 import signIn from '@/components/api/signIn'
 import { styles } from '@/components/login/LoginComponent.styles'
+import RegisterComponent from '@/components/register/RegisterComponent'
 
 const useStyles = makeStyles(styles)
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
@@ -11,6 +12,7 @@ const useStyles = makeStyles(styles)
 function LoginComponent() {
     const classes = useStyles()
     const [open, setOpen] = useState(false);
+    const [openReg, setOpenReg] = useState(false);
     const [, setLogged] = useState(false)
     /* const [emailValue, setEmail] = React.useState('')
     const [passValue, setPass] = React.useState('') */
@@ -52,7 +54,14 @@ function LoginComponent() {
     }
 
     const handleRegister = () => {
+        handleClose();
+        setOpenReg(true);
+        console.log('handleRegister, openReg=', openReg)
+    }
 
+    const handleCloseReg = () => {
+        setOpenReg(false);
+        console.log('handleCloseReg, openReg=', openReg)
     }
 
     return (
@@ -95,6 +104,9 @@ function LoginComponent() {
                 </DialogActions>
 
             </Dialog>
+
+            <RegisterComponent openReg={openReg} handleCloseReg={handleCloseReg}/>
+
         </Box>
     );
 };
