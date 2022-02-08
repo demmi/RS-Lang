@@ -18,7 +18,7 @@ import RegisterComponent from '@/components/register/RegisterComponent'
 
 function LoginComponent() {
   const [open, setOpen] = useState(false)
-  const { isLogged, setLogged } = useContext(IsLogged)
+  const { setLogged } = useContext(IsLogged)
   const [{ isMailError, errorMailText }, setMailError] = useState({ isMailError: false, errorMailText: '' })
   const [{ isPassError, errorPassText }, setPassError] = useState({ isPassError: false, errorPassText: '' })
 
@@ -37,15 +37,16 @@ function LoginComponent() {
 
   const handleLogin = async () => {
     const response = await signIn(emailValue, passValue)
+    console.log(response)
     setPassError({ isPassError: false, errorPassText: '' })
     setMailError({ isMailError: false, errorMailText: '' })
 
     if (typeof (await response) === 'object') {
-      setLogged(true)
       localStorage.demmiUserToken = await response.token
       localStorage.demmiRefrechToken = await response.refreshToken
       localStorage.demmiUserId = await response.userId
       localStorage.demmiName = await response.name
+      setLogged(true)
       handleClose()
     }
     if ((await response) === 403) {

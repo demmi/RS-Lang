@@ -6,6 +6,7 @@ import IsLogged from '../context'
 
 function App() {
   const [isLogged, setLogged] = useState(false)
+  
   return (
     <IsLogged.Provider value={{ isLogged, setLogged }}>
       <>
