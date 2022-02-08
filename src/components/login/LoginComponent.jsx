@@ -12,14 +12,24 @@ import {
 import signIn from '@/components/api/signIn'
 import '@/components/login/LoginComponent.css'
 import IsLogged from '@/components/context'
+import RegisterComponent from '@/components/register/RegisterComponent'
+
 
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
 
 function LoginComponent() {
+
   const [open, setOpen] = useState(false)
   const { isLogged, setLogged } = useContext(IsLogged)
   const [{ isMailError, errorMailText }, setMailError] = useState({ isMailError: false, errorMailText: '' })
   const [{ isPassError, errorPassText }, setPassError] = useState({ isPassError: false, errorPassText: '' })
+
+
+
+  const [openReg, setOpenReg] = useState(false);
+ 
+
+
 
   let emailValue = ''
   let passValue = ''
@@ -53,9 +63,21 @@ function LoginComponent() {
     }
   }
 
+
   const handlePass = event => {
     passValue = event.target.value
   }
+
+    const handleRegister = () => {
+        handleClose();
+        setOpenReg(true);
+        console.log('handleRegister, openReg=', openReg)
+    }
+
+    const handleCloseReg = () => {
+        setOpenReg(false);
+        console.log('handleCloseReg, openReg=', openReg)
+    }
 
   const handleMail = event => {
     emailValue = event.target.value
@@ -111,7 +133,9 @@ function LoginComponent() {
           </Box>
         </DialogActions>
       </Dialog>
+<RegisterComponent openReg={openReg} handleCloseReg={handleCloseReg}/>
     </Box>
   )
 }
 export default LoginComponent
+           
