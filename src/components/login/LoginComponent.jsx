@@ -15,6 +15,8 @@ import IsLogged from '@/components/context'
 import RegisterComponent from '@/components/register/RegisterComponent'
 
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
+let emailValue = ''
+let passValue = ''
 
 function LoginComponent() {
   const [open, setOpen] = useState(false)
@@ -23,9 +25,6 @@ function LoginComponent() {
   const [{ isPassError, errorPassText }, setPassError] = useState({ isPassError: false, errorPassText: '' })
 
   const [openReg, setOpenReg] = useState(false)
-
-  let emailValue = ''
-  let passValue = ''
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -37,7 +36,6 @@ function LoginComponent() {
 
   const handleLogin = async () => {
     const response = await signIn(emailValue, passValue)
-    console.log(response)
     setPassError({ isPassError: false, errorPassText: '' })
     setMailError({ isMailError: false, errorMailText: '' })
 

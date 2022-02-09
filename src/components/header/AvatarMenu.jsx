@@ -27,6 +27,7 @@ function AvatarMenu() {
     if (event.target.innerText === 'Profile') {
       setAnchorElUser(null)
     }
+    setAnchorElUser(null)
   }
 
   return (
