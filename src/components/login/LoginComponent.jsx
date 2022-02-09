@@ -6,8 +6,9 @@ import {
 import { FormStatus } from '@/components/context';
 import { DT_SIGNIN } from '@/components/const';
 
-
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
+let emailValue = ''
+let passValue = ''
 
 function LoginComponent() {
   const { setDialogType } = useContext(FormStatus)

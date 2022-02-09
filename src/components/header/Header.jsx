@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import logo from '@/assets/icon/favicon.png'
 import MenuIcon from '@mui/icons-material/Menu'
 import {
@@ -11,16 +11,17 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material'
 import LoginComponent from '@/components/login/LoginComponent'
 import IsLogged from '../context'
+import AvatarMenu from './AvatarMenu'
+import getUser from '../api/getUser'
+
 
 /* https://mui.com/components/app-bar/ */
 
 /* For future use: Use user name and logging state */
-const userName = 'Pablo'
 
 const pages = ['Главная', 'Учебник', 'Игры', 'Статистика']
 
@@ -36,17 +37,19 @@ function ResponsiveAppBar() {
     setAnchorElNav(null)
   }
 
-  const handleLogout = () => {
-    setLogged(false)
+  const checkLogged = async () => {
+    if (localStorage.demmiUserId) {
+      const response = await getUser(localStorage.demmiUserId, localStorage.demmiUserToken)
+      if (typeof response === 'object') {
+        return true
+      }
+    }
+    return false
   }
 
-  const component = isLogged ? (
-    <Tooltip title="Logout">
-      <Avatar onClick={handleLogout}>{userName[0]}</Avatar>
-    </Tooltip>
-  ) : (
-    <LoginComponent />
-  )
+  useEffect(() => checkLogged().then(n => setLogged(n)))
+
+  const component = isLogged ? <AvatarMenu /> : <LoginComponent />
 
   return (
     <AppBar position="static">

@@ -7,9 +7,7 @@ import { DT_DISABLED } from '@/components/const';
 
 function App() {
   const [isLogged, setLogged] = useState(false)
-  const [dialogType, setDialogType] = useState(DT_DISABLED)
-
-  // console.log('isLogged:', isLogged, 'isSignIn:', isSignIn)
+  const [dialogType, setDialogType] = useState(DT_DISABLED
 
   return (
     <IsLogged.Provider value={{ isLogged, setLogged }}>
