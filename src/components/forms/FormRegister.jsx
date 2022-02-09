@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import '@/components/forms/StylesForms.css'
+import { FormStatus } from '@/components/context'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
-// import signIn from '@/components/api/signIn'
+import { DT_DISABLED, DT_REGISTER } from '@/components/const';
 
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
 
-function RegisterComponent({ openReg, handleCloseReg }) {
-    console.log('RegisterComponent, openReg=', openReg);
+function FormRegister() {
+    const { dialogType, setDialogType } = useContext(FormStatus)
+
+    const handleClose = () => {
+        setDialogType(DT_DISABLED)
+    }
+
+    const handleRegistration = () => {
+        console.log('start registration')
+    }
+
+    const isOpen = dialogType === DT_REGISTER;
 
     return (
-        <Dialog open={openReg} onClose={handleCloseReg} aria-labelledby='form-dialog-title'>
+        <Dialog open={isOpen} onClose={handleClose} aria-labelledby='form-dialog-title'>
 
             <DialogTitle id='form-registration-title'>Register New User</DialogTitle>
             <DialogContent>
@@ -40,13 +52,13 @@ function RegisterComponent({ openReg, handleCloseReg }) {
                     // onChange={handlePass}
                 />
             </DialogContent>
-            <DialogActions>
-                <Button /* onClick={handleCloseReg} */ color='primary' variant='outlined'>Registration</Button>
-                <Button /* onClick={handleCloseReg} */ color='primary'>Cancel</Button>
+            <DialogActions className="btn-group">
+                <Button onClick={handleRegistration} color='primary' variant='outlined'>Registration</Button>
+                <Button onClick={handleClose} color='primary'>Cancel</Button>
             </DialogActions>
 
         </Dialog>
     );
 };
 
-export default RegisterComponent;
+export default FormRegister;
