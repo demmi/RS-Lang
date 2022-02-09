@@ -15,17 +15,16 @@ import IsLogged from '@/components/context'
 import RegisterComponent from '@/components/register/RegisterComponent'
 
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
+let emailValue = ''
+let passValue = ''
 
 function LoginComponent() {
   const [open, setOpen] = useState(false)
-  const { isLogged, setLogged } = useContext(IsLogged)
+  const { setLogged } = useContext(IsLogged)
   const [{ isMailError, errorMailText }, setMailError] = useState({ isMailError: false, errorMailText: '' })
   const [{ isPassError, errorPassText }, setPassError] = useState({ isPassError: false, errorPassText: '' })
 
   const [openReg, setOpenReg] = useState(false)
-
-  let emailValue = ''
-  let passValue = ''
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -41,11 +40,11 @@ function LoginComponent() {
     setMailError({ isMailError: false, errorMailText: '' })
 
     if (typeof (await response) === 'object') {
-      setLogged(true)
       localStorage.demmiUserToken = await response.token
       localStorage.demmiRefrechToken = await response.refreshToken
       localStorage.demmiUserId = await response.userId
       localStorage.demmiName = await response.name
+      setLogged(true)
       handleClose()
     }
     if ((await response) === 403) {
