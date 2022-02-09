@@ -1,32 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
 
-import './Main.css';
-import { FormStatus } from '@/components/context';
-import { DT_SIGNIN, DT_REGISTER } from '@/components/const';
-import FormSignIn from '@/components/forms/FormSiignIn';
-import FormRegister from '@/components/forms/FormRegister';
+import './Main.css'
+import { FormStatus } from '@/components/context'
+import { DT_SIGNIN, DT_REGISTER, DT_UPDATE } from '@/components/const'
+import FormSignIn from '@/components/forms/FormSiignIn'
+import FormRegister from '@/components/forms/FormRegister'
+import FormUpdate from '@/components/forms/FormUpdate'
 
 function Main() {
   const { dialogType } = useContext(FormStatus)
 
-  let curForm;
+  let curForm
 
   switch (dialogType) {
     case DT_SIGNIN:
-      curForm = (<FormSignIn />)
-      break;
+      curForm = <FormSignIn />
+      break
     case DT_REGISTER:
-      curForm = (<FormRegister />)
-      break;
+      curForm = <FormRegister />
+      break
+    case DT_UPDATE:
+      curForm = <FormUpdate />
+      break
     default:
-      break;
+      break
   }
 
-  return (
-    <div className="main">
-      {curForm}
-    </div>
-  );
-};
+  return <div className="main">{curForm}</div>
+}
 
-export default Main;
+export default Main

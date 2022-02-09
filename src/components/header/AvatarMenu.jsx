@@ -7,13 +7,16 @@ import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import logout from '@/components/api/logout'
-import IsLogged from '@/components/context'
+import IsLogged, { FormStatus } from '@/components/context'
+import { DT_UPDATE } from '@/components/const'
 
-const settings = ['Profile', 'Logout']
+// const settings = ['Edit user', 'Logout']
+const settings = ['Logout']
 
 function AvatarMenu() {
   const [anchorElUser, setAnchorElUser] = useState(null)
   const { isLogged, setLogged } = useContext(IsLogged)
+  const { dialogType, setDialogType } = useContext(FormStatus)
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
@@ -24,8 +27,9 @@ function AvatarMenu() {
       setLogged(false)
       logout()
     }
-    if (event.target.innerText === 'Profile') {
-      setAnchorElUser(null)
+    if (event.target.innerText === 'Edit user') {
+      setDialogType(DT_UPDATE)
+      // setAnchorElUser(null)
     }
     setAnchorElUser(null)
   }
