@@ -16,14 +16,14 @@ import { DT_DISABLED, DT_SIGNIN, DT_REGISTER } from '@/components/const';
 
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
 
+let emailValue = ''
+let passValue = ''
+
 function FormSignIn() {
   const { setLogged } = useContext(IsLogged)
   const { dialogType, setDialogType } = useContext(FormStatus)
   const [{ isMailError, errorMailText }, setMailError] = useState({ isMailError: false, errorMailText: '' })
   const [{ isPassError, errorPassText }, setPassError] = useState({ isPassError: false, errorPassText: '' })
-
-  let emailValue = ''
-  let passValue = ''
 
   const handleClose = () => {
     setDialogType(DT_DISABLED)
@@ -35,11 +35,11 @@ function FormSignIn() {
     setMailError({ isMailError: false, errorMailText: '' })
 
     if (typeof (await response) === 'object') {
-      setLogged(true)
       localStorage.demmiUserToken = await response.token
       localStorage.demmiRefrechToken = await response.refreshToken
       localStorage.demmiUserId = await response.userId
       localStorage.demmiName = await response.name
+      setLogged(true)
       handleClose()
     }
     if ((await response) === 403) {
