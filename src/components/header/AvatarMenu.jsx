@@ -13,7 +13,7 @@ const settings = ['Profile', 'Logout']
 
 function AvatarMenu() {
   const [anchorElUser, setAnchorElUser] = useState(null)
-  const { isLogged, setLogged } = useContext(IsLogged)
+  const { setLogged } = useContext(IsLogged)
 
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)

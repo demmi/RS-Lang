@@ -11,15 +11,27 @@ async function createUser(name, email, password) {
       },
       body: JSON.stringify(body)
   })
+  // if (response.ok) {
+  //   const user = await response.json()
+  //   return user
+  // } if (response.status === 417) {
+  //   const error = await response.text()
+  //   return error
+  // } if (response.status === 422) {
+  //   const error = await response.json()
+  //   return error.error.errors
+  // }
+  // return response.status
+
   if (response.ok) {
     const user = await response.json()
-    return user
+    return { statusCode: response.status, body: user }
   } if (response.status === 417) {
     const error = await response.text()
-    return error
+    return { statusCode: response.status, body: error }
   } if (response.status === 422) {
     const error = await response.json()
-    return error.error.errors
+    return { statusCode: response.status, body: error.error.errors }
   }
   return response.status
 }

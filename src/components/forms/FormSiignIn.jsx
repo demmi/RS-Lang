@@ -30,6 +30,7 @@ function FormSignIn() {
   }
 
   const handleLogin = async () => {
+    console.log('handleLogin', 'emailValue:', emailValue, 'passValue', passValue)
     const response = await signIn(emailValue, passValue)
     setPassError({ isPassError: false, errorPassText: '' })
     setMailError({ isMailError: false, errorMailText: '' })
