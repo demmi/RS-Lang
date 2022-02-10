@@ -14,26 +14,36 @@ import {
   Typography,
 } from '@mui/material'
 import LoginComponent from '@/components/login/LoginComponent'
-import IsLogged from '../context'
+import IsLogged, { PageRouter } from '../context'
 import AvatarMenu from './AvatarMenu'
 import getUser from '../api/getUser'
+import { routingPages, CUR_PAGE } from '../const'
 
 
 /* https://mui.com/components/app-bar/ */
 
 /* For future use: Use user name and logging state */
 
-const pages = ['Главная', 'Учебник', 'Игры', 'Статистика']
+// const pages = ['главная', 'учебник', 'игры', 'статистика']
+const pages = Object.keys(routingPages)
+// console.log(page2)
+
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null)
   const { isLogged, setLogged } = useContext(IsLogged)
+  const { setRouterPage } = useContext(PageRouter)
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget)
   }
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (event) => {
+    const curTitle = event.target.innerText.toLowerCase();
+    const curPage = routingPages[curTitle];
+    sessionStorage.setItem(CUR_PAGE, curPage);
+    setRouterPage(curPage)
+    console.log('click, curTitle:', curTitle, 'curPage:', curPage)
     setAnchorElNav(null)
   }
 
