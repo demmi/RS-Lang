@@ -1,6 +1,5 @@
 .main {
   height: calc(100vh - 170px);
-  background-color: #b4b4b4;
   margin-bottom: 10px;
   margin-top: 10px;
   overflow-y: auto;
