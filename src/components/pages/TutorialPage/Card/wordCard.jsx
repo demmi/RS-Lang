@@ -1,6 +1,8 @@
 import React from 'react'
-import { Box, Card, CardActionArea, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Grid, IconButton, Paper, Typography } from '@mui/material'
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import URL from '@/components/const'
+import useSound from 'use-sound'
 
 const word = {
   id: '5e9f5ee35eb9e72bc21af4a0',
@@ -18,15 +20,14 @@ const word = {
   textMeaningTranslate: 'Алкоголь - это тип напитка, который может сделать людей пьяными',
   wordTranslate: 'алкоголь',
 }
-function String1() {
-  const str = document.createElement('p')
-  str.innerHTML = word.textMeaning
-  const str1 = document.createElement('div')
-  str1.append(str)
-  return <div dangerouslySetInnerHTML={{ __html: word.textMeaning }} />
+function DangerousString({ name }) {
+  return <span dangerouslySetInnerHTML={{ __html: name }} />
 }
 
 function WordCard() {
+  const [speakWord] = useSound(`${URL}${word.audio}`)
+  const [speakMeaning] = useSound(`${URL}${word.audioMeaning}`)
+  const [speakExample] = useSound(`${URL}${word.audioExample}`)
   return (
     <Grid item>
       <Paper elevation={3}>
@@ -36,18 +37,35 @@ function WordCard() {
           </Box>
           <Box>
             <CardContent>
-              <Typography variant="h4">
-                {word.word} : {word.transcription}
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <Typography variant="h4">
+                  {word.word} : {word.transcription}
+                </Typography>
+                <IconButton aria-label="play/pause" onClick={speakWord}>
+                  <RecordVoiceOverIcon sx={{ height: 38, width: 38 }} />
+                </IconButton>
+              </Box>
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 {word.wordTranslate}
               </Typography>
-              <Typography color="text.secondary">{word.textMeaning}</Typography>
-              <Typography color="text.secondary" gutterBottom>
-                {word.textMeaningTranslate}
-              </Typography>
-              <Typography color="text.secondary">{word.textExample}</Typography>
-              <String1 />
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', justifyContent: 'space-between' }}>
+                <Typography>
+                  <DangerousString name={word.textMeaning} />
+                </Typography>
+                <IconButton aria-label="play/pause" onClick={speakMeaning}>
+                  <RecordVoiceOverIcon sx={{ height: 35, width: 35 }} />
+                </IconButton>
+              </Box>
+              <Typography color="text.secondary">{word.textMeaningTranslate}</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', justifyContent: 'space-between' }}>
+                <Typography>
+                  <DangerousString name={word.textExample} />
+                </Typography>
+                <IconButton aria-label="play/pause" onClick={speakExample}>
+                  <RecordVoiceOverIcon sx={{ height: 35, width: 35 }} />
+                </IconButton>
+              </Box>
+              <Typography color="text.secondary">{word.textExampleTranslate}</Typography>
             </CardContent>
           </Box>
         </Card>
