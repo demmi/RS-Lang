@@ -8,6 +8,7 @@ function DangerousString({ name }) {
 }
 
 function WordCard({ data, setAudio }) {
+
   const {
     id,
     group,
