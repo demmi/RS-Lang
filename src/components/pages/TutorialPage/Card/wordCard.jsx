@@ -7,7 +7,8 @@ function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
 }
 
-function WordCard({ data }) {
+function WordCard({ data, setAudio }) {
+
   const {
     id,
     group,
@@ -24,16 +25,6 @@ function WordCard({ data }) {
     textMeaningTranslate,
     wordTranslate,
   } = data
-
-  const [audioSrc, setAudio] = useState(null)
-
-  const audioRef = useRef(new Audio(audioSrc))
-
-  useEffect(() => {
-    audioRef.current.pause()
-    audioRef.current = new Audio(audioSrc)
-    audioRef.current.play()
-  })
 
   const speakWord = () => {
     setAudio(`${URL}${audio}`)

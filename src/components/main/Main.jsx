@@ -49,7 +49,7 @@ function Main() {
       break;
   }
 
-  console.log('function Main', routerPage)
+  // console.log('function Main', routerPage)
 
   return (
     <div className="main">

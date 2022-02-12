@@ -13,12 +13,50 @@ export const TUTORIAL_PAGE = 'TutorialPage'
 export const GAMES_PAGE = 'GamesPage'
 export const STATISTIC_PAGE = 'StatisticPage'
 
-export const routingPages = {
+export const ROUTING_PAGES = {
   'главная': MAIN_PAGE,
   'учебник': TUTORIAL_PAGE,
   'игры': GAMES_PAGE,
   'статистика': STATISTIC_PAGE,
 }
+
+export const PAGE_OF_CATEGORIES = [
+  {
+    id: 1,
+    title: 'first category',
+    access: true
+  },
+  {
+    id: 2,
+    title: 'second category',
+    access: true
+  },
+  {
+    id: 3,
+    title: 'third category',
+    access: true
+  },
+  {
+    id: 4,
+    title: 'fourth category',
+    access: true
+  },
+  {
+    id: 5,
+    title: 'fifth category',
+    access: true
+  },
+  {
+    id: 6,
+    title: 'sixth category',
+    access: true
+  },
+  {
+    id: 7,
+    title: 'very difficult words',
+    access: false
+  },
+]
 
 export const CUR_PAGE = 'sergioivanov008_curPage'
 

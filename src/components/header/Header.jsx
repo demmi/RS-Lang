@@ -17,7 +17,7 @@ import LoginComponent from '@/components/login/LoginComponent'
 import IsLogged, { PageRouter } from '../context'
 import AvatarMenu from './AvatarMenu'
 import getUser from '../api/getUser'
-import { routingPages, CUR_PAGE } from '../const'
+import { ROUTING_PAGES, CUR_PAGE } from '../const'
 
 
 /* https://mui.com/components/app-bar/ */
@@ -25,7 +25,7 @@ import { routingPages, CUR_PAGE } from '../const'
 /* For future use: Use user name and logging state */
 
 // const pages = ['главная', 'учебник', 'игры', 'статистика']
-const pages = Object.keys(routingPages)
+const pages = Object.keys(ROUTING_PAGES)
 // console.log(page2)
 
 
@@ -40,7 +40,7 @@ function ResponsiveAppBar() {
 
   const handleCloseNavMenu = (event) => {
     const curTitle = event.target.innerText.toLowerCase();
-    const curPage = routingPages[curTitle];
+    const curPage = ROUTING_PAGES[curTitle];
     sessionStorage.setItem(CUR_PAGE, curPage);
     setRouterPage(curPage)
     console.log('click, curTitle:', curTitle, 'curPage:', curPage)
