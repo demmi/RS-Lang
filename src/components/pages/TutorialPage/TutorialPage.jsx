@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from 'react'
 
 import './TutorialPage.css'
 import WordCard from '@/components/pages/TutorialPage/Card/wordCard'
-import { Stack } from '@mui/material'
+import { Grid, ImageList, Stack } from '@mui/material'
 import getWords from '@/components/api/getWords'
 import { Category, Page } from '@/components/context'
 import TutorialPagination from './TutorialPagination/TutorialPagination'
@@ -34,20 +34,18 @@ function TutorialPage() {
 
   return (
     <div className="tutorial-category">
-      <Stack spacing={2} sx={{ position: 'fixed', top: 85, left: 8, height: '81%', justifyContent: 'space-between' }} >
+      <Stack spacing={2} sx={{ position: 'fixed', top: 85, left: 8, height: '81%', justifyContent: 'space-between' }}>
         <PageOfCategories />
         <TutorialPagination sx={{ marginTop: '50px' }} />
       </Stack>
       <div className="empty-space"> </div>
       <div className="tutorial-content">
-        <Stack spacing={2}>
-              {loaded
-                ? words.map((el) => ( <WordCard data={el} key={el.id} setAudio={setAudio} /> ))
-                : (<h3>Loading Data</h3>)}
-        </Stack>
+        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={3}>
+          {loaded ? words.map(el => <WordCard data={el} key={el.id} setAudio={setAudio} />) : <h3>Loading Data</h3>}
+        </Grid>
       </div>
     </div>
-  );
+  )
 }
 
 export default TutorialPage
