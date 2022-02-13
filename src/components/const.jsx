@@ -10,12 +10,13 @@ export const DT_UPDATE = 'updateForm'
 
 export const MAIN_PAGE = 'MainPage'
 export const TUTORIAL_PAGE = 'TutorialPage'
+export const TUTORIAL_CHOICE = 'TutorialChoice'
 export const GAMES_PAGE = 'GamesPage'
 export const STATISTIC_PAGE = 'StatisticPage'
 
 export const ROUTING_PAGES = {
   'главная': MAIN_PAGE,
-  'учебник': TUTORIAL_PAGE,
+  'учебник': TUTORIAL_CHOICE,
   'игры': GAMES_PAGE,
   'статистика': STATISTIC_PAGE,
 }
@@ -24,37 +25,44 @@ export const PAGE_OF_CATEGORIES = [
   {
     id: 1,
     title: 'first category',
-    access: true
+    access: true,
+    description: 'Первый раздел со словами для изучения. Доступен без регистрации.'
   },
   {
     id: 2,
     title: 'second category',
-    access: true
+    access: true,
+    description: 'Второй раздел со словами для изучения. Доступен без регистрации.'
   },
   {
     id: 3,
     title: 'third category',
-    access: true
+    access: true,
+    description: 'Третий раздел со словами для . Доступен без регистрации.'
   },
   {
     id: 4,
     title: 'fourth category',
-    access: true
+    access: true,
+    description: 'Четвёртый раздел со словами для изучения. Доступен без регистрации.'
   },
   {
     id: 5,
     title: 'fifth category',
-    access: true
+    access: true,
+    description: 'Пятый раздел со словами для изучения. Доступен без регистрации.'
   },
   {
     id: 6,
     title: 'sixth category',
-    access: true
+    access: true,
+    description: 'Шестой раздел со словами для изучения. Доступен без регистрации.'
   },
   {
     id: 7,
     title: 'very difficult words',
-    access: false
+    access: false,
+    description: 'Доступен для зарегистрированных пользователей.'
   },
 ]
 
