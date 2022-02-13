@@ -3,14 +3,14 @@ import React, { useEffect, useState, useRef, useContext } from 'react'
 import './TutorialPage.css'
 import WordCard from '@/components/pages/TutorialPage/Card/wordCard'
 import { Stack } from '@mui/material'
-import getWords from '@/components/api/getWords';
-import { Category, Page } from '@/components/context';
-import TutorialPagination from './TutorialPagination/TutorialPagination';
-import PageOfCategories from './PageOfCategories/PageOfCategories';
+import getWords from '@/components/api/getWords'
+import { Category, Page } from '@/components/context'
+import TutorialPagination from './TutorialPagination/TutorialPagination'
+import PageOfCategories from './PageOfCategories/PageOfCategories'
 
 function TutorialPage() {
-  const [words, setWords] = useState(null);
-  const [loaded, setLoaded] = useState(false);
+  const [words, setWords] = useState(null)
+  const [loaded, setLoaded] = useState(false)
   const [audioSrc, setAudio] = useState(null)
   const { category } = useContext(Category)
   const { page } = useContext(Page)
@@ -25,12 +25,12 @@ function TutorialPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await getWords(category - 1, page - 1);
-      setWords(data);
-      setLoaded(true);
-    };
-    loadData();
-  }, [category, page]);
+      const data = await getWords(category - 1, page - 1)
+      setWords(data)
+      setLoaded(true)
+    }
+    loadData()
+  }, [category, page])
 
   return (
     <div className="tutorial-category">
