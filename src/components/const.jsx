@@ -38,7 +38,7 @@ export const PAGE_OF_CATEGORIES = [
     id: 3,
     title: 'third category',
     access: true,
-    description: 'Третий раздел со словами для . Доступен без регистрации.'
+    description: 'Третий раздел со словами для изучения. Доступен без регистрации.'
   },
   {
     id: 4,
