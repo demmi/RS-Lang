@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 
 import './Main.css';
 import { FormStatus, PageRouter } from '@/components/context';
-import { DT_SIGNIN, DT_REGISTER, DT_REG_OK, MAIN_PAGE, TUTORIAL_PAGE, GAMES_PAGE, STATISTIC_PAGE } from '@/components/const';
+import { DT_SIGNIN, DT_REGISTER, DT_REG_OK, MAIN_PAGE, TUTORIAL_PAGE,
+  GAMES_PAGE, STATISTIC_PAGE, TUTORIAL_CHOICE
+} from '@/components/const';
 import FormSignIn from '@/components/forms/FormSiignIn';
 import FormRegister from '@/components/forms/FormRegister';
 import FormRegOk from '@/components/forms/FormRegOk';
@@ -10,6 +12,7 @@ import MainPage from '@/components/pages/MainPage/MainPage';
 import TutorialPage from '@/components/pages/TutorialPage/TutorialPage';
 import GamesPage from '@/components/pages/GamesPage/GamesPage';
 import StatisticPage from '@/components/pages/StatisticPage/StatisticPage';
+import TutorialChoice from '../pages/TutorialChoice/TutorialChoice';
 
 function Main() {
   const { dialogType } = useContext(FormStatus)
@@ -38,6 +41,9 @@ function Main() {
       break;
     case TUTORIAL_PAGE:
       curPage = (<TutorialPage/>)
+      break;
+    case TUTORIAL_CHOICE:
+      curPage = (<TutorialChoice/>)
       break;
     case GAMES_PAGE:
       curPage = (<GamesPage/>)
