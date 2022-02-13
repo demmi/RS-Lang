@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 
 import './TutorialPage.css'
 import WordCard from '@/components/pages/TutorialPage/Card/wordCard'
@@ -11,9 +11,9 @@ import PageOfCategories from './PageOfCategories/PageOfCategories';
 function TutorialPage() {
   const [words, setWords] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [page, setPage] = useState(1);
-  const [category, setCategory] = useState(1);
   const [audioSrc, setAudio] = useState(null)
+  const { category } = useContext(Category)
+  const { page } = useContext(Page)
 
   const audioRef = useRef(new Audio(audioSrc))
 
@@ -21,7 +21,7 @@ function TutorialPage() {
     audioRef.current.pause()
     audioRef.current = new Audio(audioSrc)
     audioRef.current.play()
-  })
+  }, [audioSrc])
 
   useEffect(() => {
     const loadData = async () => {
@@ -33,24 +33,20 @@ function TutorialPage() {
   }, [category, page]);
 
   return (
-    <Category.Provider value={{ category, setCategory }}>
-      <Page.Provider value={{ page, setPage }}>
-        <div className="tutorial-page">
-          <Stack spacing={2} sx={{ position: 'fixed', top: 85, left: 8, height: '81%', justifyContent: 'space-between' }} >
-            <PageOfCategories />
-            <TutorialPagination sx={{ marginTop: '50px' }} />
-          </Stack>
-          <div className="empty-space"> </div>
-          <div className="tutorial-content">
-            <Stack spacing={2}>
-                  {loaded
-                    ? words.map((el) => ( <WordCard data={el} key={el.id} setAudio={setAudio} /* playSound={playSound} */ /> ))
-                    : (<h3>Loading Data</h3>)}
-            </Stack>
-          </div>
-        </div>
-      </Page.Provider>
-    </Category.Provider>
+    <div className="tutorial-category">
+      <Stack spacing={2} sx={{ position: 'fixed', top: 85, left: 8, height: '81%', justifyContent: 'space-between' }} >
+        <PageOfCategories />
+        <TutorialPagination sx={{ marginTop: '50px' }} />
+      </Stack>
+      <div className="empty-space"> </div>
+      <div className="tutorial-content">
+        <Stack spacing={2}>
+              {loaded
+                ? words.map((el) => ( <WordCard data={el} key={el.id} setAudio={setAudio} /> ))
+                : (<h3>Loading Data</h3>)}
+        </Stack>
+      </div>
+    </div>
   );
 }
 
