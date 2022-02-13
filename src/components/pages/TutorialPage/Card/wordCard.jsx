@@ -1,13 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Box, Card, CardContent, CardMedia, Grid, IconButton, Paper, Typography } from '@mui/material'
+import React, { useContext, useState } from 'react'
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Collapse,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from '@mui/material'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import URL from '@/components/const'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { styled } from '@mui/styles'
+import IsLogged from '@/components/context'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
 }
 
+const ExpandMore = styled(props => {
+  const { expand, ...other } = props
+  return <IconButton {...other} />
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+}))
+
 function WordCard({ data, setAudio }) {
+  const [expanded, setExpanded] = useState(false)
+  const { isLogged } = useContext(IsLogged)
 
   const {
     id,
@@ -26,6 +51,8 @@ function WordCard({ data, setAudio }) {
     wordTranslate,
   } = data
 
+  const bgcolor = 'white'
+
   const speakWord = () => {
     setAudio(`${URL}${audio}`)
   }
@@ -38,26 +65,35 @@ function WordCard({ data, setAudio }) {
     setAudio(`${URL}${audioExample}`)
   }
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded)
+  }
+
   return (
     <Grid item>
-      <Paper elevation={3}>
-        <Card variant="outlined" sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box>
-            <CardMedia component="img" image={`${URL}${image}`} alt={word} sx={{ width: '390px' }} />
-          </Box>
-          <Box>
-            <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                <Typography variant="h4">
-                  {word} : {transcription}
-                </Typography>
-                <IconButton aria-label="play/pause" onClick={speakWord}>
-                  <RecordVoiceOverIcon sx={{ height: 38, width: 38 }} />
-                </IconButton>
-              </Box>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                {wordTranslate}
+      <Paper elevation={3} sx={{ width: '425px' }}>
+        <Card variant="outlined" sx={{ backgroundColor: bgcolor }}>
+          <CardContent>
+            <CardMedia component="img" image={`${URL}${image}`} alt={word} />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <Typography variant="h4">
+                {word} : {transcription}
               </Typography>
+              <IconButton aria-label="play/pause" onClick={speakWord}>
+                <RecordVoiceOverIcon sx={{ height: 38, width: 38 }} />
+              </IconButton>
+            </Box>
+            <Typography variant="h6" color="text.secondary" gutterBottom>
+              {wordTranslate}
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing>
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', justifyContent: 'space-between' }}>
                 <Typography>
                   <DangerousString name={textMeaning} />
@@ -76,8 +112,16 @@ function WordCard({ data, setAudio }) {
                 </IconButton>
               </Box>
               <Typography color="text.secondary">{textExampleTranslate}</Typography>
+              <CardActions>
+                <Button variant="outlined" size="large" disabled={!isLogged}>
+                  Сложное
+                </Button>
+                <Button variant="outlined" size="large" disabled={!isLogged}>
+                  Изучено
+                </Button>
+              </CardActions>
             </CardContent>
-          </Box>
+          </Collapse>
         </Card>
       </Paper>
     </Grid>
