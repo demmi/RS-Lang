@@ -9,6 +9,7 @@ import {
   Collapse,
   Grid,
   IconButton,
+  ImageListItem,
   Paper,
   Typography,
 } from '@mui/material'
@@ -71,7 +72,7 @@ function WordCard({ data, setAudio }) {
 
   return (
     <Grid item>
-      <Paper elevation={3} sx={{ width: '425px' }}>
+      <Paper elevation={3} sx={{ width: '450px' }}>
         <Card variant="outlined" sx={{ backgroundColor: bgcolor }}>
           <CardContent>
             <CardMedia component="img" image={`${URL}${image}`} alt={word} />
