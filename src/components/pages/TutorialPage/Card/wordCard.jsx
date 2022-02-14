@@ -36,7 +36,7 @@ function WordCard({ data, setAudio }) {
   const { isLogged, setLogged } = useContext(IsLogged)
   const [isHard, setHard] = useState(false)
   const [isLearned, setLearned] = useState(false)
-  const [bgColor, setBgColor] = useState('lightgray')
+  const [bgColor, setBgColor] = useState('white')
 
   const {
     id,
@@ -58,15 +58,15 @@ function WordCard({ data, setAudio }) {
 
   useEffect(() => {
     if (difficulty === 'hard') {
-      setBgColor('red')
+      setBgColor('#ffebee')
       setHard(true)
     }
     if (difficulty === 'learned') {
-      setBgColor('green')
+      setBgColor('#e8f5e9')
       setLearned(true)
     }
   })
-  
+
   const speakWord = () => {
     setAudio(`${URL}${audio}`)
   }
@@ -86,7 +86,7 @@ function WordCard({ data, setAudio }) {
   const handleHard = async () => {
     const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'hard')
     if (response === 200) {
-      setBgColor('red')
+      setBgColor('#ffebee')
       setHard(true)
     } else if (response === 401) {
       setLogged(false)
@@ -97,7 +97,7 @@ function WordCard({ data, setAudio }) {
   const handleLearned = async () => {
     const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
     if (response === 200) {
-      setBgColor('green')
+      setBgColor('#e8f5e9')
       setLearned(true)
     } else if (response === 401) {
       setLogged(false)
@@ -110,7 +110,7 @@ function WordCard({ data, setAudio }) {
   return (
     <Grid item>
       <Paper elevation={3} sx={{ width: '450px' }}>
-        <Card variant="outlined" sx={{ borderColor: bgColor }}>
+        <Card variant="outlined" sx={{ backgroundColor: bgColor }}>
           <CardContent>
             <CardMedia component="img" image={`${URL}${image}`} alt={word} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
