@@ -9,7 +9,6 @@ import {
   Collapse,
   Grid,
   IconButton,
-  ImageListItem,
   Paper,
   Typography,
 } from '@mui/material'
@@ -18,6 +17,7 @@ import URL from '@/components/const'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { styled } from '@mui/styles'
 import IsLogged from '@/components/context'
+import createUserWord from '@/components/api/createUserWord'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -33,7 +33,10 @@ const ExpandMore = styled(props => {
 
 function WordCard({ data, setAudio }) {
   const [expanded, setExpanded] = useState(false)
-  const { isLogged } = useContext(IsLogged)
+  const { isLogged, setLogged } = useContext(IsLogged)
+  const [isHard, setHard] = useState(false)
+  const [isLearned, setLearned] = useState(false)
+  const [bgColor, setBgColor] = useState('lightgray')
 
   const {
     id,
@@ -50,9 +53,17 @@ function WordCard({ data, setAudio }) {
     textExampleTranslate,
     textMeaningTranslate,
     wordTranslate,
+    difficulty,
   } = data
 
-  const bgcolor = 'white'
+  if (difficulty === 'hard') {
+    setBgColor('red')
+    setHard(true)
+  }
+  if (difficulty === 'learned') {
+    setBgColor('green')
+    setLearned(true)
+  }
 
   const speakWord = () => {
     setAudio(`${URL}${audio}`)
@@ -70,10 +81,32 @@ function WordCard({ data, setAudio }) {
     setExpanded(!expanded)
   }
 
+  const handleHard = async () => {
+    const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'hard')
+    if (response === 200) {
+      setBgColor('red')
+      setHard(true)
+    } else if (response === 401) {
+      setLogged(false)
+    }
+    console.log(response)
+  }
+
+  const handleLearned = async () => {
+    const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
+    if (response === 200) {
+      setBgColor('green')
+      setLearned(true)
+    } else if (response === 401) {
+      setLogged(false)
+    }
+    console.log(response)
+  }
+
   return (
     <Grid item>
       <Paper elevation={3} sx={{ width: '450px' }}>
-        <Card variant="outlined" sx={{ backgroundColor: bgcolor }}>
+        <Card variant="outlined" sx={{ borderColor: bgColor }}>
           <CardContent>
             <CardMedia component="img" image={`${URL}${image}`} alt={word} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -113,14 +146,18 @@ function WordCard({ data, setAudio }) {
                 </IconButton>
               </Box>
               <Typography color="text.secondary">{textExampleTranslate}</Typography>
-              <CardActions>
-                <Button variant="outlined" size="large" disabled={!isLogged}>
-                  Сложное
-                </Button>
-                <Button variant="outlined" size="large" disabled={!isLogged}>
-                  Изучено
-                </Button>
-              </CardActions>
+              {isLogged ? (
+                <CardActions>
+                  <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleHard}>
+                    Сложное
+                  </Button>
+                  <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleLearned}>
+                    Изучено
+                  </Button>
+                </CardActions>
+              ) : (
+                ''
+              )}
             </CardContent>
           </Collapse>
         </Card>
