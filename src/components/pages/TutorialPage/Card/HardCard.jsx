@@ -16,6 +16,8 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import URL from '@/components/const'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { styled } from '@mui/styles'
+import deleteUserWord from '@/components/api/deleteUserWord'
+import updateUserWord from '@/components/api/updateUserWord'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -65,12 +67,14 @@ function HardCard({ data, setAudio }) {
     setExpanded(!expanded)
   }
 
-  const handleDel = () => {
-    console.log('delete')
+  const handleDel = async () => {
+    const response = await deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id)
+    console.log(response)
   }
 
-  const handleLearned = () => {
-    console.log('learn')
+  const handleLearned = async () => {
+    const response = await updateUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
+    console.log(response)
   }
 
   return (

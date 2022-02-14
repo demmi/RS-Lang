@@ -1,12 +1,12 @@
 import Url from '@/components/const'
 
-// used in wordCard
+// used in hardCard
 
-async function createUserWord(id, token, wordId, diff) {
+async function updateUserWord(id, token, wordId, diff) {
   const urlString = `${Url}users/${id}/words/${wordId}`
   const body = { difficulty: diff, optional: { testFieldString: 'test', testFieldBoolean: true } }
   const response = await fetch(urlString, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json',
@@ -17,4 +17,4 @@ async function createUserWord(id, token, wordId, diff) {
   return response.status
 }
 
-export default createUserWord
+export default updateUserWord
