@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -56,15 +56,17 @@ function WordCard({ data, setAudio }) {
     difficulty,
   } = data
 
-  if (difficulty === 'hard') {
-    setBgColor('red')
-    setHard(true)
-  }
-  if (difficulty === 'learned') {
-    setBgColor('green')
-    setLearned(true)
-  }
-
+  useEffect(() => {
+    if (difficulty === 'hard') {
+      setBgColor('red')
+      setHard(true)
+    }
+    if (difficulty === 'learned') {
+      setBgColor('green')
+      setLearned(true)
+    }
+  })
+  
   const speakWord = () => {
     setAudio(`${URL}${audio}`)
   }
@@ -102,6 +104,8 @@ function WordCard({ data, setAudio }) {
     }
     console.log(response)
   }
+
+  console.log('render card')
 
   return (
     <Grid item>
