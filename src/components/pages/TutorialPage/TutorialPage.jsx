@@ -6,16 +6,15 @@ import { Grid, Stack } from '@mui/material'
 import getWords from '@/components/api/getWords'
 import getAllUserWords from '@/components/api/getAllUserWords'
 import createUserWord from '@/components/api/createUserWord'
-import { Category, Page } from '@/components/context'
+import IsLogged, { Category, Page } from '@/components/context'
 import TutorialPagination from './TutorialPagination/TutorialPagination'
 import PageOfCategories from './PageOfCategories/PageOfCategories'
-
-
 
 function TutorialPage() {
   const [words, setWords] = useState(null)
   const [loaded, setLoaded] = useState(false)
   const [audioSrc, setAudio] = useState(null)
+  const { isLogged } = useContext(IsLogged)
   const { category } = useContext(Category)
   const { page } = useContext(Page)
 
@@ -30,24 +29,30 @@ function TutorialPage() {
   useEffect(() => {
     const loadData = async () => {
       const data = await getWords(category - 1, page - 1)
-      const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
 
-      console.log('data:', data)
-      console.log('userWords:', userWords)
+      if (isLogged) {
+        const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
 
-      const newData = data.map((el) => {
-        const element = {...el}
-        userWords.forEach((elm) => {
-          if (elm.wordId === el.id) {
-            element.difficulty = elm.difficulty
-          }
+        console.log('data:', data)
+        console.log('userWords:', userWords)
+
+        const newData = data.map((el) => {
+          const element = {...el}
+          userWords.forEach((elm) => {
+            if (elm.wordId === el.id) {
+              element.difficulty = elm.difficulty
+            }
+          })
+          return element
         })
-        return element
-      })
 
-      console.log('newData:', newData);
+        console.log('newData:', newData);
 
-      setWords(newData)
+        setWords(newData)
+      } else {
+        setWords(data)
+      }
+
       setLoaded(true)
     }
     loadData()
