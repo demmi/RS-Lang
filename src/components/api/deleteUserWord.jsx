@@ -1,20 +1,18 @@
 import Url from '@/components/const'
 
-// used in wordCard
+// used in hardCard
 
-async function createUserWord(id, token, wordId, diff) {
+async function deleteUserWord(id, token, wordId) {
   const urlString = `${Url}users/${id}/words/${wordId}`
-  const body = { difficulty: diff, optional: { testFieldString: 'test', testFieldBoolean: true } }
   const response = await fetch(urlString, {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
   })
   return response.status
 }
 
-export default createUserWord
+export default deleteUserWord
