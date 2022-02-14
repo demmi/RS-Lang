@@ -1,0 +1,11 @@
+.btn-group {
+    display: flex;
+    justify-content: space-between !important;
+    padding: 20px 20px !important
+}
+
+.btn-center {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 20px 20px !important
+}

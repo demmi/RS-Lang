@@ -1,59 +1,72 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import logo from '@/assets/icon/favicon.png'
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from '@mui/icons-material/Menu'
 import {
   AppBar,
   Avatar,
-  Box, Button,
+  Box,
+  Button,
   Container,
   IconButton,
   Menu,
   MenuItem,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material'
-import LoginComponent from '@/components/login/LoginComponent';
+import LoginComponent from '@/components/login/LoginComponent'
+import IsLogged, { Category, PageRouter } from '../context'
+import AvatarMenu from './AvatarMenu'
+import getUser from '../api/getUser'
+import { ROUTING_PAGES, CUR_PAGE } from '../const'
+
 
 /* https://mui.com/components/app-bar/ */
 
-
 /* For future use: Use user name and logging state */
-// const isLogged = false;
-const userName = 'Pablo'
 
-const pages = ['Главная', 'Учебник', 'Игры', 'Статистика'];
+// const pages = ['главная', 'учебник', 'игры', 'статистика']
+const pages = Object.keys(ROUTING_PAGES)
+// console.log(page2)
+
 
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null)
+  const { isLogged, setLogged } = useContext(IsLogged)
+  const { setRouterPage } = useContext(PageRouter)
+  const { setCategory } = useContext(Category)
 
-  const [isLogin, setLogin] = React.useState(false);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleLogout = () => {
-    setLogin(false);
+  const handleOpenNavMenu = event => {
+    setAnchorElNav(event.currentTarget)
   }
 
-  // const component = isLogged ?
-  const component = isLogin ?
-    <Tooltip title="Logout">
-      <Avatar onClick={handleLogout}>{userName[0]}</Avatar>
-    </Tooltip> :
-    <LoginComponent />
+  const handleCloseNavMenu = (event) => {
+    const curTitle = event.target.innerText.toLowerCase();
+    const curPage = ROUTING_PAGES[curTitle];
+    sessionStorage.setItem(CUR_PAGE, curPage);
+    setRouterPage(curPage)
+    setCategory(null)
+    setAnchorElNav(null)
+  }
+
+  const checkLogged = async () => {
+    if (localStorage.demmiUserId) {
+      const response = await getUser(localStorage.demmiUserId, localStorage.demmiUserToken)
+      if (typeof response === 'object') {
+        return true
+      }
+    }
+    return false
+  }
+
+  useEffect(() => checkLogged().then(n => setLogged(n)))
+
+  const component = isLogged ? <AvatarMenu /> : <LoginComponent />
 
   return (
-
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Avatar src={logo} alt="RS-Lang logo" width={50}/>
+          <Avatar src={logo} alt="RS-Lang logo" width={50} />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -83,7 +96,7 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {pages.map(page => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -91,23 +104,17 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
+            {pages.map(page => (
+              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
                 {page}
               </Button>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            {component}
-          </Box>
+          <Box sx={{ flexGrow: 0 }}>{component}</Box>
         </Toolbar>
       </Container>
     </AppBar>
-  );
+  )
 }
-export default ResponsiveAppBar;
+export default ResponsiveAppBar
