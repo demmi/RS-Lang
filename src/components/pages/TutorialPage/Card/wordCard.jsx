@@ -105,7 +105,7 @@ function WordCard({ data, setAudio }) {
     console.log(response)
   }
 
-  console.log('render card')
+  // console.log('render card')
 
   return (
     <Grid item>

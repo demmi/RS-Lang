@@ -4,6 +4,9 @@
   display: flex;
 }
 
+.empty-line {
+  width: 342px;
+}
 .empty-space {
   min-width: 350px;
 }

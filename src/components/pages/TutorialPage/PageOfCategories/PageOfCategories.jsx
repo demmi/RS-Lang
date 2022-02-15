@@ -1,19 +1,22 @@
 import React, { useContext } from 'react'
 
 import { Button, Divider, Stack } from '@mui/material'
-import IsLogged, { Category, Page } from '@/components/context';
+import IsLogged, { Category, Page, PaginationCount } from '@/components/context';
 import { PAGE_OF_CATEGORIES } from '@/components/const';
 
 function PageOfCategories() {
   const { category, setCategory } = useContext(Category)
   const { isLogged } = useContext(IsLogged)
   const { setPage } = useContext(Page)
+  const { setPaginationCount } = useContext(PaginationCount)
 
   const handleClickCategory = (event) => {
     const curTitle = event.target.innerText.toLowerCase();
     const curId = PAGE_OF_CATEGORIES.find((el) => el.title === curTitle).id
+    console.log('curId:', curId)
     setCategory(curId)
     setPage(1)
+    setPaginationCount(30)
   }
 
   return (

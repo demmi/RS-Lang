@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ResponsiveAppBar from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
 import Main from '@/components/main/Main'
-import IsLogged, { FormStatus, PageRouter, Category, Page } from '@/components/context'
+import IsLogged, { FormStatus, PageRouter, Category, Page, PaginationCount } from '@/components/context'
 import { DT_DISABLED, CUR_PAGE, MAIN_PAGE } from '@/components/const';
 
 const curPage = sessionStorage.getItem(CUR_PAGE)
@@ -15,6 +15,7 @@ function App() {
   const [routerPage, setRouterPage] = useState(curPage)
   const [category, setCategory] = useState(null);
   const [page, setPage] = useState(1);
+  const [paginationCount, setPaginationCount] = useState(30);
 
   return (
     <IsLogged.Provider value={{ isLogged, setLogged }}>
@@ -22,11 +23,13 @@ function App() {
         <PageRouter.Provider value={{ routerPage, setRouterPage }}>
           <Category.Provider value={{ category, setCategory }}>
             <Page.Provider value={{ page, setPage }}>
-              <>
-                <ResponsiveAppBar />
-                <Main />
-                <Footer />
-              </>
+              <PaginationCount.Provider value={{ paginationCount, setPaginationCount }}>
+                <>
+                  <ResponsiveAppBar />
+                  <Main />
+                  <Footer />
+                </>
+              </PaginationCount.Provider>
             </Page.Provider>
           </Category.Provider>
         </PageRouter.Provider>
