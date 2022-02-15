@@ -10,6 +10,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Snackbar,
   Typography,
 } from '@mui/material'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
@@ -33,9 +34,12 @@ const ExpandMore = styled(props => {
 
 function HardCard({ data, setAudio }) {
   const [expanded, setExpanded] = useState(false)
+  const [btnDisable, setBtnDisable] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
+  const [openLearned, setOpenLearned] = useState(false)
 
   const {
-    id,
+    _id,
     group,
     page,
     word,
@@ -68,13 +72,33 @@ function HardCard({ data, setAudio }) {
   }
 
   const handleDel = async () => {
-    const response = await deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id)
-    console.log(response)
+    const response = await deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, _id)
+    if (response === 204) {
+      setBtnDisable(true)
+      setOpenDelete(true)
+    }
   }
 
   const handleLearned = async () => {
-    const response = await updateUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
-    console.log(response)
+    const response = await updateUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, _id, 'learned')
+    if (response === 200) {
+      setBtnDisable(true)
+      setOpenLearned(true)
+    }
+  }
+
+  const handleCloseDelete = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenDelete(false)
+  }
+
+  const handleCloseLearned = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenLearned(false)
   }
 
   return (
@@ -121,12 +145,26 @@ function HardCard({ data, setAudio }) {
               </Box>
               <Typography color="text.secondary">{textExampleTranslate}</Typography>
               <CardActions>
-                <Button variant="outlined" size="large" onClick={handleDel}>
+                <Button variant="outlined" size="large" onClick={handleDel} disabled={btnDisable}>
                   Удалить
                 </Button>
-                <Button variant="outlined" size="large" onClick={handleLearned}>
+                <Snackbar
+                  open={openDelete}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  autoHideDuration={6000}
+                  onClose={handleCloseDelete}
+                  message={`Слово ${word} удалено из "сложных"`}
+                />
+                <Button variant="outlined" size="large" onClick={handleLearned} disabled={btnDisable}>
                   Изучено
                 </Button>
+                <Snackbar
+                  open={openLearned}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  autoHideDuration={6000}
+                  onClose={handleCloseLearned}
+                  message={`Слово ${word} помечено как "изученное"`}
+                />
               </CardActions>
             </CardContent>
           </Collapse>
