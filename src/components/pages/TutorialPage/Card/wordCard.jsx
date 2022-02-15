@@ -10,6 +10,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Snackbar,
   Typography,
 } from '@mui/material'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
@@ -37,6 +38,8 @@ function WordCard({ data, setAudio }) {
   const [isHard, setHard] = useState(false)
   const [isLearned, setLearned] = useState(false)
   const [bgColor, setBgColor] = useState('white')
+  const [openHard, setOpenHard] = useState(false)
+  const [openLearned, setOpenLearned] = useState(false)
 
   const {
     id,
@@ -88,6 +91,7 @@ function WordCard({ data, setAudio }) {
     if (response === 200) {
       setBgColor('#ffebee')
       setHard(true)
+      setOpenHard(true)
     } else if (response === 401) {
       setLogged(false)
     }
@@ -99,13 +103,26 @@ function WordCard({ data, setAudio }) {
     if (response === 200) {
       setBgColor('#e8f5e9')
       setLearned(true)
+      setOpenLearned(true)
     } else if (response === 401) {
       setLogged(false)
     }
     console.log(response)
   }
 
-  // console.log('render card')
+  const handleCloseLearned = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenLearned(false)
+  }
+
+  const handleCloseHard = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    setOpenHard(false)
+  }
 
   return (
     <Grid item>
@@ -155,9 +172,23 @@ function WordCard({ data, setAudio }) {
                   <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleHard}>
                     Сложное
                   </Button>
+                  <Snackbar
+                    open={openHard}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    autoHideDuration={6000}
+                    onClose={handleCloseHard}
+                    message={`Слово ${word} помечено как "сложное"`}
+                  />
                   <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleLearned}>
                     Изучено
                   </Button>
+                  <Snackbar
+                    open={openLearned}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    autoHideDuration={6000}
+                    onClose={handleCloseLearned}
+                    message={`Слово ${word} помечено как "изученное"`}
+                  />
                 </CardActions>
               ) : (
                 ''
