@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   Button,
@@ -16,8 +16,8 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import URL from '@/components/const'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { styled } from '@mui/styles'
-import IsLogged from '@/components/context'
-import createUserWord from '@/components/api/createUserWord'
+import deleteUserWord from '@/components/api/deleteUserWord'
+import updateUserWord from '@/components/api/updateUserWord'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -31,12 +31,8 @@ const ExpandMore = styled(props => {
   marginLeft: 'auto',
 }))
 
-function WordCard({ data, setAudio }) {
+function HardCard({ data, setAudio }) {
   const [expanded, setExpanded] = useState(false)
-  const { isLogged, setLogged } = useContext(IsLogged)
-  const [isHard, setHard] = useState(false)
-  const [isLearned, setLearned] = useState(false)
-  const [bgColor, setBgColor] = useState('white')
 
   const {
     id,
@@ -53,19 +49,7 @@ function WordCard({ data, setAudio }) {
     textExampleTranslate,
     textMeaningTranslate,
     wordTranslate,
-    difficulty,
   } = data
-
-  useEffect(() => {
-    if (difficulty === 'hard') {
-      setBgColor('#ffebee')
-      setHard(true)
-    }
-    if (difficulty === 'learned') {
-      setBgColor('#e8f5e9')
-      setLearned(true)
-    }
-  })
 
   const speakWord = () => {
     setAudio(`${URL}${audio}`)
@@ -83,34 +67,20 @@ function WordCard({ data, setAudio }) {
     setExpanded(!expanded)
   }
 
-  const handleHard = async () => {
-    const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'hard')
-    if (response === 200) {
-      setBgColor('#ffebee')
-      setHard(true)
-    } else if (response === 401) {
-      setLogged(false)
-    }
+  const handleDel = async () => {
+    const response = await deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id)
     console.log(response)
   }
 
   const handleLearned = async () => {
-    const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
-    if (response === 200) {
-      setBgColor('#e8f5e9')
-      setLearned(true)
-    } else if (response === 401) {
-      setLogged(false)
-    }
+    const response = await updateUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
     console.log(response)
   }
-
-  // console.log('render card')
 
   return (
     <Grid item>
       <Paper elevation={3} sx={{ width: '450px' }}>
-        <Card variant="outlined" sx={{ backgroundColor: bgColor }}>
+        <Card variant="outlined">
           <CardContent>
             <CardMedia component="img" image={`${URL}${image}`} alt={word} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -150,18 +120,14 @@ function WordCard({ data, setAudio }) {
                 </IconButton>
               </Box>
               <Typography color="text.secondary">{textExampleTranslate}</Typography>
-              {isLogged ? (
-                <CardActions>
-                  <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleHard}>
-                    Сложное
-                  </Button>
-                  <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleLearned}>
-                    Изучено
-                  </Button>
-                </CardActions>
-              ) : (
-                ''
-              )}
+              <CardActions>
+                <Button variant="outlined" size="large" onClick={handleDel}>
+                  Удалить
+                </Button>
+                <Button variant="outlined" size="large" onClick={handleLearned}>
+                  Изучено
+                </Button>
+              </CardActions>
             </CardContent>
           </Collapse>
         </Card>
@@ -170,4 +136,4 @@ function WordCard({ data, setAudio }) {
   )
 }
 
-export default WordCard
+export default HardCard
