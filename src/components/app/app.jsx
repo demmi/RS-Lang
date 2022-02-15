@@ -3,19 +3,33 @@ import ResponsiveAppBar from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
 import Main from '@/components/main/Main'
 import IsLogged, { FormStatus, PageRouter, Category, Page, PaginationCount } from '@/components/context'
-import { DT_DISABLED, CUR_PAGE, MAIN_PAGE } from '@/components/const';
+import { DT_DISABLED, CUR_ROUTER_PAGE, MAIN_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT } from '@/components/const';
 
-const curPage = sessionStorage.getItem(CUR_PAGE)
-  ? sessionStorage.getItem(CUR_PAGE)
+const curRouterPage = sessionStorage.getItem(CUR_ROUTER_PAGE)
+  ? sessionStorage.getItem(CUR_ROUTER_PAGE)
   : MAIN_PAGE;
+
+  const curCategory = sessionStorage.getItem(CUR_CATEGORY)
+  ? sessionStorage.getItem(CUR_CATEGORY)
+  : null;
+
+  const curPage = sessionStorage.getItem(CUR_CATEGORY_PAGE)
+  ? sessionStorage.getItem(CUR_CATEGORY_PAGE)
+  : 1;
+
+  const curPaginationCount = sessionStorage.getItem(CUR_PAGINATION_COUNT)
+  ? sessionStorage.getItem(CUR_PAGINATION_COUNT)
+  : 30;
 
 function App() {
   const [isLogged, setLogged] = useState(false)
   const [dialogType, setDialogType] = useState(DT_DISABLED)
-  const [routerPage, setRouterPage] = useState(curPage)
-  const [category, setCategory] = useState(null);
-  const [page, setPage] = useState(1);
-  const [paginationCount, setPaginationCount] = useState(30);
+  const [routerPage, setRouterPage] = useState(curRouterPage)
+  const [category, setCategory] = useState(curCategory);
+  const [page, setPage] = useState(curPage);
+  const [paginationCount, setPaginationCount] = useState(curPaginationCount);
+
+  console.log('routerPage:', routerPage, 'category:', category, 'page:', page, 'paginationCount:', paginationCount)
 
   return (
     <IsLogged.Provider value={{ isLogged, setLogged }}>

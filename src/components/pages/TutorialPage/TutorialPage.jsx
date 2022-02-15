@@ -6,19 +6,21 @@ import { Grid, Stack } from '@mui/material'
 import getWords from '@/components/api/getWords'
 import getAllUserWords from '@/components/api/getAllUserWords'
 import getAllUserAggWords from '@/components/api/getAllUserAggWords';
-// import createUserWord from '@/components/api/createUserWord'
-import IsLogged, { Category, Page, PaginationCount } from '@/components/context'
+import IsLogged, { Category, Page, PaginationCount, PageRouter } from '@/components/context'
+import { CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT } from '@/components/const';
 import TutorialPagination from './TutorialPagination/TutorialPagination'
 import PageOfCategories from './PageOfCategories/PageOfCategories'
+import HardCard from './Card/HardCard';
 
 function TutorialPage() {
   const [words, setWords] = useState(null)
   const [loaded, setLoaded] = useState(false)
   const [audioSrc, setAudio] = useState(null)
   const { isLogged } = useContext(IsLogged)
+  const { routerPage } = useContext(PageRouter)
   const { category } = useContext(Category)
   const { page } = useContext(Page)
-  const { setPaginationCount } = useContext(PaginationCount)
+  const { paginationCount, setPaginationCount } = useContext(PaginationCount)
 
   const audioRef = useRef(new Audio(audioSrc))
 
@@ -32,7 +34,10 @@ function TutorialPage() {
     const loadData = async () => {
       const data = await getWords(category - 1, page - 1)
 
+      console.log('its useEfferct from TutorialPage')
+
       if (isLogged) {
+        console.log('its useEfferct isLogged from TutorialPage')
         if (category !== 7) {
           const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
 
@@ -46,23 +51,22 @@ function TutorialPage() {
             return element
           })
 
-          // console.log('data:', data)
-          // console.log('userWords:', userWords)
-          // console.log('newData:', newData);
-
+          setPaginationCount(30)
           setWords(newData)
         } else {
-          console.log('this is seven category')
           const filter = { "userWord.difficulty": "hard" }
           const userAggWordsData = await getAllUserAggWords(localStorage.demmiUserId, localStorage.demmiUserToken, page -  1, filter)
           const aggWords = userAggWordsData[0].paginatedResults
           const aggWordsCount = userAggWordsData[0].totalCount[0].count
           const numPage = Math.floor(aggWordsCount / 20) + 1
-          console.log('aggWords:', userAggWordsData, 'aggWordsCount:', aggWordsCount, 'numPage:', numPage)
+
           setPaginationCount(numPage)
           setWords(aggWords)
-        }
+          // sessionStorage.setItem(CUR_PAGINATION_COUNT, paginationCount);
 
+          console.log('this is seven category')
+          console.log('aggWords:', userAggWordsData, 'aggWordsCount:', aggWordsCount, 'numPage:', numPage)
+        }
       } else {
         setWords(data)
       }
@@ -72,17 +76,16 @@ function TutorialPage() {
     loadData()
   }, [isLogged, category, page])
 
-  // const setDiffWord = (curWordId) => {
-  //   const setData = async () => {
-  //     await createUserWord({
-  //       userId: localStorage.demmiUserId,
-  //       userToken: localStorage.demmiUserToken,
-  //       wordId: curWordId,
-  //       word: { "difficulty": "hard", "optional": {testFieldString: 'test', testFieldBoolean: true} }
-  //     });
-  //   }
-  //   setData()
+  // const choiceCard = () => {
+  //   category !== 7
+  //     ? (<>{words.map(el => <WordCard data={el} key={el.id} setAudio={setAudio} />)}</>)
+  //     : (<>{words.map(el => <HardCard data={el} key={el.id} setAudio={setAudio} />)}</>)
   // }
+
+  sessionStorage.setItem(CUR_ROUTER_PAGE, routerPage);
+  sessionStorage.setItem(CUR_CATEGORY, category);
+  sessionStorage.setItem(CUR_CATEGORY_PAGE, page);
+  sessionStorage.setItem(CUR_PAGINATION_COUNT, paginationCount);
 
   return (
     <div className="tutorial-category">
@@ -96,7 +99,11 @@ function TutorialPage() {
       <div className="empty-space"> </div>
       <div className="tutorial-content">
         <Grid container direction="row" justifyContent="center" alignItems="center" spacing={3}>
-          {loaded ? words.map(el => <WordCard data={el} key={el.id} setAudio={setAudio} /* setDiffWord={setDiffWord} */ />) : <h3>Loading Data</h3>}
+          {loaded
+            ? category !== 7
+              ? words.map(el => <WordCard data={el} key={el.id} setAudio={setAudio} />)
+              : words.map(el => <HardCard data={el} key={el.id} setAudio={setAudio} />)
+            : <h3>Loading Data</h3>}
         </Grid>
       </div>
     </div>
