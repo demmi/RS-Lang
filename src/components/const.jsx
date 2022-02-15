@@ -66,7 +66,10 @@ export const PAGE_OF_CATEGORIES = [
   },
 ]
 
-export const CUR_PAGE = 'sergioivanov008_curPage'
+export const CUR_ROUTER_PAGE = 'sergioivanov008_curRouterPage'
+export const CUR_CATEGORY = 'sergioivanov008_curCategory'
+export const CUR_CATEGORY_PAGE = 'sergioivanov008_curCategoryPage'
+export const CUR_PAGINATION_COUNT = 'sergioivanov008_curPaginationCount'
 
 export default Url
 

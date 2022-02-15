@@ -14,10 +14,10 @@ import {
   Typography,
 } from '@mui/material'
 import LoginComponent from '@/components/login/LoginComponent'
-import IsLogged, { Category, PageRouter } from '../context'
+import IsLogged, { Category, PageRouter, Page } from '../context'
 import AvatarMenu from './AvatarMenu'
 import getUser from '../api/getUser'
-import { ROUTING_PAGES, CUR_PAGE } from '../const'
+import { ROUTING_PAGES, CUR_ROUTER_PAGE } from '../const'
 
 
 /* https://mui.com/components/app-bar/ */
@@ -34,6 +34,7 @@ function ResponsiveAppBar() {
   const { isLogged, setLogged } = useContext(IsLogged)
   const { setRouterPage } = useContext(PageRouter)
   const { setCategory } = useContext(Category)
+  const { setPage } = useContext(Page)
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget)
@@ -42,9 +43,10 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = (event) => {
     const curTitle = event.target.innerText.toLowerCase();
     const curPage = ROUTING_PAGES[curTitle];
-    sessionStorage.setItem(CUR_PAGE, curPage);
+    sessionStorage.setItem(CUR_ROUTER_PAGE, curPage);
     setRouterPage(curPage)
     setCategory(null)
+    setPage(1)
     setAnchorElNav(null)
   }
 

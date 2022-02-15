@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
 import './Main.css';
-import { FormStatus, PageRouter } from '@/components/context';
+import { FormStatus, PageRouter, Category, Page } from '@/components/context';
 import { DT_SIGNIN, DT_REGISTER, DT_REG_OK, MAIN_PAGE, TUTORIAL_PAGE,
-  GAMES_PAGE, STATISTIC_PAGE, TUTORIAL_CHOICE
+  GAMES_PAGE, STATISTIC_PAGE, TUTORIAL_CHOICE, CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE
 } from '@/components/const';
 import FormSignIn from '@/components/forms/FormSiignIn';
 import FormRegister from '@/components/forms/FormRegister';
@@ -17,6 +17,8 @@ import TutorialChoice from '../pages/TutorialChoice/TutorialChoice';
 function Main() {
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
+  const { category } = useContext(Category)
+  const { page } = useContext(Page)
 
   let curForm;
   let curPage;
@@ -34,6 +36,10 @@ function Main() {
     default:
       break;
   }
+
+  // sessionStorage.setItem(CUR_ROUTER_PAGE, routerPage);
+  // sessionStorage.setItem(CUR_CATEGORY, category);
+  // sessionStorage.setItem(CUR_CATEGORY_PAGE, page);
 
   switch (routerPage) {
     case MAIN_PAGE:
