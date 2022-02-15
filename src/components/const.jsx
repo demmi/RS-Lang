@@ -67,6 +67,7 @@ export const PAGE_OF_CATEGORIES = [
 ]
 
 export const CUR_PAGE = 'sergioivanov008_curPage'
+export const CUR_CATEGORY = 'sergioivanov008_curCategory'
 
 export default Url
 
