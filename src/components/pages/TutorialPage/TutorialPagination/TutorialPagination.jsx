@@ -8,13 +8,19 @@ function TutorialPagination() {
   const { paginationCount } = useContext(PaginationCount)
 
   const handlerPage = (event, value) => {
-    setPage(+value)
+    setPage(+value - 1)
   }
 
   return (
-    <Pagination count={+paginationCount} defaultPage={1} siblingCount={1} color="secondary" onChange={handlerPage} page={+page} />
-  );
+    <Pagination
+      count={+paginationCount}
+      defaultPage={1}
+      siblingCount={1}
+      color="secondary"
+      onChange={handlerPage}
+      page={+page + 1}
+    />
+  )
 }
 
 export default TutorialPagination
-

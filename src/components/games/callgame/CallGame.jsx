@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { Button, Grid } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { Button, Grid, Typography } from '@mui/material'
 import useSound from 'use-sound'
 import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
@@ -35,6 +35,7 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
   const [wordTranslation, setWordTranslation] = useState('')
   const [wordCounter, setWordCounter] = useState(0)
   const [currentSeries, setCurrentSeries] = useState(0)
+  const [countDown, setTimer] = useState(9)
   const audioPlayer = new Audio()
   audioPlayer.volume = 0.5
   console.log(words)
@@ -67,7 +68,12 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
   }, [livesCount, wordCounter, words])
 
   useEffect(() => {
-    const tick = setInterval(() => console.log('tick'), 1000)
+    const tick = setInterval(
+      (seconds => () => {
+        setTimer(seconds--)
+      })(9),
+      1000
+    )
     const timer = setTimeout(() => {
       if (livesCount && words && words.length && !btnClicked) {
         playError()
@@ -114,6 +120,11 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={8}>
       <Grid item>
         <Lives livesCount={livesCount} gameOver={() => onGameEnd(wordCounter - 1)} />
+      </Grid>
+      <Grid item>
+        <Typography variant="h2" component="h2">
+          {countDown}
+        </Typography>
       </Grid>
       <Grid item>
         <Button
