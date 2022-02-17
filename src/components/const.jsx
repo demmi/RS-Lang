@@ -23,43 +23,43 @@ export const ROUTING_PAGES = {
 
 export const PAGE_OF_CATEGORIES = [
   {
-    id: 1,
+    id: 0,
     title: 'first category',
     access: true,
     description: 'Первый раздел со словами для изучения. Доступен без регистрации.',
   },
   {
-    id: 2,
+    id: 1,
     title: 'second category',
     access: true,
     description: 'Второй раздел со словами для изучения. Доступен без регистрации.',
   },
   {
-    id: 3,
+    id: 2,
     title: 'third category',
     access: true,
     description: 'Третий раздел со словами для изучения. Доступен без регистрации.',
   },
   {
-    id: 4,
+    id: 3,
     title: 'fourth category',
     access: true,
     description: 'Четвёртый раздел со словами для изучения. Доступен без регистрации.',
   },
   {
-    id: 5,
+    id: 4,
     title: 'fifth category',
     access: true,
     description: 'Пятый раздел со словами для изучения. Доступен без регистрации.',
   },
   {
-    id: 6,
+    id: 5,
     title: 'sixth category',
     access: true,
     description: 'Шестой раздел со словами для изучения. Доступен без регистрации.',
   },
   {
-    id: 7,
+    id: 6,
     title: 'very difficult words',
     access: false,
     description: 'Доступен для зарегистрированных пользователей.',

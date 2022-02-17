@@ -30,8 +30,8 @@ function ResponsiveAppBar() {
     const curPage = ROUTING_PAGES[curTitle]
     sessionStorage.setItem(CUR_ROUTER_PAGE, curPage)
     setRouterPage(curPage)
-    setCategory(null)
-    setPage(1)
+    setCategory(0)
+    setPage(0)
     setAnchorElNav(null)
   }
 
