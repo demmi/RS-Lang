@@ -32,13 +32,13 @@ function TutorialPage() {
 
   useEffect(() => {
     const loadData = async () => {
-      const data = await getWords(category - 1, page - 1)
+      const data = await getWords(category, page)
 
       console.log('its useEfferct from TutorialPage')
 
       if (isLogged) {
         console.log('its useEfferct isLogged from TutorialPage')
-        if (category !== 7) {
+        if (category < 6) {
           const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
 
           const newData = data.map(el => {
@@ -58,7 +58,7 @@ function TutorialPage() {
           const userAggWordsData = await getAllUserAggWords(
             localStorage.demmiUserId,
             localStorage.demmiUserToken,
-            page - 1,
+            page,
             filter
           )
           const aggWords = userAggWordsData[0].paginatedResults

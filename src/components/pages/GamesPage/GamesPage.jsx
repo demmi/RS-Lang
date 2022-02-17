@@ -17,10 +17,9 @@ function GamesPage() {
   const { paginationCount, setPaginationCount } = useContext(PaginationCount)
 
   const loadData = async () => {
-    const data = await getWords(category - 1, page - 1)
-    setWords(await data)
+    const data = await getWords(category, page)
+    await setWords(data)
     setLoaded(true)
-    console.log('show data', await data, loaded)
   }
 
   useEffect(() => {
