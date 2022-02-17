@@ -3,9 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import './GamesPage.css'
 import CallGame from '@/components/games/callgame/CallGame'
 import getWords from '@/components/api/getWords'
-import getAllUserWords from '@/components/api/getAllUserWords'
-import getAllUserAggWords from '@/components/api/getAllUserAggWords'
-import IsLogged, { Category, Page, PaginationCount } from '@/components/context'
+import IsLogged, { Category, Page } from '@/components/context'
 import { CircularProgress } from '@mui/material'
 
 function GamesPage() {
@@ -14,7 +12,6 @@ function GamesPage() {
   const { page } = useContext(Page)
   const [words, setWords] = useState(null)
   const [loaded, setLoaded] = useState(false)
-  const { paginationCount, setPaginationCount } = useContext(PaginationCount)
 
   const loadData = async () => {
     const data = await getWords(category, page)
