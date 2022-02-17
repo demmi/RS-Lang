@@ -2,7 +2,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-const paths = require('./paths');
+const paths = require('./paths')
 
 module.exports = {
   mode: 'development',
@@ -37,7 +37,7 @@ module.exports = {
   },
   resolve: {
     modules: [paths.src, 'node_modules'],
-    extensions: ['.ts', '.tsx', '.js', '.jsx',],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
@@ -69,7 +69,7 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/i,
+        test: /\.(?:ico|gif|png|jpg|jpeg|webp|mp3)$/i,
         type: 'asset',
       },
     ],

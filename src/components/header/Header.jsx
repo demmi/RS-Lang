@@ -1,33 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react'
 import logo from '@/assets/icon/favicon.png'
 import MenuIcon from '@mui/icons-material/Menu'
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from '@mui/material'
+import { AppBar, Avatar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import LoginComponent from '@/components/login/LoginComponent'
 import IsLogged, { Category, PageRouter, Page } from '../context'
 import AvatarMenu from './AvatarMenu'
 import getUser from '../api/getUser'
 import { ROUTING_PAGES, CUR_ROUTER_PAGE } from '../const'
 
-
 /* https://mui.com/components/app-bar/ */
-
-/* For future use: Use user name and logging state */
 
 // const pages = ['главная', 'учебник', 'игры', 'статистика']
 const pages = Object.keys(ROUTING_PAGES)
 // console.log(page2)
-
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -40,10 +25,10 @@ function ResponsiveAppBar() {
     setAnchorElNav(event.currentTarget)
   }
 
-  const handleCloseNavMenu = (event) => {
-    const curTitle = event.target.innerText.toLowerCase();
-    const curPage = ROUTING_PAGES[curTitle];
-    sessionStorage.setItem(CUR_ROUTER_PAGE, curPage);
+  const handleCloseNavMenu = event => {
+    const curTitle = event.target.innerText.toLowerCase()
+    const curPage = ROUTING_PAGES[curTitle]
+    sessionStorage.setItem(CUR_ROUTER_PAGE, curPage)
     setRouterPage(curPage)
     setCategory(null)
     setPage(1)
