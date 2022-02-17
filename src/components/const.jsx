@@ -1,6 +1,6 @@
 /* Swagger http://localhost:5050/doc/# */
 
-const Url = 'http://localhost:5050/'
+const Url = 'https://rs-lang-serv.herokuapp.com/'
 
 export const DT_DISABLED = 'disabled'
 export const DT_SIGNIN = 'signInForm'
@@ -15,10 +15,10 @@ export const GAMES_PAGE = 'GamesPage'
 export const STATISTIC_PAGE = 'StatisticPage'
 
 export const ROUTING_PAGES = {
-  'главная': MAIN_PAGE,
-  'учебник': TUTORIAL_CHOICE,
-  'игры': GAMES_PAGE,
-  'статистика': STATISTIC_PAGE,
+  главная: MAIN_PAGE,
+  учебник: TUTORIAL_CHOICE,
+  игры: GAMES_PAGE,
+  статистика: STATISTIC_PAGE,
 }
 
 export const PAGE_OF_CATEGORIES = [
@@ -26,43 +26,43 @@ export const PAGE_OF_CATEGORIES = [
     id: 1,
     title: 'first category',
     access: true,
-    description: 'Первый раздел со словами для изучения. Доступен без регистрации.'
+    description: 'Первый раздел со словами для изучения. Доступен без регистрации.',
   },
   {
     id: 2,
     title: 'second category',
     access: true,
-    description: 'Второй раздел со словами для изучения. Доступен без регистрации.'
+    description: 'Второй раздел со словами для изучения. Доступен без регистрации.',
   },
   {
     id: 3,
     title: 'third category',
     access: true,
-    description: 'Третий раздел со словами для изучения. Доступен без регистрации.'
+    description: 'Третий раздел со словами для изучения. Доступен без регистрации.',
   },
   {
     id: 4,
     title: 'fourth category',
     access: true,
-    description: 'Четвёртый раздел со словами для изучения. Доступен без регистрации.'
+    description: 'Четвёртый раздел со словами для изучения. Доступен без регистрации.',
   },
   {
     id: 5,
     title: 'fifth category',
     access: true,
-    description: 'Пятый раздел со словами для изучения. Доступен без регистрации.'
+    description: 'Пятый раздел со словами для изучения. Доступен без регистрации.',
   },
   {
     id: 6,
     title: 'sixth category',
     access: true,
-    description: 'Шестой раздел со словами для изучения. Доступен без регистрации.'
+    description: 'Шестой раздел со словами для изучения. Доступен без регистрации.',
   },
   {
     id: 7,
     title: 'very difficult words',
     access: false,
-    description: 'Доступен для зарегистрированных пользователей.'
+    description: 'Доступен для зарегистрированных пользователей.',
   },
 ]
 
@@ -72,5 +72,3 @@ export const CUR_CATEGORY_PAGE = 'sergioivanov008_curCategoryPage'
 export const CUR_PAGINATION_COUNT = 'sergioivanov008_curPaginationCount'
 
 export default Url
-
-
