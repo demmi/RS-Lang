@@ -115,7 +115,7 @@ function TutorialPage() {
       <div className="tutorial-content">
         <Grid container direction="row" justifyContent="center" alignItems="center" spacing={3}>
           {loaded ? (
-            category !== 7 ? (
+            category < 6 ? (
               words.map(el => <WordCard data={el} key={el.id} setAudio={setAudio} />)
             ) : (
               words.map(el => <HardCard data={el} key={el.id} setAudio={setAudio} />)
