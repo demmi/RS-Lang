@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import './Main.css';
 import { FormStatus, PageRouter, Category, Page } from '@/components/context';
 import { DT_SIGNIN, DT_REGISTER, DT_REG_OK, MAIN_PAGE, TUTORIAL_PAGE,
-  GAMES_PAGE, STATISTIC_PAGE, TUTORIAL_CHOICE, CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE
+  GAMES_PAGE, STATISTIC_PAGE, TUTORIAL_CHOICE, SPRINT_GAME
 } from '@/components/const';
 import FormSignIn from '@/components/forms/FormSiignIn';
 import FormRegister from '@/components/forms/FormRegister';
@@ -13,12 +13,11 @@ import TutorialPage from '@/components/pages/TutorialPage/TutorialPage';
 import GamesPage from '@/components/pages/GamesPage/GamesPage';
 import StatisticPage from '@/components/pages/StatisticPage/StatisticPage';
 import TutorialChoice from '../pages/TutorialChoice/TutorialChoice';
+import SprintGame from '../games/SprintGame/SprintGame';
 
 function Main() {
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
-  const { category } = useContext(Category)
-  const { page } = useContext(Page)
 
   let curForm;
   let curPage;
@@ -53,6 +52,9 @@ function Main() {
       break;
     case GAMES_PAGE:
       curPage = (<GamesPage/>)
+      break;
+    case SPRINT_GAME:
+      curPage = (<SprintGame/>)
       break;
     case STATISTIC_PAGE:
       curPage = (<StatisticPage/>)

@@ -12,6 +12,7 @@ export const MAIN_PAGE = 'MainPage'
 export const TUTORIAL_PAGE = 'TutorialPage'
 export const TUTORIAL_CHOICE = 'TutorialChoice'
 export const GAMES_PAGE = 'GamesPage'
+export const SPRINT_GAME = 'SprintGame'
 export const STATISTIC_PAGE = 'StatisticPage'
 
 export const ROUTING_PAGES = {
