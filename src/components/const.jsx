@@ -14,6 +14,8 @@ export const TUTORIAL_CHOICE = 'TutorialChoice'
 export const GAMES_PAGE = 'GamesPage'
 export const SPRINT_GAME = 'SprintGame'
 export const STATISTIC_PAGE = 'StatisticPage'
+export const CALL_GAME = 'CallGame'
+export const SPRINT_GAME = 'SprintGame'
 
 export const ROUTING_PAGES = {
   главная: MAIN_PAGE,
