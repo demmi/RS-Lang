@@ -14,9 +14,11 @@ import {
   Select,
   Typography,
 } from '@mui/material'
-import IsLogged from '@/components/context'
+import IsLogged, { PageRouter } from '@/components/context'
+import { CALL_GAME, SPRINT_GAME } from '@/components/const'
 
 function SelectGame() {
+  const { setRouterPage } = useContext(PageRouter)
   const { isLogged } = useContext(IsLogged)
   const [callLevel, setCallLevel] = useState(0)
   const [sprintLevel, setSprintLevel] = useState(0)
@@ -27,6 +29,16 @@ function SelectGame() {
 
   const handleChangeSprint = event => {
     setSprintLevel(event.target.value)
+  }
+
+  const handleClickCall = () => {
+    console.log('Call game', callLevel)
+    setRouterPage(CALL_GAME)
+  }
+
+  const handleClickSprint = () => {
+    console.log('Sprint game', sprintLevel)
+    setRouterPage(SPRINT_GAME)
   }
 
   return (
@@ -65,7 +77,9 @@ function SelectGame() {
                   </MenuItem>
                 </Select>
               </FormControl>
-              <Button variant="contained">Начать</Button>
+              <Button variant="contained" onClick={handleClickCall}>
+                Начать
+              </Button>
             </CardContent>
           </Card>
         </Paper>
@@ -104,7 +118,9 @@ function SelectGame() {
                   </MenuItem>
                 </Select>
               </FormControl>
-              <Button variant="contained">Начать</Button>
+              <Button variant="contained" onClick={handleClickSprint}>
+                Начать
+              </Button>
             </CardContent>
           </Card>
         </Paper>

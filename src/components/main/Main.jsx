@@ -14,6 +14,8 @@ import {
   CUR_ROUTER_PAGE,
   CUR_CATEGORY,
   CUR_CATEGORY_PAGE,
+  CALL_GAME,
+  SPRINT_GAME,
 } from '@/components/const'
 import FormSignIn from '@/components/forms/FormSiignIn'
 import FormRegister from '@/components/forms/FormRegister'
@@ -22,7 +24,9 @@ import MainPage from '@/components/pages/MainPage/MainPage'
 import TutorialPage from '@/components/pages/TutorialPage/TutorialPage'
 import StatisticPage from '@/components/pages/StatisticPage/StatisticPage'
 import SelectGame from '@/components/pages/GamesPage/SelectGame'
+import CallGame from '@/components/games/callgame/CallGame'
 import TutorialChoice from '../pages/TutorialChoice/TutorialChoice'
+import SprintGame from '@/components/games/callgame/SprintGame'
 
 function Main() {
   const { dialogType } = useContext(FormStatus)
@@ -66,6 +70,12 @@ function Main() {
       break
     case STATISTIC_PAGE:
       curPage = <StatisticPage />
+      break
+    case CALL_GAME:
+      curPage = <CallGame />
+      break
+    case SPRINT_GAME:
+      curPage = <SprintGame />
       break
     default:
       break
