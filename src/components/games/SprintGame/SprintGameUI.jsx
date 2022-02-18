@@ -3,12 +3,11 @@ import { Button, CircularProgress, Grid, Stack, Typography } from '@mui/material
 import useSound from 'use-sound'
 import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
-import URL from '@/components/const'
+import URL, { CUR_ROUTER_PAGE } from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
-import { getRandomNumber, shuffle } from '@/components/games/callgame/gameUtils'
+import { getRandomNumber, shuffle } from '@/components/games/gameUtils'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import IsLogged, { Category, Page, PaginationCount, PageRouter } from '@/components/context'
-import { CUR_ROUTER_PAGE } from '@/components/const'
 
 // const NUMBER_OF_WORDS = 20
 
@@ -122,10 +121,10 @@ function SprintGameUI({ words }) {
   //   }, 350)
   // }
 
-  const handlerAnswer = (event) => {
+  const handlerAnswer = event => {
     const boolValue = event.currentTarget.dataset.bool
     // console.log('boolValue:', boolValue, gameArr[curNum].isCorrect, 'сравнение:', boolValue === gameArr[curNum].isCorrect )
-    if(boolValue === gameArr[curNum].isCorrect) {
+    if (boolValue === gameArr[curNum].isCorrect) {
       console.log('угадал')
       gameArr[curNum].isCatch = true
     } else {
@@ -133,19 +132,16 @@ function SprintGameUI({ words }) {
       gameArr[curNum].isCatch = false
     }
     const nextNum = curNum + 1
-    if(nextNum < gameArr.length) {
+    if (nextNum < gameArr.length) {
       setCurNum(nextNum)
     } else {
       console.log('GAME OVER, exitArr:', words)
     }
-
   }
 
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={8}>
-      <Grid item>
-        {/* <Lives livesCount={livesCount} gameOver={() => onGameEnd(wordCounter - 1)} /> */}
-      </Grid>
+      <Grid item>{/* <Lives livesCount={livesCount} gameOver={() => onGameEnd(wordCounter - 1)} /> */}</Grid>
       <Grid item>
         <Typography variant="h3" component="h2">
           {gameArr[curNum].word}
@@ -158,8 +154,12 @@ function SprintGameUI({ words }) {
       </Grid>
       <Grid item>
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" color='error' sx={{width:'200px'}} onClick={handlerAnswer} data-bool='false'>Неверно</Button>
-          <Button variant="contained" color='success' sx={{width:'200px'}} onClick={handlerAnswer} data-bool='true'>Верно</Button>
+          <Button variant="contained" color="error" sx={{ width: '200px' }} onClick={handlerAnswer} data-bool="false">
+            Неверно
+          </Button>
+          <Button variant="contained" color="success" sx={{ width: '200px' }} onClick={handlerAnswer} data-bool="true">
+            Верно
+          </Button>
         </Stack>
       </Grid>
       <Grid item>
