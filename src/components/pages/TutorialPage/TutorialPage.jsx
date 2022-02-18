@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef, useContext } from 'react'
 
 import './TutorialPage.css'
 import WordCard from '@/components/pages/TutorialPage/Card/wordCard'
-import { CircularProgress, Grid, Stack } from '@mui/material'
+import { Button, CircularProgress, Grid, Stack } from '@mui/material'
 import getWords from '@/components/api/getWords'
 import getAllUserWords from '@/components/api/getAllUserWords'
 import getAllUserAggWords from '@/components/api/getAllUserAggWords'
 import IsLogged, { Category, Page, PaginationCount, PageRouter } from '@/components/context'
-import { CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT } from '@/components/const'
+import { CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT, SPRINT_GAME } from '@/components/const'
 import TutorialPagination from './TutorialPagination/TutorialPagination'
 import PageOfCategories from './PageOfCategories/PageOfCategories'
 import HardCard from './Card/HardCard'
@@ -17,7 +17,7 @@ function TutorialPage() {
   const [loaded, setLoaded] = useState(false)
   const [audioSrc, setAudio] = useState(null)
   const { isLogged } = useContext(IsLogged)
-  const { routerPage } = useContext(PageRouter)
+  const { routerPage, setRouterPage } = useContext(PageRouter)
   const { category } = useContext(Category)
   const { page } = useContext(Page)
   const { paginationCount, setPaginationCount } = useContext(PaginationCount)
@@ -79,7 +79,7 @@ function TutorialPage() {
       setLoaded(true)
     }
     loadData()
-  }, [isLogged, category, page])
+  }, [isLogged, category, page, setPaginationCount])
 
   // const choiceCard = () => {
   //   category !== 7
@@ -91,6 +91,11 @@ function TutorialPage() {
   sessionStorage.setItem(CUR_CATEGORY, category)
   sessionStorage.setItem(CUR_CATEGORY_PAGE, page)
   sessionStorage.setItem(CUR_PAGINATION_COUNT, paginationCount)
+
+  const handleBtnTemp = () => {
+    console.log('click handleBtnTemp')
+    setRouterPage(SPRINT_GAME)
+  }
 
   return (
     <div className="tutorial-category">
@@ -106,6 +111,7 @@ function TutorialPage() {
         }}
       >
         <PageOfCategories />
+        <Button onClick={handleBtnTemp} color='secondary' variant='contained'>Sprint Game</Button>
         <div>
           <TutorialPagination sx={{ marginTop: '50px' }} />
           <div className="empty-line"> </div>

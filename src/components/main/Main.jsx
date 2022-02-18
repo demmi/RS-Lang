@@ -25,14 +25,12 @@ import TutorialPage from '@/components/pages/TutorialPage/TutorialPage'
 import StatisticPage from '@/components/pages/StatisticPage/StatisticPage'
 import SelectGame from '@/components/pages/GamesPage/SelectGame'
 import CallGame from '@/components/games/callgame/CallGame'
+import SprintGame from '@/components/games/SprintGame/SprintGame'
 import TutorialChoice from '../pages/TutorialChoice/TutorialChoice'
-import SprintGame from '@/components/games/callgame/SprintGame'
 
 function Main() {
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
-  const { category } = useContext(Category)
-  const { page } = useContext(Page)
 
   let curForm
   let curPage
