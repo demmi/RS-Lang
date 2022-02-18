@@ -14,12 +14,14 @@ import {
   Select,
   Typography,
 } from '@mui/material'
-import IsLogged, { PageRouter } from '@/components/context'
+import IsLogged, { PageRouter, Category, Page } from '@/components/context'
 import { CALL_GAME, SPRINT_GAME } from '@/components/const'
 
 function SelectGame() {
   const { setRouterPage } = useContext(PageRouter)
   const { isLogged } = useContext(IsLogged)
+  const { setCategory } = useContext(Category)
+  const { setPage } = useContext(Page)
   const [callLevel, setCallLevel] = useState(0)
   const [sprintLevel, setSprintLevel] = useState(0)
 
@@ -33,11 +35,15 @@ function SelectGame() {
 
   const handleClickCall = () => {
     console.log('Call game', callLevel)
+    setCategory(callLevel)
+    setPage(1)
     setRouterPage(CALL_GAME)
   }
 
   const handleClickSprint = () => {
     console.log('Sprint game', sprintLevel)
+    setCategory(sprintLevel)
+    setPage(1)
     setRouterPage(SPRINT_GAME)
   }
 
