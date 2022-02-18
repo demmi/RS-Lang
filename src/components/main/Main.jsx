@@ -31,8 +31,6 @@ import SprintGame from '@/components/games/callgame/SprintGame'
 function Main() {
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
-  const { category } = useContext(Category)
-  const { page } = useContext(Page)
 
   let curForm
   let curPage
