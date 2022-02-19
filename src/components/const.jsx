@@ -68,6 +68,56 @@ export const PAGE_OF_CATEGORIES = [
   },
 ]
 
+export const MAIN_PAGE_SECTIONS = [
+  {
+    id: 0,
+    title: 'О приложении',
+    shortDescription: 'описание приложения',
+    fullDescription: `
+    Приложение RS-Lang предназначено<br> для изучения английского языка.
+    Для доступа ко всем возможностям приложения необходима регистрация.
+    Регистрация происходит мгновенно`,
+  },
+  {
+    id: 1,
+    title: 'Процесс изучения',
+    shortDescription: 'как происходит процесс обучения',
+    fullDescription: `
+    Возле каждого слова, которое использовалось в мини-играх,
+    на странице учебника указывается прогресс его изучения за весь период:
+    было ли слово правильно угадано в мини-играх, или пользователь ошибался
+    `,
+  },
+  {
+    id: 2,
+    title: 'Игра Call Game',
+    shortDescription: 'описание игры Call Game',
+    fullDescription: `
+    В игре Call Game вам нужно выбрать правильный вариант перевода слова
+    `,
+  },
+  {
+    id: 3,
+    title: 'Игра Sprint Game',
+    shortDescription: 'описание игры Sprint Game',
+    fullDescription: `
+    В игре Sprint Game вам нужно выбрать, правильно ли переведено слово.
+    То есть: показывается слово и его перевод.
+    И есть две кнопки - "неверно" и "верно". Нужно выбрать правильно ли переведено слово
+    `,
+  },
+  {
+    id: 4,
+    title: 'О команде',
+    shortDescription: 'кто работал над проектом',
+    fullDescription: `
+    Над игрой работала команда Dream-Team под руководством ментора @pivanchikov,
+    team-lead - @demmi,
+    <b>developer</b> - @sergioivanov008
+    `,
+  },
+]
+
 export const CUR_ROUTER_PAGE = 'sergioivanov008_curRouterPage'
 export const CUR_CATEGORY = 'sergioivanov008_curCategory'
 export const CUR_CATEGORY_PAGE = 'sergioivanov008_curCategoryPage'
