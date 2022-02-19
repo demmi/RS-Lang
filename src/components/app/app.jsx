@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ResponsiveAppBar from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
 import Main from '@/components/main/Main'
-import IsLogged, { FormStatus, PageRouter, Category, Page, PaginationCount, SelectedGame } from '@/components/context'
+import IsLogged, { FormStatus, PageRouter, Category, Page, PaginationCount, SelectedGame, ResultsArray } from '@/components/context'
 import { DT_DISABLED, CUR_ROUTER_PAGE, MAIN_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE } from '@/components/const'
 
 const curRouterPage = sessionStorage.getItem(CUR_ROUTER_PAGE) ? sessionStorage.getItem(CUR_ROUTER_PAGE) : MAIN_PAGE
@@ -22,6 +22,7 @@ function App() {
   const [category, setCategory] = useState(curCategory)
   const [page, setPage] = useState(curPage)
   const [paginationCount, setPaginationCount] = useState(30)
+  const [resultsArray, setResultsArray] = useState(null)
   const [game, setGame] = useState('')
 
   console.log('routerPage:', routerPage, 'category:', category, 'page:', page, 'paginationCount:', paginationCount)
@@ -34,11 +35,13 @@ function App() {
             <Category.Provider value={{ category, setCategory }}>
               <Page.Provider value={{ page, setPage }}>
                 <PaginationCount.Provider value={{ paginationCount, setPaginationCount }}>
-                  <>
-                    <ResponsiveAppBar />
-                    <Main />
-                    <Footer />
-                  </>
+                  <ResultsArray.Provider value={{ resultsArray, setResultsArray }}>
+                    <>
+                      <ResponsiveAppBar />
+                      <Main />
+                      <Footer />
+                    </>
+                    </ResultsArray.Provider>
                 </PaginationCount.Provider>
               </Page.Provider>
             </Category.Provider>
