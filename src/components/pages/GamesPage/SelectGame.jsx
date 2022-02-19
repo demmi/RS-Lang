@@ -14,10 +14,12 @@ import {
   Select,
   Typography,
 } from '@mui/material'
-import IsLogged, { PageRouter, Category, Page } from '@/components/context'
-import { CALL_GAME, SPRINT_GAME } from '@/components/const'
+import IsLogged, { PageRouter, Category, Page, SelectedGame } from '@/components/context'
+import { LOAD_GAME } from '@/components/const'
+import { getRandomNumber } from '@/components/games/gameUtils'
 
 function SelectGame() {
+  const { setGame } = useContext(SelectedGame)
   const { setRouterPage } = useContext(PageRouter)
   const { isLogged } = useContext(IsLogged)
   const { setCategory } = useContext(Category)
@@ -34,17 +36,17 @@ function SelectGame() {
   }
 
   const handleClickCall = () => {
-    console.log('Call game', callLevel)
+    setGame('Call')
     setCategory(callLevel)
-    setPage(1)
-    setRouterPage(CALL_GAME)
+    setPage(getRandomNumber(0, 29))
+    setRouterPage(LOAD_GAME)
   }
 
   const handleClickSprint = () => {
-    console.log('Sprint game', sprintLevel)
+    setGame('Sprint')
     setCategory(sprintLevel)
-    setPage(1)
-    setRouterPage(SPRINT_GAME)
+    setPage(getRandomNumber(0, 29))
+    setRouterPage(LOAD_GAME)
   }
 
   return (

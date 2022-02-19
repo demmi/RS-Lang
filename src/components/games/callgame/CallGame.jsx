@@ -5,7 +5,7 @@ import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
 import URL from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
-import { getRandomNumber, shuffle } from '@/components/games/callgame/gameUtils'
+import { getRandomNumber, shuffle } from '@/components/games/gameUtils'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 
 const NUMBER_OF_WORDS = 20
@@ -38,7 +38,6 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
   const [countDown, setTimer] = useState(9)
   const audioPlayer = new Audio()
   audioPlayer.volume = 0.5
-  console.log(words)
 
   const playAudio = url => {
     audioPlayer.src = url

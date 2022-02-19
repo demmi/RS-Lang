@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { CircularProgress } from '@mui/material'
 import { CUR_ROUTER_PAGE } from '@/components/const'
-import { getRandomNumber, shuffle } from '@/components/games/callgame/gameUtils'
+import { getRandomNumber, shuffle } from '@/components/games/gameUtils'
 import IsLogged, { Category, Page, PageRouter } from '@/components/context'
-import getWords from '@/components/api/getWords';
+import getWords from '@/components/api/getWords'
 import SprintGameUI from './SprintGameUI'
 
 function SprintGame() {
@@ -25,13 +25,15 @@ function SprintGame() {
 
         return newEl
       })
-      const arrTranslate = shuffle(data).reverse().map((el) => {
-        const newEl = {}
-        newEl.id = el.id
-        newEl.word = el.wordTranslate
+      const arrTranslate = shuffle(data)
+        .reverse()
+        .map(el => {
+          const newEl = {}
+          newEl.id = el.id
+          newEl.word = el.wordTranslate
 
-        return newEl
-      })
+          return newEl
+        })
       const exitArr = arrWords.map((el, index) => {
         const newEl = {...el}
         newEl.rightTranslate = el.wordTranslate
@@ -49,9 +51,7 @@ function SprintGame() {
     loadData()
   }, [isLogged, category, page])
 
-  return (
-    loaded ? <SprintGameUI words={words}/> : <CircularProgress />
-  )
+  return loaded ? <SprintGameUI words={words} /> : <CircularProgress />
 }
 
 export default SprintGame

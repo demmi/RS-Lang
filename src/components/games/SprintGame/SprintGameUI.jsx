@@ -6,8 +6,9 @@ import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
 import URL, { CUR_ROUTER_PAGE, DT_GAME_RESULTS } from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
-import { getRandomNumber, shuffle } from '@/components/games/callgame/gameUtils'
+import { getRandomNumber, shuffle } from '@/components/games/gameUtils'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
+
 import IsLogged, { Category, Page, PaginationCount, PageRouter, FormStatus, ResultsArray } from '@/components/context'
 
 // const NUMBER_OF_WORDS = 20
@@ -142,7 +143,7 @@ function SprintGameUI({ words }) {
       gameArr[curNum].isCatch = false
     }
     const nextNum = curNum + 1
-    if(nextNum < gameArr.length) {
+    if (nextNum < gameArr.length) {
       setCurNum(nextNum)
     } else {
       console.log('GAME OVER, exitArr:', words)
@@ -152,9 +153,7 @@ function SprintGameUI({ words }) {
 
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={8}>
-      <Grid item>
-        {/* <Lives livesCount={livesCount} gameOver={() => onGameEnd(wordCounter - 1)} /> */}
-      </Grid>
+      <Grid item>{/* <Lives livesCount={livesCount} gameOver={() => onGameEnd(wordCounter - 1)} /> */}</Grid>
       <Grid item>
         <Typography variant="h3" component="h2">
           {gameArr[curNum].word}
@@ -167,8 +166,12 @@ function SprintGameUI({ words }) {
       </Grid>
       <Grid item>
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" color='error' sx={{width:'200px'}} onClick={handlerAnswer} data-bool='false'>Неверно</Button>
-          <Button variant="contained" color='success' sx={{width:'200px'}} onClick={handlerAnswer} data-bool='true'>Верно</Button>
+          <Button variant="contained" color="error" sx={{ width: '200px' }} onClick={handlerAnswer} data-bool="false">
+            Неверно
+          </Button>
+          <Button variant="contained" color="success" sx={{ width: '200px' }} onClick={handlerAnswer} data-bool="true">
+            Верно
+          </Button>
         </Stack>
       </Grid>
     </Grid>

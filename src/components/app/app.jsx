@@ -2,15 +2,8 @@ import React, { useState } from 'react'
 import ResponsiveAppBar from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
 import Main from '@/components/main/Main'
-import IsLogged, { FormStatus, PageRouter, Category, Page, PaginationCount, ResultsArray } from '@/components/context'
-import {
-  DT_DISABLED,
-  CUR_ROUTER_PAGE,
-  MAIN_PAGE,
-  CUR_CATEGORY,
-  CUR_CATEGORY_PAGE,
-  CUR_PAGINATION_COUNT,
-} from '@/components/const'
+import IsLogged, { FormStatus, PageRouter, Category, Page, PaginationCount, SelectedGame, ResultsArray } from '@/components/context'
+import { DT_DISABLED, CUR_ROUTER_PAGE, MAIN_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE } from '@/components/const'
 
 const curRouterPage = sessionStorage.getItem(CUR_ROUTER_PAGE) ? sessionStorage.getItem(CUR_ROUTER_PAGE) : MAIN_PAGE
 
@@ -30,29 +23,32 @@ function App() {
   const [page, setPage] = useState(curPage)
   const [paginationCount, setPaginationCount] = useState(30)
   const [resultsArray, setResultsArray] = useState(null)
+  const [game, setGame] = useState('')
 
   console.log('routerPage:', routerPage, 'category:', category, 'page:', page, 'paginationCount:', paginationCount)
 
   return (
-    <IsLogged.Provider value={{ isLogged, setLogged }}>
-      <FormStatus.Provider value={{ dialogType, setDialogType }}>
-        <PageRouter.Provider value={{ routerPage, setRouterPage }}>
-          <Category.Provider value={{ category, setCategory }}>
-            <Page.Provider value={{ page, setPage }}>
-              <PaginationCount.Provider value={{ paginationCount, setPaginationCount }}>
-                <ResultsArray.Provider value={{ resultsArray, setResultsArray }}>
-                  <>
-                    <ResponsiveAppBar />
-                    <Main />
-                    <Footer />
-                  </>
-                </ResultsArray.Provider>
-              </PaginationCount.Provider>
-            </Page.Provider>
-          </Category.Provider>
-        </PageRouter.Provider>
-      </FormStatus.Provider>
-    </IsLogged.Provider>
+    <SelectedGame.Provider value={{ game, setGame }}>
+      <IsLogged.Provider value={{ isLogged, setLogged }}>
+        <FormStatus.Provider value={{ dialogType, setDialogType }}>
+          <PageRouter.Provider value={{ routerPage, setRouterPage }}>
+            <Category.Provider value={{ category, setCategory }}>
+              <Page.Provider value={{ page, setPage }}>
+                <PaginationCount.Provider value={{ paginationCount, setPaginationCount }}>
+                  <ResultsArray.Provider value={{ resultsArray, setResultsArray }}>
+                    <>
+                      <ResponsiveAppBar />
+                      <Main />
+                      <Footer />
+                    </>
+                    </ResultsArray.Provider>
+                </PaginationCount.Provider>
+              </Page.Provider>
+            </Category.Provider>
+          </PageRouter.Provider>
+        </FormStatus.Provider>
+      </IsLogged.Provider>
+    </SelectedGame.Provider>
   )
 }
 

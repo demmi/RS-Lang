@@ -14,9 +14,8 @@ import {
   CUR_ROUTER_PAGE,
   CUR_CATEGORY,
   CUR_CATEGORY_PAGE,
-  CALL_GAME,
-  SPRINT_GAME,
   DT_GAME_RESULTS,
+  LOAD_GAME,
 } from '@/components/const'
 import FormSignIn from '@/components/forms/FormSiignIn'
 import FormRegister from '@/components/forms/FormRegister'
@@ -26,8 +25,7 @@ import MainPage from '@/components/pages/MainPage/MainPage'
 import TutorialPage from '@/components/pages/TutorialPage/TutorialPage'
 import StatisticPage from '@/components/pages/StatisticPage/StatisticPage'
 import SelectGame from '@/components/pages/GamesPage/SelectGame'
-import CallGame from '@/components/games/callgame/CallGame'
-import SprintGame from '@/components/games/SprintGame/SprintGame'
+import LoadGame from '@/components/pages/GamesPage/LoadGame'
 import TutorialChoice from '../pages/TutorialChoice/TutorialChoice'
 
 function Main() {
@@ -74,11 +72,8 @@ function Main() {
     case STATISTIC_PAGE:
       curPage = <StatisticPage />
       break
-    case CALL_GAME:
-      curPage = <CallGame />
-      break
-    case SPRINT_GAME:
-      curPage = <SprintGame />
+    case LOAD_GAME:
+      curPage = <LoadGame />
       break
     default:
       break
