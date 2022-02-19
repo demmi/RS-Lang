@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -150,21 +151,28 @@ function HardCard({ data, setAudio }) {
                 </Button>
                 <Snackbar
                   open={openDelete}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                   autoHideDuration={6000}
                   onClose={handleCloseDelete}
                   message={`Слово ${word} удалено из "сложных"`}
-                />
+                >
+                  <Alert onClose={handleCloseDelete} variant="filled" severity="error" sx={{ width: '100%' }}>
+                    {`Слово ${word} удалено из "сложных"`}
+                  </Alert>
+                </Snackbar>
                 <Button variant="outlined" size="large" onClick={handleLearned} disabled={btnDisable}>
                   Изучено
                 </Button>
                 <Snackbar
                   open={openLearned}
-                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                   autoHideDuration={6000}
                   onClose={handleCloseLearned}
-                  message={`Слово ${word} помечено как "изученное"`}
-                />
+                >
+                  <Alert onClose={handleCloseLearned} variant="filled" severity="error" sx={{ width: '100%' }}>
+                    {`Слово ${word} помечено как "изученное"`}
+                  </Alert>
+                </Snackbar>
               </CardActions>
             </CardContent>
           </Collapse>
