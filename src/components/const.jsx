@@ -7,6 +7,7 @@ export const DT_SIGNIN = 'signInForm'
 export const DT_REGISTER = 'registerForm'
 export const DT_REG_OK = 'registerOk'
 export const DT_UPDATE = 'updateForm'
+export const DT_GAME_RESULTS = 'FormGameRusults'
 
 export const MAIN_PAGE = 'MainPage'
 export const TUTORIAL_PAGE = 'TutorialPage'

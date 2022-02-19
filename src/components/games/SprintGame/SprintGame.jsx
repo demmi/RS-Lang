@@ -16,17 +16,12 @@ function SprintGame() {
 
   sessionStorage.setItem(CUR_ROUTER_PAGE, routerPage)
 
-  // console.log('category:', category, 'page:', page)
-
   useEffect(() => {
     const loadData = async () => {
       const data = await getWords(category, page)
 
       const arrWords = shuffle(data).map((el) => {
         const newEl = {...el}
-        // newEl.id = el.id
-        // newEl.word = el.word
-        // newEl.wordTranslate = el.wordTranslate
 
         return newEl
       })
@@ -39,22 +34,12 @@ function SprintGame() {
       })
       const exitArr = arrWords.map((el, index) => {
         const newEl = {...el}
-        // newEl.id = el.id
-        // newEl.word = el.word
         newEl.rightTranslate = el.wordTranslate
         const random = getRandomNumber(0, 1)
         newEl.outputTranslate = random === 1 ? el.wordTranslate : arrTranslate[index].word
         newEl.isCorrect = newEl.rightTranslate === newEl.outputTranslate ? 'true' : 'false'
 
         return newEl
-        // const newEl = {...el}
-        // // console.log(el, newEl)
-        // // newEl.rightTranslate = el.wordTranslate
-        // const random = getRandomNumber(0, 1)
-        // newEl.outputTranslate = random === 1 ? el.wordTranslate : arrTranslate[index].word
-        // newEl.isCorrect = newEl.wordTranslate === newEl.outputTranslate ? 'true' : 'false'
-
-        // return newEl
       })
 
       setWords(exitArr)

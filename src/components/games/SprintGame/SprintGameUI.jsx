@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
+// import PropTypes from 'prop-types';
 import { Button, CircularProgress, Grid, Stack, Typography } from '@mui/material'
 import useSound from 'use-sound'
 import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
-import URL from '@/components/const'
+import URL, { CUR_ROUTER_PAGE, DT_GAME_RESULTS } from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
 import { getRandomNumber, shuffle } from '@/components/games/callgame/gameUtils'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
-import IsLogged, { Category, Page, PaginationCount, PageRouter } from '@/components/context'
-import { CUR_ROUTER_PAGE } from '@/components/const'
+import IsLogged, { Category, Page, PaginationCount, PageRouter, FormStatus, ResultsArray } from '@/components/context'
 
 // const NUMBER_OF_WORDS = 20
 
@@ -27,8 +27,8 @@ import { CUR_ROUTER_PAGE } from '@/components/const'
 
 // function SprintGame({ words, onWordSelect, onGameEnd }) {
 function SprintGameUI({ words }) {
-  // const [playError] = useSound(errorSound, { volume: 0.3 })
-  // const [playCorrect] = useSound(correctSound, { volume: 0.3 })
+  const [playError] = useSound(errorSound, { volume: 0.3 })
+  const [playCorrect] = useSound(correctSound, { volume: 0.3 })
   // const [answer, setAnswer] = useState('')
   // const [arrOfWords, setArrOfWords] = useState([])
   // const [btnClicked, setBtnClicked] = useState(false)
@@ -43,9 +43,11 @@ function SprintGameUI({ words }) {
   // audioPlayer.volume = 0.5
   // console.log(words)
   const [curNum, setCurNum] = useState(0)
-  const [gameArr, setGameArr] = useState(words)
+  const [gameArr] = useState(words)
+  const { setDialogType } = useContext(FormStatus)
+  const { setResultsArray } = useContext(ResultsArray)
 
-  console.log('exitArr:', words)
+  // console.log('exitArr:', words)
   // const playAudio = url => {
   //   audioPlayer.src = url
   //   audioPlayer.load()
@@ -122,13 +124,20 @@ function SprintGameUI({ words }) {
   //   }, 350)
   // }
 
+  const displayGameResultsForm = () => {
+    setResultsArray(gameArr)
+    setDialogType(DT_GAME_RESULTS)
+  }
+
   const handlerAnswer = (event) => {
     const boolValue = event.currentTarget.dataset.bool
-    // console.log('boolValue:', boolValue, gameArr[curNum].isCorrect, 'сравнение:', boolValue === gameArr[curNum].isCorrect )
+    
     if(boolValue === gameArr[curNum].isCorrect) {
+      playCorrect()
       console.log('угадал')
       gameArr[curNum].isCatch = true
     } else {
+      playError()
       console.log('не угадал')
       gameArr[curNum].isCatch = false
     }
@@ -137,8 +146,8 @@ function SprintGameUI({ words }) {
       setCurNum(nextNum)
     } else {
       console.log('GAME OVER, exitArr:', words)
+      displayGameResultsForm()
     }
-
   }
 
   return (
@@ -162,19 +171,15 @@ function SprintGameUI({ words }) {
           <Button variant="contained" color='success' sx={{width:'200px'}} onClick={handlerAnswer} data-bool='true'>Верно</Button>
         </Stack>
       </Grid>
-      <Grid item>
-        <Grid container spacing={1}>
-          {/* {arrOfWords.map(itemWord => (
-            <Grid item>
-              <Button variant="contained" key={itemWord} onClick={handleWordClick(itemWord)}>
-                {itemWord}
-              </Button>
-            </Grid>
-          ))} */}
-        </Grid>
-      </Grid>
     </Grid>
   )
 }
+// SprintGameUI.propTypes = {
+//   word: PropTypes.object.isRequired,
+//   // onApply: PropTypes.func.isRequired,
+//   // size: PropTypes.number.isRequired,
+//   // theme: PropTypes.oneOf(['ant', 'default']).isRequired,
+//   // type: PropTypes.oneOf(['Commodity', 'Employee']).isRequired,
+// };
 
 export default SprintGameUI

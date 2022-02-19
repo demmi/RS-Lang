@@ -7,7 +7,7 @@ import getWords from '@/components/api/getWords'
 import getAllUserWords from '@/components/api/getAllUserWords'
 import getAllUserAggWords from '@/components/api/getAllUserAggWords'
 import IsLogged, { Category, Page, PaginationCount, PageRouter } from '@/components/context'
-import { CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT, SPRINT_GAME } from '@/components/const'
+import { CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT, SPRINT_GAME, CALL_GAME } from '@/components/const'
 import TutorialPagination from './TutorialPagination/TutorialPagination'
 import PageOfCategories from './PageOfCategories/PageOfCategories'
 import HardCard from './Card/HardCard'
@@ -92,9 +92,10 @@ function TutorialPage() {
   sessionStorage.setItem(CUR_CATEGORY_PAGE, page)
   sessionStorage.setItem(CUR_PAGINATION_COUNT, paginationCount)
 
-  const handleBtnTemp = () => {
-    console.log('click handleBtnTemp')
-    setRouterPage(SPRINT_GAME)
+  const handleBtnGame = (event) => {
+    const curRouterPage = event.currentTarget.dataset.setrouter
+    console.log('click handleBtnGame, curRouterPage:', curRouterPage)
+    setRouterPage(curRouterPage)
   }
 
   return (
@@ -111,7 +112,8 @@ function TutorialPage() {
         }}
       >
         <PageOfCategories />
-        <Button onClick={handleBtnTemp} color='secondary' variant='contained'>Sprint Game</Button>
+        <Button onClick={handleBtnGame} color='secondary' variant='contained' sx={{ width: '150px'}} data-setrouter={CALL_GAME}>Call Game</Button>
+        <Button onClick={handleBtnGame} color='secondary' variant='contained' sx={{ width: '150px'}} data-setrouter={SPRINT_GAME}>Sprint Game</Button>
         <div>
           <TutorialPagination sx={{ marginTop: '50px' }} />
           <div className="empty-line"> </div>
