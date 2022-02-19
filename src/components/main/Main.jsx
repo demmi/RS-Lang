@@ -14,11 +14,13 @@ import {
   CUR_ROUTER_PAGE,
   CUR_CATEGORY,
   CUR_CATEGORY_PAGE,
+  DT_GAME_RESULTS,
   LOAD_GAME,
 } from '@/components/const'
 import FormSignIn from '@/components/forms/FormSiignIn'
 import FormRegister from '@/components/forms/FormRegister'
 import FormRegOk from '@/components/forms/FormRegOk'
+import FormGameRusults from '@/components/forms/FormGameRusults';
 import MainPage from '@/components/pages/MainPage/MainPage'
 import TutorialPage from '@/components/pages/TutorialPage/TutorialPage'
 import StatisticPage from '@/components/pages/StatisticPage/StatisticPage'
@@ -42,6 +44,9 @@ function Main() {
       break
     case DT_REG_OK:
       curForm = <FormRegOk />
+      break
+    case DT_GAME_RESULTS:
+      curForm = <FormGameRusults />
       break
     default:
       break
