@@ -7,6 +7,7 @@ import URL from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
 import { getRandomNumber, shuffle } from '@/components/games/gameUtils'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
+import { SnackbarProvider, useSnackbar } from 'notistack'
 
 const NUMBER_OF_WORDS = 20
 
@@ -23,7 +24,15 @@ const setWordsTranslation = (words, newWordTranslation) => {
   return shuffle(arrOfTranslations)
 }
 
-function CallGame({ words, onWordSelect, onGameEnd }) {
+function CallGame({ words }) {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <Inside words={words} />
+    </SnackbarProvider>
+  )
+}
+
+function Inside({ words, onWordSelect, onGameEnd }) {
   const [playError] = useSound(errorSound, { volume: 0.3 })
   const [playCorrect] = useSound(correctSound, { volume: 0.3 })
   const [answer, setAnswer] = useState('')
@@ -36,6 +45,8 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
   const [wordCounter, setWordCounter] = useState(0)
   const [currentSeries, setCurrentSeries] = useState(0)
   const [countDown, setTimer] = useState(9)
+  const { enqueueSnackbar } = useSnackbar()
+
   const audioPlayer = new Audio()
   audioPlayer.volume = 0.5
 
@@ -76,6 +87,7 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
     const timer = setTimeout(() => {
       if (livesCount && words && words.length && !btnClicked) {
         playError()
+        enqueueSnackbar('Не правильно', { variant: 'error' })
         setLivesCount(livesCount - 1)
         setWordCounter(wordCounter + 1)
         onWordSelect(words[wordCounter], { failed: true })
@@ -93,10 +105,12 @@ function CallGame({ words, onWordSelect, onGameEnd }) {
     setWordCounter(wordCounter + 1)
     if (correct) {
       setCurrentSeries(currentSeries + 1)
+      enqueueSnackbar('Правильно', { variant: 'success' })
       playCorrect()
       onWordSelect(words[wordCounter], { succeed: true })
     } else {
       setLivesCount(livesCount - 1)
+      enqueueSnackbar('Не правильно', { variant: 'error' })
       playError()
       onWordSelect(words[wordCounter], { failed: true })
     }

@@ -8,6 +8,7 @@ import { DT_GAME_RESULTS } from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
 
 import IsLogged, { Category, Page, PaginationCount, PageRouter, FormStatus, ResultsArray } from '@/components/context'
+import { SnackbarProvider, useSnackbar } from 'notistack'
 
 // const NUMBER_OF_WORDS = 20
 
@@ -26,6 +27,15 @@ import IsLogged, { Category, Page, PaginationCount, PageRouter, FormStatus, Resu
 
 // function SprintGame({ words, onWordSelect, onGameEnd }) {
 function SprintGame({ words }) {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <Inside words={words} />
+    </SnackbarProvider>
+  )
+}
+
+function Inside({ words }) {
+  const { enqueueSnackbar } = useSnackbar()
   const [playError] = useSound(errorSound, { volume: 0.3 })
   const [playCorrect] = useSound(correctSound, { volume: 0.3 })
   // const [answer, setAnswer] = useState('')
@@ -128,14 +138,16 @@ function SprintGame({ words }) {
     setDialogType(DT_GAME_RESULTS)
   }
 
-  const handlerAnswer = (event) => {
+  const handlerAnswer = event => {
     const boolValue = event.currentTarget.dataset.bool
 
-    if(boolValue === gameArr[curNum].isCorrect) {
+    if (boolValue === gameArr[curNum].isCorrect) {
+      enqueueSnackbar('Правильно', { variant: 'success' })
       playCorrect()
       console.log('угадал')
       gameArr[curNum].isCatch = true
     } else {
+      enqueueSnackbar('Не правильно', { variant: 'error' })
       playError()
       console.log('не угадал')
       gameArr[curNum].isCatch = false
