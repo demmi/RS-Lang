@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '@/components/forms/StylesForms.css'
-import { FormStatus, ResultsArray } from '@/components/context'
+import { FormStatus, ResultsArray, PageRouter } from '@/components/context'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText,
     DialogTitle, Grid, IconButton, Paper, Table, TableBody, TableContainer, TableRow,
 } from '@mui/material'
-import URL, { DT_DISABLED, DT_GAME_RESULTS } from '@/components/const';
+import URL, { DT_DISABLED, DT_GAME_RESULTS, GAMES_PAGE } from '@/components/const';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -34,6 +34,7 @@ function FormGameRusults() {
     const [audioSrc, setAudio] = useState(null)
     const { dialogType, setDialogType } = useContext(FormStatus)
     const { resultsArray } = useContext(ResultsArray)
+    const { routerPage, setRouterPage } = useContext(PageRouter)
     const audioRef = useRef(new Audio(audioSrc))
 
     const isOpen = dialogType === DT_GAME_RESULTS;
@@ -48,7 +49,9 @@ function FormGameRusults() {
       }, [audioSrc])
 
     const handleClose = () => {
+
         setDialogType(DT_DISABLED)
+        setRouterPage(GAMES_PAGE)
     }
 
     const speakWord = (event) => {
@@ -61,8 +64,8 @@ function FormGameRusults() {
 
             <DialogTitle id='form-regok-title'>Результаты игры: верно {catched}, неверно {notCathed}</DialogTitle>
             <DialogContent>
-                <DialogContentText sx={{ height: '600px'}}>
-                  <Grid container direction="column" justifyContent="center" alignItems="center" >
+                {/* <DialogContentText sx={{ height: '600px'}}> */}
+                  {/* <Grid container direction="column" justifyContent="center" alignItems="center" > */}
                       <TableContainer component={Paper} sx={{ marginTop: '10px', marginBottom: '10px'}} >
                             <Table size="small" aria-label="simple table">
                                 <TableBody>
@@ -88,8 +91,8 @@ function FormGameRusults() {
                                 </TableBody>
                             </Table>
                       </TableContainer>
-                  </Grid>
-                </DialogContentText>
+                  {/* </Grid> */}
+                {/* </DialogContentText> */}
             </DialogContent>
             <DialogActions className="btn-center">
                 <Button onClick={handleClose} color='primary' variant='outlined'>OK</Button>
