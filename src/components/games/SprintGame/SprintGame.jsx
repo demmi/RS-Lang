@@ -52,13 +52,14 @@ function Inside({ words }) {
 
   useEffect(() => {
     const tick = setInterval(() => {
-      if(stopGame) {
-        if(countDown > 0) {
+      if (stopGame) {
+        if (countDown > 0) {
           setTimer(countDown - 1)
         }
       }},
       1000
     )
+
     return () => {
       clearInterval(tick)
     }
@@ -112,7 +113,6 @@ function Inside({ words }) {
   }, [koef])
 
   const displayGameResultsForm = () => {
-    setRouterPage(GAMES_PAGE)
     setResultsArray(gameArr)
     setDialogType(DT_GAME_RESULTS)
   }
@@ -161,9 +161,17 @@ function Inside({ words }) {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={4}>
       <Grid item>
-        <Box sx={{ width: '60px', height: '60px',
-          border: '1px solid green', borderRadius: '50%', display: 'flex',
-          justifyContent: 'center', alignItems: 'center'}} >
+        <Box
+          sx={{
+            width: '60px',
+            height: '60px',
+            border: '1px solid green',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Typography variant="h4" component="h2">
             {countDown}
           </Typography>
