@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -107,7 +108,6 @@ function WordCard({ data, setAudio }) {
     } else if (response === 401) {
       setLogged(false)
     }
-    console.log(response)
   }
 
   const handleCloseLearned = (event, reason) => {
@@ -174,21 +174,27 @@ function WordCard({ data, setAudio }) {
                   </Button>
                   <Snackbar
                     open={openHard}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                     autoHideDuration={6000}
                     onClose={handleCloseHard}
-                    message={`Слово ${word} помечено как "сложное"`}
-                  />
+                  >
+                    <Alert onClose={handleCloseHard} variant="filled" severity="error" sx={{ width: '100%' }}>
+                      {`Слово ${word} помечено как "сложное"`}
+                    </Alert>
+                  </Snackbar>
                   <Button variant="outlined" size="large" disabled={isHard || isLearned} onClick={handleLearned}>
                     Изучено
                   </Button>
                   <Snackbar
                     open={openLearned}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                     autoHideDuration={6000}
                     onClose={handleCloseLearned}
-                    message={`Слово ${word} помечено как "изученное"`}
-                  />
+                  >
+                    <Alert onClose={handleCloseLearned} variant="filled" severity="error" sx={{ width: '100%' }}>
+                      {`Слово ${word} помечено как "изученное"`}
+                    </Alert>
+                  </Snackbar>
                 </CardActions>
               ) : (
                 ''
