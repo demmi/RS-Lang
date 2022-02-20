@@ -15,14 +15,8 @@ const useStyles = makeStyles({
 })
 
 function Lives(props) {
-  const { livesCount, gameOver } = props
+  const { livesCount } = props
   const classes = useStyles()
-
-  useEffect(() => {
-    if (livesCount <= 0) {
-      gameOver()
-    }
-  }, [gameOver, livesCount])
 
   return (
     <Grid container justifyContent="center" alignItems="center" className={classes.container}>
