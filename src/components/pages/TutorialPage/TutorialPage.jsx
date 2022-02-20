@@ -6,8 +6,15 @@ import { Button, CircularProgress, Grid, Stack } from '@mui/material'
 import getWords from '@/components/api/getWords'
 import getAllUserWords from '@/components/api/getAllUserWords'
 import getAllUserAggWords from '@/components/api/getAllUserAggWords'
-import IsLogged, { Category, Page, PaginationCount, PageRouter, SelectedGame } from '@/components/context'
-import { CUR_ROUTER_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, CUR_PAGINATION_COUNT, LOAD_GAME } from '@/components/const'
+import IsLogged, { Category, Page, PaginationCount, PageRouter, SelectedGame, SourceRoute } from '@/components/context'
+import {
+  CUR_ROUTER_PAGE,
+  CUR_CATEGORY,
+  CUR_CATEGORY_PAGE,
+  CUR_PAGINATION_COUNT,
+  LOAD_GAME,
+  TUTORIAL_PAGE,
+} from '@/components/const'
 import TutorialPagination from './TutorialPagination/TutorialPagination'
 import PageOfCategories from './PageOfCategories/PageOfCategories'
 import HardCard from './Card/HardCard'
@@ -22,6 +29,7 @@ function TutorialPage() {
   const { page } = useContext(Page)
   const { paginationCount, setPaginationCount } = useContext(PaginationCount)
   const { setGame } = useContext(SelectedGame)
+  const { setGameRoute } = useContext(SourceRoute)
 
   const audioRef = useRef(new Audio(audioSrc))
 
@@ -83,9 +91,9 @@ function TutorialPage() {
   sessionStorage.setItem(CUR_CATEGORY_PAGE, page)
   sessionStorage.setItem(CUR_PAGINATION_COUNT, paginationCount)
 
-  const handleBtnGame = (event) => {
+  const handleBtnGame = event => {
     const curRouterPage = event.currentTarget.dataset.setrouter
-
+    setGameRoute(TUTORIAL_PAGE)
     setGame(curRouterPage)
     setRouterPage(LOAD_GAME)
   }
@@ -104,8 +112,24 @@ function TutorialPage() {
         }}
       >
         <PageOfCategories />
-        <Button onClick={handleBtnGame} color='secondary' variant='contained' sx={{ width: '150px'}} data-setrouter='Call' >Call Game</Button>
-        <Button onClick={handleBtnGame} color='secondary' variant='contained' sx={{ width: '150px'}} data-setrouter='Sprint' >Sprint Game</Button>
+        <Button
+          onClick={handleBtnGame}
+          color="secondary"
+          variant="contained"
+          sx={{ width: '150px' }}
+          data-setrouter="Call"
+        >
+          Call Game
+        </Button>
+        <Button
+          onClick={handleBtnGame}
+          color="secondary"
+          variant="contained"
+          sx={{ width: '150px' }}
+          data-setrouter="Sprint"
+        >
+          Sprint Game
+        </Button>
         <div>
           <TutorialPagination sx={{ marginTop: '50px' }} />
           <div className="empty-line"> </div>

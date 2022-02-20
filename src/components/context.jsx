@@ -8,5 +8,6 @@ export const Category = createContext()
 export const PaginationCount = createContext()
 export const ResultsArray = createContext()
 export const SelectedGame = createContext()
+export const SourceRoute = createContext()
 
 export default IsLogged
