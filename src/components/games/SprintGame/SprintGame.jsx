@@ -6,7 +6,6 @@ import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
 import { DT_GAME_RESULTS } from '@/components/const'
 import Lives from '@/components/games/callgame/Lives'
-
 import IsLogged, { Category, Page, PaginationCount, PageRouter, FormStatus, ResultsArray } from '@/components/context'
 import { SnackbarProvider, useSnackbar } from 'notistack'
 
