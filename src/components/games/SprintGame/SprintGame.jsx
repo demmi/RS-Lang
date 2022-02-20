@@ -61,7 +61,6 @@ function Inside({ words }) {
   const [points, setPoints] = useState(10)
   const [koef, setKoef] = useState(1)
   const [score, setScore] = useState(0)
-  const { routerPage, setRouterPage } = useContext(PageRouter)
 
   // console.log('exitArr:', words)
   // const playAudio = url => {
@@ -99,13 +98,12 @@ function Inside({ words }) {
     //   1000
     // )
     const tick = setInterval(() => {
-      if(stopGame) {
-        if(countDown > 0) {
+      if (stopGame) {
+        if (countDown > 0) {
           setTimer(countDown - 1)
         }
-      }},
-      1000
-    )
+      }
+    }, 1000)
     // tick()
     // const timer = setTimeout(() => {
     //   if (livesCount && words && words.length && !btnClicked) {
@@ -119,7 +117,7 @@ function Inside({ words }) {
       clearInterval(tick)
       // clearTimeout(timer)
     }
-  }, [countDown, /* onWordSelect, words, livesCount, btnClicked, wordCounter */])
+  }, [countDown /* onWordSelect, words, livesCount, btnClicked, wordCounter */])
 
   // const checkAnswer = (wordActive, answerActive) => {
   //   const correct = wordActive === answerActive
@@ -150,7 +148,6 @@ function Inside({ words }) {
   // }
 
   const displayGameResultsForm = () => {
-    setRouterPage(GAMES_PAGE)
     setResultsArray(gameArr)
     setDialogType(DT_GAME_RESULTS)
   }
@@ -180,16 +177,24 @@ function Inside({ words }) {
     }
   }
 
-  if(countDown === 0) {
+  if (countDown === 0) {
     // setStopGame(false)
     displayGameResultsForm()
   }
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={4}>
       <Grid item>
-        <Box sx={{ width: '60px', height: '60px',
-          border: '1px solid green', borderRadius: '50%', display: 'flex',
-          justifyContent: 'center', alignItems: 'center'}} >
+        <Box
+          sx={{
+            width: '60px',
+            height: '60px',
+            border: '1px solid green',
+            borderRadius: '50%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Typography variant="h4" component="h2">
             {countDown}
           </Typography>

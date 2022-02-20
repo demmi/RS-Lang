@@ -14,8 +14,8 @@ import {
   Select,
   Typography,
 } from '@mui/material'
-import IsLogged, { PageRouter, Category, Page, SelectedGame } from '@/components/context'
-import { LOAD_GAME } from '@/components/const'
+import IsLogged, { PageRouter, Category, Page, SelectedGame, SourceRoute } from '@/components/context'
+import { LOAD_GAME, GAMES_PAGE } from '@/components/const'
 import { getRandomNumber } from '@/components/games/gameUtils'
 
 function SelectGame() {
@@ -26,6 +26,7 @@ function SelectGame() {
   const { setPage } = useContext(Page)
   const [callLevel, setCallLevel] = useState(0)
   const [sprintLevel, setSprintLevel] = useState(0)
+  const { setGameRoute } = useContext(SourceRoute)
 
   const handleChangeCall = event => {
     setCallLevel(event.target.value)
@@ -39,6 +40,7 @@ function SelectGame() {
     setGame('Call')
     setCategory(callLevel)
     setPage(getRandomNumber(0, 29))
+    setGameRoute(GAMES_PAGE)
     setRouterPage(LOAD_GAME)
   }
 
@@ -46,6 +48,7 @@ function SelectGame() {
     setGame('Sprint')
     setCategory(sprintLevel)
     setPage(getRandomNumber(0, 29))
+    setGameRoute(GAMES_PAGE)
     setRouterPage(LOAD_GAME)
   }
 
