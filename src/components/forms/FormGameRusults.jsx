@@ -64,8 +64,8 @@ function FormGameRusults() {
 
             <DialogTitle id='form-regok-title'>Результаты игры: верно {catched}, неверно {notCathed}</DialogTitle>
             <DialogContent>
-                <DialogContentText sx={{ height: '600px'}}>
-                  <Grid container direction="column" justifyContent="center" alignItems="center" >
+                {/* <DialogContentText sx={{ height: '600px'}}> */}
+                  {/* <Grid container direction="column" justifyContent="center" alignItems="center" > */}
                       <TableContainer component={Paper} sx={{ marginTop: '10px', marginBottom: '10px'}} >
                             <Table size="small" aria-label="simple table">
                                 <TableBody>
@@ -91,8 +91,8 @@ function FormGameRusults() {
                                 </TableBody>
                             </Table>
                       </TableContainer>
-                  </Grid>
-                </DialogContentText>
+                  {/* </Grid> */}
+                {/* </DialogContentText> */}
             </DialogContent>
             <DialogActions className="btn-center">
                 <Button onClick={handleClose} color='primary' variant='outlined'>OK</Button>
