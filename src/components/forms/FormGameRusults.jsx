@@ -23,8 +23,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import getAllUserWords from '@/components/api/getAllUserWords'
 // import getAllUserAggWords from '@/components/api/getAllUserAggWords'
 import deleteUserWord from '@/components/api/deleteUserWord'
-import statisticsGet from '@/components/api/statisticsGet';
-import statisticsPut from '@/components/api/statisticsPut';
+import statisticsGet from '@/components/api/statisticsGet'
+import statisticsPut from '@/components/api/statisticsPut'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -58,15 +58,32 @@ function FormGameRusults() {
   const catched = resultsArray.filter(el => el.isCatch).length
   const notCathed = resultsArray.length - catched
 
-  useEffect(() => {
-    async function fetchData() {
-      if (isLogged) {
-        const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
-        const learnedWords = userWords.filter(elem => elem.difficulty === 'learned')
-        resultsArray
-          .filter(elem => learnedWords.map(e => e.wordId).includes(elem.id) && elem.isCatch === false)
-          .forEach(elem => deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, elem.id))
-      }
+  useEffect(async () => {
+    if (isLogged) {
+      const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+      const callStr = JSON.parse(data.optional.callgame)
+      const sprint = JSON.parse(data.optional.sprintgame)
+      const learn = JSON.parse(data.optional.learned)
+      const newLearn = learn.filter(
+        elem =>
+          !resultsArray
+            .filter(el => el.isCatch === false)
+            .map(e => e.id)
+            .includes(elem.id)
+      )
+      await statisticsPut(
+        localStorage.demmiUserId,
+        localStorage.demmiUserToken,
+        newLearn.length,
+        callStr,
+        sprint,
+        newLearn
+      )
+      const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
+      const learnedWords = userWords.filter(elem => elem.difficulty === 'learned')
+      resultsArray
+        .filter(elem => learnedWords.map(e => e.wordId).includes(elem.id) && elem.isCatch === false)
+        .forEach(elem => deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, elem.id))
     }
     fetchData()
   })
