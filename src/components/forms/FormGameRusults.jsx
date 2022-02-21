@@ -55,16 +55,19 @@ function FormGameRusults() {
   const catched = resultsArray.filter(el => el.isCatch).length
   const notCathed = resultsArray.length - catched
 
-  useEffect(async () => {
-    if (isLogged) {
-      const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
-      const learnedWords = userWords.filter(elem => elem.difficulty === 'learned')
-      resultsArray
-        .filter(elem => learnedWords.map(e => e.wordId).includes(elem.id) && elem.isCatch === false)
-        .forEach(elem => deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, elem.id))
+  useEffect(() => {
+    async function fetchData() {
+      if (isLogged) {
+        const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
+        const learnedWords = userWords.filter(elem => elem.difficulty === 'learned')
+        resultsArray
+          .filter(elem => learnedWords.map(e => e.wordId).includes(elem.id) && elem.isCatch === false)
+          .forEach(elem => deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, elem.id))
+      }
     }
+    fetchData()
   })
-
+  
   useEffect(() => {
     audioRef.current.pause()
     audioRef.current = new Audio(audioSrc)
