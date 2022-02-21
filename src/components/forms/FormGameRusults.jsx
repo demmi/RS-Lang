@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '@/components/forms/StylesForms.css'
-import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute } from '@/components/context'
+import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute, SelectedGame } from '@/components/context'
 import {
   Button,
   Dialog,
@@ -21,8 +21,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 import getAllUserWords from '@/components/api/getAllUserWords'
-import getAllUserAggWords from '@/components/api/getAllUserAggWords'
+// import getAllUserAggWords from '@/components/api/getAllUserAggWords'
 import deleteUserWord from '@/components/api/deleteUserWord'
+import statisticsGet from '@/components/api/statisticsGet';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -50,6 +51,7 @@ function FormGameRusults() {
   const { setRouterPage } = useContext(PageRouter)
   const { gameRoute } = useContext(SourceRoute)
   const { isLogged } = useContext(IsLogged)
+  const { game } = useContext(SelectedGame)
   const audioRef = useRef(new Audio(audioSrc))
   const isOpen = dialogType === DT_GAME_RESULTS
   const catched = resultsArray.filter(el => el.isCatch).length
@@ -67,14 +69,34 @@ function FormGameRusults() {
     }
     fetchData()
   })
-  
+
   useEffect(() => {
     audioRef.current.pause()
     audioRef.current = new Audio(audioSrc)
     audioRef.current.play()
   }, [audioSrc])
 
+  const setStatistic = async () => {
+    const curDate = Date.now() // date: Date.now()
+    const totalWord = resultsArray.length
+    const numRightAnswers = resultsArray.filter((el) => el.isCatch === true).length
+    const numWrongAnswers = resultsArray.filter((el) => typeof el.isCatch === 'boolean' && el.isCatch === false).length
+    const data = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers}
+    console.log(data)
+
+    const setStatisticData = async () => {
+      const statisticData = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+
+      return statisticData
+    }
+    setStatisticData()
+
+    // console.log('FormGameRusults, resultsArray:', resultsArray, 'game:', game, 'curDate:',
+    // curDate, 'totalWord:', totalWord, 'numRightAnswers:', numRightAnswers, 'numWrongAnswers:', numWrongAnswers)
+  }
+
   const handleClose = () => {
+    setStatistic()
     setDialogType(DT_DISABLED)
     setRouterPage(gameRoute)
   }
