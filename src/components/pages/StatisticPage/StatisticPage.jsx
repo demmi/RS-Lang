@@ -6,6 +6,7 @@ import statisticsGet from '@/components/api/statisticsGet'
 import getAllUserWords from '@/components/api/getAllUserWords';
 import statisticsPut from '@/components/api/statisticsPut';
 
+
 function StatisticPage() {
   const { isLogged } = useContext(IsLogged)
 
@@ -21,6 +22,8 @@ function StatisticPage() {
       // const learned = learnedWords.map(elem => ({ id: elem.wordId, date: Date.now() }))
       // console.log('StatisticPage, setStatistic, data=', learned)
       // statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, learnedWordsCount, callStr, sprint, learned)
+
+      console.log(JSON.parse(data.optional.learned))
       return data
     }
     setStatistic()
