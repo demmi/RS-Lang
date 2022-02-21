@@ -20,6 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { styled } from '@mui/styles'
 import IsLogged from '@/components/context'
 import createUserWord from '@/components/api/createUserWord'
+import addWordStat from '@/components/pages/TutorialPage/Card/addWordStat'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -102,6 +103,7 @@ function WordCard({ data, setAudio }) {
   const handleLearned = async () => {
     const response = await createUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, id, 'learned')
     if (response === 200) {
+      await addWordStat(id)
       setBgColor('#e8f5e9')
       setLearned(true)
       setOpenLearned(true)
