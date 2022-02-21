@@ -20,6 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { styled } from '@mui/styles'
 import deleteUserWord from '@/components/api/deleteUserWord'
 import updateUserWord from '@/components/api/updateUserWord'
+import addWordStat from '@/components/pages/TutorialPage/Card/addWordStat'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -83,6 +84,7 @@ function HardCard({ data, setAudio }) {
   const handleLearned = async () => {
     const response = await updateUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, _id, 'learned')
     if (response === 200) {
+      await addWordStat(_id)
       setBtnDisable(true)
       setOpenLearned(true)
     }

@@ -3,12 +3,13 @@ import { Button, Grid, Typography } from '@mui/material'
 import useSound from 'use-sound'
 import correctSound from '@/assets/sounds/correct.mp3'
 import errorSound from '@/assets/sounds/error.mp3'
-import URL, { DT_GAME_RESULTS, TUTORIAL_PAGE } from '@/components/const'
+import URL, { DT_GAME_RESULTS } from '@/components/const'
 import { FormStatus, ResultsArray } from '@/components/context'
 import Lives from '@/components/games/callgame/Lives'
 import { getRandomNumber, shuffle } from '@/components/games/gameUtils'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import { SnackbarProvider, useSnackbar } from 'notistack'
+import getWords from '@/components/api/getWords'
 
 let NUMBER_OF_WORDS
 
@@ -21,12 +22,21 @@ function CallGame({ words }) {
   )
 }
 
-const setWordsTranslation = (words, newWordTranslation) => {
+const setWordsTranslation = async (words, newWordTranslation) => {
+  let reserve
+  if (words.length < 4) {
+    reserve = await getWords(getRandomNumber(1, 5), getRandomNumber(1, 29))
+    console.log('резерв', reserve)
+  }
   const arrOfTranslations = []
   arrOfTranslations.push(newWordTranslation)
-
+  let translation
   while (arrOfTranslations.length < 4) {
-    const translation = words[getRandomNumber(0, words.length - 1)].wordTranslate
+    if (words.length < 4) {
+      translation = reserve[getRandomNumber(0, reserve.length - 1)].wordTranslate
+    } else {
+      translation = words[getRandomNumber(0, words.length - 1)].wordTranslate
+    }
     if (!arrOfTranslations.includes(translation)) {
       arrOfTranslations.push(translation)
     }
@@ -39,7 +49,6 @@ function Inside({ words }) {
   const [playCorrect] = useSound(correctSound, { volume: 0.3 })
   const [answer, setAnswer] = useState('')
   const [arrOfWords, setArrOfWords] = useState([])
-  const [btnClicked, setBtnClicked] = useState(false)
   const [livesCount, setLivesCount] = useState(5)
   const [word, setWord] = useState('')
   const [wordAudio, setWordAudio] = useState('')
@@ -67,51 +76,54 @@ function Inside({ words }) {
 
   useEffect(() => {
     if (livesCount > 0 && wordCounter < NUMBER_OF_WORDS) {
-      const f1 = counter => {
+      const f1 = async counter => {
         const newWordTranslation = words[counter].wordTranslate
         setWord(words[counter].word)
         const previousWordAudioURL = wordAudio
         setWordAudio(words[counter].audio)
         setWordTranslation(newWordTranslation)
-        setArrOfWords(setWordsTranslation(words, newWordTranslation))
+        const trans = await setWordsTranslation(words, newWordTranslation)
+        setArrOfWords(trans)
         if (previousWordAudioURL !== words[counter].audio && words[counter].audio) {
           playAudio(`${URL}${words[counter].audio}`)
         }
       }
       f1(wordCounter)
     }
-
-    if (wordCounter === NUMBER_OF_WORDS || livesCount === 0) {
+    // if (wordCounter === NUMBER_OF_WORDS || livesCount === 0)
+    else {
       displayGameResultsForm()
     }
-  }, [livesCount, wordCounter, words])
+  }, [wordCounter])
 
   useEffect(() => {
-    const tick = setInterval(
-      (seconds => () => {
-        setTimer(seconds--)
-      })(9),
-      1000
-    )
-    const timer = setTimeout(() => {
-      if (livesCount && words && words.length && !btnClicked) {
-        playError()
-        enqueueSnackbar('Не правильно', { variant: 'error' })
-        gameArr[wordCounter].isCatch = true
-        setLivesCount(livesCount - 1)
-        setWordCounter(wordCounter + 1)
+    if (wordCounter < NUMBER_OF_WORDS) {
+      const tick = setInterval(
+        (seconds => () => {
+          setTimer(--seconds)
+        })(10),
+        1000
+      )
+      const timer = setTimeout(() => {
+        if (livesCount && words && words.length) {
+          playError()
+          enqueueSnackbar('Не правильно', { variant: 'error' })
+          gameArr[wordCounter].isCatch = false
+          setLivesCount(livesCount - 1)
+          setWordCounter(wordCounter + 1)
+        }
+      }, 10000)
+      return () => {
+        clearInterval(tick)
+        clearTimeout(timer)
       }
-    }, 10000)
-    return () => {
-      clearInterval(tick)
-      clearTimeout(timer)
     }
-  }, [words, livesCount, btnClicked, wordCounter])
+    return false
+  }, [wordCounter])
 
-  const checkAnswer = (wordActive, answerActive) => {
-    const correct = wordActive === answerActive
+  const checkAnswer = event => {
+    const correct = event.target.dataset.answer === wordTranslation
     setAnswer(correct)
-    setWordCounter(wordCounter + 1)
     if (correct) {
       playCorrect()
       enqueueSnackbar('Правильно', { variant: 'success' })
@@ -122,19 +134,7 @@ function Inside({ words }) {
       enqueueSnackbar('Не правильно', { variant: 'error' })
       gameArr[wordCounter].isCatch = false
     }
-  }
-
-  const handleWordClick = itemWord => () => {
-    setBtnClicked(true)
-    setWord('')
-    setTimeout(() => {
-      setBtnClicked(false)
-      checkAnswer(itemWord, wordTranslation)
-      setTimeout(() => {
-        setAnswer(false)
-        setBtnClicked(false)
-      }, 500)
-    }, 350)
+    setWordCounter(wordCounter + 1)
   }
 
   return (
@@ -162,7 +162,7 @@ function Inside({ words }) {
         <Grid container spacing={1}>
           {arrOfWords.map(itemWord => (
             <Grid item>
-              <Button variant="contained" key={itemWord} onClick={handleWordClick(itemWord)}>
+              <Button variant="contained" key={itemWord} data-answer={itemWord} onClick={checkAnswer}>
                 {itemWord}
               </Button>
             </Grid>

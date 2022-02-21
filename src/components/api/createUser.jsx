@@ -2,7 +2,7 @@ import Url from '@/components/const'
 
 async function createUser(name, email, password) {
   const urlString = `${Url}users`
-  const body = { name: name, email: email, password: password }
+  const body = { name, email, password }
   const response = await fetch(urlString, {
     method: 'POST',
     headers: {
