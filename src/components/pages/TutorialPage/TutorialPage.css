@@ -1,0 +1,16 @@
+.tutorial-category {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.empty-line {
+  width: 342px;
+}
+.empty-space {
+  min-width: 350px;
+}
+
+.tutorial-content {
+  width: 100%;
+}
