@@ -1,16 +1,15 @@
-import React, { useContext, useEffect } from 'react'
-import IsLogged, { GameStatistic } from '@/components/context'
+import React, { useContext } from 'react';
+import IsLogged from '@/components/context'
 
 import './StatisticPage.css'
 import statisticsGet from '@/components/api/statisticsGet'
-import getAllUserWords from '@/components/api/getAllUserWords'
-import statisticsPut from '@/components/api/statisticsPut'
+import getAllUserWords from '@/components/api/getAllUserWords';
+import statisticsPut from '@/components/api/statisticsPut';
+
 
 function StatisticPage() {
   const { isLogged } = useContext(IsLogged)
-  // const { gameStatistic, setGameStatistic } = useContext(GameStatistic)
 
-  // useEffect(() => {
   if (isLogged) {
     const setStatistic = async () => {
       const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
@@ -23,14 +22,13 @@ function StatisticPage() {
       // const learned = learnedWords.map(elem => ({ id: elem.wordId, date: Date.now() }))
       // console.log('StatisticPage, setStatistic, data=', learned)
       // statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, learnedWordsCount, callStr, sprint, learned)
+
       console.log(JSON.parse(data.optional.learned))
       return data
     }
     setStatistic()
 
-    // console.log('StatisticPage, gameStatistic=', gameStatistic)
   }
-  // }, [isLogged, gameStatistic, setGameStatistic])
 
   return (
     <div className="statistic-page">

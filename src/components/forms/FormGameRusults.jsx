@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '@/components/forms/StylesForms.css'
-import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute } from '@/components/context'
+import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute, SelectedGame } from '@/components/context'
 import {
   Button,
   Dialog,
@@ -21,7 +21,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 import getAllUserWords from '@/components/api/getAllUserWords'
-import getAllUserAggWords from '@/components/api/getAllUserAggWords'
+// import getAllUserAggWords from '@/components/api/getAllUserAggWords'
 import deleteUserWord from '@/components/api/deleteUserWord'
 import statisticsGet from '@/components/api/statisticsGet'
 import statisticsPut from '@/components/api/statisticsPut'
@@ -52,6 +52,7 @@ function FormGameRusults() {
   const { setRouterPage } = useContext(PageRouter)
   const { gameRoute } = useContext(SourceRoute)
   const { isLogged } = useContext(IsLogged)
+  const { game } = useContext(SelectedGame)
   const audioRef = useRef(new Audio(audioSrc))
   const isOpen = dialogType === DT_GAME_RESULTS
   const catched = resultsArray.filter(el => el.isCatch).length
@@ -84,6 +85,7 @@ function FormGameRusults() {
         .filter(elem => learnedWords.map(e => e.wordId).includes(elem.id) && elem.isCatch === false)
         .forEach(elem => deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, elem.id))
     }
+    fetchData()
   })
 
   useEffect(() => {
@@ -92,7 +94,39 @@ function FormGameRusults() {
     audioRef.current.play()
   }, [audioSrc])
 
+  const setStatistic = async () => {
+    const curDate = Date.now() // date: Date.now()
+    const totalWord = resultsArray.length
+    const numRightAnswers = resultsArray.filter((el) => el.isCatch === true).length
+    const numWrongAnswers = resultsArray.filter((el) => typeof el.isCatch === 'boolean' && el.isCatch === false).length
+    const curObj = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers}
+    console.log('curObj:', curObj)
+
+    const setStatisticData = async () => {
+      const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+      const count = JSON.parse(data.learnedWords)
+      const callStr = JSON.parse(data.optional.callgame)
+      const sprint = JSON.parse(data.optional.sprintgame)
+      if(curObj.game === 'Call') {
+        console.log('Call')
+        callStr.push(curObj)
+      } else {
+        console.log('Sprint')
+        sprint.push(curObj)
+      }
+      // const callStr = curObj.game === 'Call' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.callgame)
+      // const sprint = curObj.game === 'Sprint' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.sprintgame)
+      const learn = JSON.parse(data.optional.learned)
+
+      console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
+      await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn)
+
+    }
+    setStatisticData()
+  }
+
   const handleClose = () => {
+    setStatistic()
     setDialogType(DT_DISABLED)
     setRouterPage(gameRoute)
   }
