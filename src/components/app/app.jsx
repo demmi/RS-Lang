@@ -12,7 +12,7 @@ import IsLogged, {
   ResultsArray,
   SourceRoute,
 } from '@/components/context'
-import { DT_DISABLED, CUR_ROUTER_PAGE, MAIN_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE } from '@/components/const'
+import { DT_DISABLED, CUR_ROUTER_PAGE, MAIN_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, LOAD_GAME } from '@/components/const'
 
 const curRouterPage = sessionStorage.getItem(CUR_ROUTER_PAGE) ? sessionStorage.getItem(CUR_ROUTER_PAGE) : MAIN_PAGE
 
@@ -50,7 +50,7 @@ function App() {
                       <>
                         <ResponsiveAppBar />
                         <Main />
-                        <Footer />
+                        {routerPage === LOAD_GAME ? '' : <Footer />}
                       </>
                     </ResultsArray.Provider>
                   </PaginationCount.Provider>
