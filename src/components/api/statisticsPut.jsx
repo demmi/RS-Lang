@@ -1,22 +1,22 @@
 import Url from '@/components/const'
 
-async function statisticsPut(id, text) {
+async function statisticsPut(id, token, text) {
   const urlString = `${Url}users/${id}/statistics`
   const body = {
     learnedWords: 0,
     optional: {
-      test: JSON.stringify([{'text': text}]),
-      test2: {'text': text},
-    }
+      test: JSON.stringify([{ text: text }]),
+      test2: { text: text },
+    },
   }
   const response = await fetch(urlString, {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${localStorage.demmiUserToken}`,
+      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   })
   // if (response.ok) {
   //   const user = await response.json()
