@@ -1,18 +1,18 @@
 import Url from '@/components/const'
 
-async function statisticsGet(id) {
+async function statisticsGet(id, token) {
   const urlString = `${Url}users/${id}/statistics`
   const response = await fetch(urlString, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${localStorage.demmiUserToken}`,
+      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
     },
   })
   if (response.ok) {
-    const user = await response.json()
-    console.log(user)
-    return user
+    const stat = await response.json()
+    console.log(stat)
+    return stat
   }
   return response.status
 }
