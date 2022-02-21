@@ -24,6 +24,7 @@ import getAllUserWords from '@/components/api/getAllUserWords'
 // import getAllUserAggWords from '@/components/api/getAllUserAggWords'
 import deleteUserWord from '@/components/api/deleteUserWord'
 import statisticsGet from '@/components/api/statisticsGet';
+import statisticsPut from '@/components/api/statisticsPut';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -81,18 +82,30 @@ function FormGameRusults() {
     const totalWord = resultsArray.length
     const numRightAnswers = resultsArray.filter((el) => el.isCatch === true).length
     const numWrongAnswers = resultsArray.filter((el) => typeof el.isCatch === 'boolean' && el.isCatch === false).length
-    const data = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers}
-    console.log(data)
+    const curObj = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers}
+    console.log('curObj:', curObj)
 
     const setStatisticData = async () => {
-      const statisticData = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+      const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+      const count = JSON.parse(data.learnedWords)
+      const callStr = JSON.parse(data.optional.callgame)
+      const sprint = JSON.parse(data.optional.sprintgame)
+      if(curObj.game === 'Call') {
+        console.log('Call')
+        callStr.push(curObj)
+      } else {
+        console.log('Sprint')
+        sprint.push(curObj)
+      }
+      // const callStr = curObj.game === 'Call' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.callgame)
+      // const sprint = curObj.game === 'Sprint' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.sprintgame)
+      const learn = JSON.parse(data.optional.learned)
 
-      return statisticData
+      console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
+      await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn)
+
     }
     setStatisticData()
-
-    // console.log('FormGameRusults, resultsArray:', resultsArray, 'game:', game, 'curDate:',
-    // curDate, 'totalWord:', totalWord, 'numRightAnswers:', numRightAnswers, 'numWrongAnswers:', numWrongAnswers)
   }
 
   const handleClose = () => {
