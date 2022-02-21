@@ -1,12 +1,13 @@
 import Url from '@/components/const'
 
-async function statisticsPut(id, token, text) {
+async function statisticsPut(id, token, count, call, sprint, learn) {
   const urlString = `${Url}users/${id}/statistics`
   const body = {
-    learnedWords: 0,
+    learnedWords: count,
     optional: {
-      test: JSON.stringify([{ text: text }]),
-      test2: { text: text },
+      callgame: JSON.stringify(call),
+      sprintgame: JSON.stringify(sprint),
+      learned: JSON.stringify(learn),
     },
   }
   const response = await fetch(urlString, {
