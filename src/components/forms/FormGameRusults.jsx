@@ -85,7 +85,6 @@ function FormGameRusults() {
         .filter(elem => learnedWords.map(e => e.wordId).includes(elem.id) && elem.isCatch === false)
         .forEach(elem => deleteUserWord(localStorage.demmiUserId, localStorage.demmiUserToken, elem.id))
     }
-    // fetchData()
   })
 
   useEffect(() => {
@@ -119,6 +118,7 @@ function FormGameRusults() {
     }
 
     const curObj = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers, 'maxCatch': maxCatch}
+
     console.log('curObj:', curObj)
 
     const setStatisticData = async () => {
@@ -126,7 +126,7 @@ function FormGameRusults() {
       const count = JSON.parse(data.learnedWords)
       const callStr = JSON.parse(data.optional.callgame)
       const sprint = JSON.parse(data.optional.sprintgame)
-      if(curObj.game === 'Call') {
+      if (curObj.game === 'Call') {
         console.log('Call')
         callStr.push(curObj)
       } else {
@@ -140,7 +140,6 @@ function FormGameRusults() {
       console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
       console.log('resultsArray:', resultsArray, 'maxCatch:', maxCatch)
       await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn)
-
     }
     setStatisticData()
   }
