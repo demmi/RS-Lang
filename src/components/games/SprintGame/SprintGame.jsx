@@ -10,7 +10,6 @@ import errorSound from '@/assets/sounds/error.mp3'
 import { DT_GAME_RESULTS } from '@/components/const'
 import { PageRouter, FormStatus, ResultsArray } from '@/components/context'
 import { SnackbarProvider, useSnackbar } from 'notistack'
-import statisticsPut from '@/components/api/statisticsPut';
 
 function SprintGame({ words }) {
   return (
@@ -47,7 +46,7 @@ function Inside({ words }) {
   const [catched, setCatched] = useState(0)
   const [textColor, setTextColor] = useState('black')
 
-  const { setRouterPage } = useContext(PageRouter)
+  // const { setRouterPage } = useContext(PageRouter)
 
   const classes = useStyles()
 
@@ -135,8 +134,6 @@ function Inside({ words }) {
           setKoef(koef * 2)
         }, 500)
       }
-
-      statisticsPut(localStorage.demmiUserId, 'угадал')
     } else {
       enqueueSnackbar('Не правильно', { variant: 'error' })
       playError()
@@ -146,8 +143,6 @@ function Inside({ words }) {
       if(catched > 0) {
         setCatched(catched - 1)
       }
-
-      statisticsPut(localStorage.demmiUserId, 'не угадал')
     }
     const nextNum = curNum + 1
     if (nextNum < gameArr.length) {

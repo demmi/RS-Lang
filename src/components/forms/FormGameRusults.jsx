@@ -96,15 +96,29 @@ function FormGameRusults() {
   const setStatistic = async () => {
     const curDate = Date.now() // date: Date.now()
     const totalWord = resultsArray.length
-    const numRightAnswers = resultsArray.filter(el => el.isCatch === true).length
-    const numWrongAnswers = resultsArray.filter(el => typeof el.isCatch === 'boolean' && el.isCatch === false).length
-    const curObj = {
-      game: game,
-      curDate: curDate,
-      totalWord: totalWord,
-      numRightAnswers: numRightAnswers,
-      numWrongAnswers: numWrongAnswers,
+    const numRightAnswers = resultsArray.filter((el) => el.isCatch === true).length
+    const numWrongAnswers = resultsArray.filter((el) => typeof el.isCatch === 'boolean' && el.isCatch === false).length
+
+    let maxCatch = 0
+    let curMaxCatch = 0
+
+    resultsArray.forEach((el) => {
+      if(el.isCatch) {
+        curMaxCatch += 1
+      } else {
+        if(curMaxCatch > maxCatch) {
+          maxCatch = curMaxCatch
+        }
+        curMaxCatch = 0
+      }
+    })
+
+    if(curMaxCatch > maxCatch) {
+      maxCatch = curMaxCatch
     }
+
+    const curObj = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers, 'maxCatch': maxCatch}
+
     console.log('curObj:', curObj)
 
     const setStatisticData = async () => {
@@ -124,6 +138,7 @@ function FormGameRusults() {
       const learn = JSON.parse(data.optional.learned)
 
       console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
+      console.log('resultsArray:', resultsArray, 'maxCatch:', maxCatch)
       await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn)
     }
     setStatisticData()
