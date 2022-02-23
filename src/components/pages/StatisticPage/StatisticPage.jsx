@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import IsLogged, {TempCount} from '@/components/context'
+import IsLogged, { TempCount } from '@/components/context'
 import statisticsGet from '@/components/api/statisticsGet'
 import { Card, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -134,7 +134,6 @@ function StatisticPage() {
     }
   }, [isLogged])
 
-  console.log('learned:', learned)
   return loaded ? (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
       <Grid item>
