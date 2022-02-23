@@ -17,7 +17,7 @@ async function signIn(email, password) {
     const user = await response.json()
     const stat = await statisticsGet(user.userId, user.token)
     if (stat === 404) {
-      await statisticsPut(user.userId, user.token, 0, [], [], [])
+      await statisticsPut(user.userId, user.token, 0, [], [], [], [])
     }
     return user
   }

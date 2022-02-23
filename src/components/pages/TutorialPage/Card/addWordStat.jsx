@@ -7,7 +7,8 @@ const addWordStat = async id => {
   const sprint = JSON.parse(data.optional.sprintgame)
   const learn = JSON.parse(data.optional.learned)
   const newLen = learn.push({ id, date: Date.now() })
-  await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, newLen, callStr, sprint, learn)
+  const word = JSON.parse(data.optional.word)
+  await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, newLen, callStr, sprint, learn, word)
 }
 
 export default addWordStat
