@@ -135,9 +135,9 @@ export const MAIN_PAGE_SECTIONS = [
     <br>
     <b>ментор</b> @pivanchikov
     <br>
-    <b>team-lead</b> - @demmi
+    <b>team-lead</b> - <a href='https://github.com/demmi/'>@demmi</a> 
     <br>
-    <b>developer</b> - @sergioivanov008
+    <b>developer</b> - <a href = 'https://github.com/sergioivanov008'>@sergioivanov008</a>
     `,
   },
 ]

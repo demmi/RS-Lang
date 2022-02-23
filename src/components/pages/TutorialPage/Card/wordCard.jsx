@@ -13,6 +13,7 @@ import {
   Paper,
   Snackbar,
   Typography,
+  Tooltip,
 } from '@mui/material'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
 import URL from '@/components/const'
@@ -21,6 +22,8 @@ import { styled } from '@mui/styles'
 import IsLogged from '@/components/context'
 import createUserWord from '@/components/api/createUserWord'
 import addWordStat from '@/components/pages/TutorialPage/Card/addWordStat'
+import AssessmentIcon from '@mui/icons-material/Assessment'
+import statisticsGet from '@/components/api/statisticsGet'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -42,6 +45,8 @@ function WordCard({ data, setAudio }) {
   const [bgColor, setBgColor] = useState('white')
   const [openHard, setOpenHard] = useState(false)
   const [openLearned, setOpenLearned] = useState(false)
+  const [count, setCount] = useState(0)
+  const [error, setError] = useState(0)
 
   const {
     id,
@@ -61,7 +66,14 @@ function WordCard({ data, setAudio }) {
     difficulty,
   } = data
 
-  useEffect(() => {
+  useEffect(async () => {
+    if (isLogged) {
+      const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+      const usedWords = JSON.parse(data.optional.word)
+      const elem = usedWords.find(e => e.id === id)
+      setCount(elem ? elem.count : 0)
+      setError(elem ? elem.count - elem.errors : 0)
+    }
     if (difficulty === 'hard') {
       setBgColor('#ffebee')
       setHard(true)
@@ -134,6 +146,13 @@ function WordCard({ data, setAudio }) {
             <CardMedia component="img" image={`${URL}${image}`} alt={word} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
               <Typography variant="h4">
+                {isLogged ? (
+                  <Tooltip title={`Слово появлялось в играх ${count} раз(a), правильных ответов ${error}`}>
+                    <AssessmentIcon sx={{ margin: '10px' }} />
+                  </Tooltip>
+                ) : (
+                  ''
+                )}
                 {word} : {transcription}
               </Typography>
               <IconButton aria-label="play/pause" onClick={speakWord}>
