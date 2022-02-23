@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import './Main.css'
 import IsLogged, { FormStatus, PageRouter } from '@/components/context'
@@ -26,6 +26,7 @@ import LoadGame from '@/components/pages/GamesPage/LoadGame'
 import TutorialChoice from '../pages/TutorialChoice/TutorialChoice'
 
 function Main() {
+  const { isLogged } = useContext(IsLogged)
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
   const { isLogged } = useContext(IsLogged)
@@ -50,11 +51,7 @@ function Main() {
       break
   }
 
-  // sessionStorage.setItem(CUR_ROUTER_PAGE, routerPage);
-  // sessionStorage.setItem(CUR_CATEGORY, category);
-  // sessionStorage.setItem(CUR_CATEGORY_PAGE, page);
-
-  if(routerPage === STATISTIC_PAGE && isLogged) {
+  if (routerPage === STATISTIC_PAGE && isLogged) {
     curPage = <StatisticPage />
   } else {
     switch (routerPage) {
