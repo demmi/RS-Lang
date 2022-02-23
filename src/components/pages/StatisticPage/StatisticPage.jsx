@@ -26,20 +26,12 @@ function StatisticPage() {
         const learnedArr = JSON.parse(data.optional.learned)
 
         const makeGameExitArr = (arr, arrExit) => {
-          if (arr[0].game === 'Call') {
-            setSeriesCall(
-              Math.max.apply(
-                null,
-                arr.map(elem => +elem.maxCatch)
-              )
-            )
+          if (arr.length === 0) {
+            setSeriesCall(0)
+          } else if (arr[0].game === 'Call') {
+            setSeriesCall(Math.max.apply(null, arr.map(elem => +elem.maxCatch) || 0))
           } else {
-            setSeriesSprint(
-              Math.max.apply(
-                null,
-                arr.map(elem => +elem.maxCatch)
-              )
-            )
+            setSeriesSprint(Math.max.apply(null, arr.map(elem => +elem.maxCatch) || 0))
           }
           const tempArrDateIndex = arr.map(el => {
             const newEl = { ...el }
