@@ -56,9 +56,8 @@ function Inside({ words }) {
         if (countDown > 0) {
           setTimer(countDown - 1)
         }
-      }},
-      1000
-    )
+      }
+    }, 1000)
 
     return () => {
       clearInterval(tick)
@@ -69,46 +68,45 @@ function Inside({ words }) {
     switch (catched) {
       case 0:
         setArrIcons([false, false, false])
-        break;
+        break
       case 1:
         setArrIcons([true, false, false])
-        break;
+        break
       case 2:
         setArrIcons([true, true, false])
-        break;
+        break
       case 3:
         setArrIcons([true, true, true])
-        break;
+        break
       default:
-        break;
+        break
     }
 
     setPoints(koef * 10)
-
   }, [catched, koef])
 
   useEffect(() => {
     switch (koef) {
       case 2:
         setTextColor('green')
-        break;
+        break
       case 4:
         setTextColor('blue')
-        break;
+        break
       case 8:
         setTextColor('purple')
-        break;
+        break
       case 16:
         setTextColor('orange')
-        break;
+        break
       case 32:
         setTextColor('red')
-        break;
+        break
       case 64:
         setTextColor('#e16bff')
-        break;
+        break
       default:
-        break;
+        break
     }
   }, [koef])
 
@@ -123,12 +121,11 @@ function Inside({ words }) {
     if (boolValue === gameArr[curNum].isCorrect) {
       enqueueSnackbar('Правильно', { variant: 'success' })
       playCorrect()
-      console.log('угадал')
       gameArr[curNum].isCatch = true
       setScore(score + points)
 
       setCatched(catched + 1)
-      if(catched === 2) {
+      if (catched === 2) {
         setTimeout(() => {
           setCatched(0)
           setKoef(koef * 2)
@@ -137,10 +134,9 @@ function Inside({ words }) {
     } else {
       enqueueSnackbar('Не правильно', { variant: 'error' })
       playError()
-      console.log('не угадал')
       gameArr[curNum].isCatch = false
 
-      if(catched > 0) {
+      if (catched > 0) {
         setCatched(catched - 1)
       }
     }
@@ -148,13 +144,12 @@ function Inside({ words }) {
     if (nextNum < gameArr.length) {
       setCurNum(nextNum)
     } else {
-      console.log('GAME OVER, exitArr:', words)
       setStopGame(false)
       displayGameResultsForm()
     }
   }
 
-  if(countDown === 0) {
+  if (countDown === 0) {
     setStopGame(false)
     displayGameResultsForm()
   }
@@ -183,9 +178,9 @@ function Inside({ words }) {
         </Typography>
       </Grid>
       <Grid item className={classes.container}>
-        {arrIcons.map((el) => el? <FavoriteIcon /> : <FavoriteBorderIcon /> )}
+        {arrIcons.map(el => (el ? <FavoriteIcon /> : <FavoriteBorderIcon />))}
       </Grid>
-      <Grid item color={textColor} >
+      <Grid item color={textColor}>
         <Typography variant="h5" component="h3">
           +{points} за верный ответ
         </Typography>

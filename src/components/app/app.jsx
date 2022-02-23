@@ -11,6 +11,7 @@ import IsLogged, {
   SelectedGame,
   ResultsArray,
   SourceRoute,
+  TempCount,
 } from '@/components/context'
 import { DT_DISABLED, CUR_ROUTER_PAGE, MAIN_PAGE, CUR_CATEGORY, CUR_CATEGORY_PAGE, LOAD_GAME } from '@/components/const'
 
@@ -34,8 +35,7 @@ function App() {
   const [resultsArray, setResultsArray] = useState(null)
   const [game, setGame] = useState('')
   const [gameRoute, setGameRoute] = useState('')
-
-  console.log('routerPage:', routerPage, 'category:', category, 'page:', page, 'paginationCount:', paginationCount)
+  const [tempCount, setTempCount] = useState(0)
 
   return (
     <SourceRoute.Provider value={{ gameRoute, setGameRoute }}>
@@ -47,11 +47,13 @@ function App() {
                 <Page.Provider value={{ page, setPage }}>
                   <PaginationCount.Provider value={{ paginationCount, setPaginationCount }}>
                     <ResultsArray.Provider value={{ resultsArray, setResultsArray }}>
-                      <>
-                        <ResponsiveAppBar />
-                        <Main />
-                        {routerPage === LOAD_GAME ? '' : <Footer />}
-                      </>
+                      <TempCount.Provider value={{ tempCount, setTempCount }}>
+                        <>
+                          <ResponsiveAppBar />
+                          <Main />
+                          {routerPage === LOAD_GAME ? '' : <Footer />}
+                        </>
+                      </TempCount.Provider>
                     </ResultsArray.Provider>
                   </PaginationCount.Provider>
                 </Page.Provider>

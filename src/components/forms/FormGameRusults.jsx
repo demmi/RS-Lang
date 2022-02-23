@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '@/components/forms/StylesForms.css'
-import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute, SelectedGame } from '@/components/context'
+import IsLogged, {
+  FormStatus,
+  ResultsArray,
+  PageRouter,
+  SourceRoute,
+  SelectedGame,
+  TempCount,
+} from '@/components/context'
 import {
   Button,
   Dialog,
@@ -53,6 +60,7 @@ function FormGameRusults() {
   const { gameRoute } = useContext(SourceRoute)
   const { isLogged } = useContext(IsLogged)
   const { game } = useContext(SelectedGame)
+  const { tempCount, setTempCount } = useContext(TempCount)
   const audioRef = useRef(new Audio(audioSrc))
   const isOpen = dialogType === DT_GAME_RESULTS
   const catched = resultsArray.filter(el => el.isCatch).length
@@ -64,6 +72,24 @@ function FormGameRusults() {
       const callStr = JSON.parse(data.optional.callgame)
       const sprint = JSON.parse(data.optional.sprintgame)
       const learn = JSON.parse(data.optional.learned)
+      const usedWords = JSON.parse(data.optional.word)
+
+      const temp = resultsArray
+        .filter(element => element.isCatch === true || element.isCatch === false)
+        .map(elem => ({ id: elem.id, isCatch: elem.isCatch }))
+      // let tempCount = 0
+      temp.forEach(elem => {
+        if (!usedWords.map(el => el.id).includes(elem.id)) {
+          usedWords.push({ id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1 })
+          setTempCount(tempCount + 1)
+        } else {
+          usedWords.find(elm => elm.id === elem.id).count += 1
+          usedWords.find(elm => elm.id === elem.id).errors = elem.isCatch
+            ? usedWords.find(elm => elm.id === elem.id).errors
+            : usedWords.find(elm => elm.id === elem.id).errors + 1
+        }
+      })
+
       const newLearn = learn.filter(
         elem =>
           !resultsArray
@@ -77,7 +103,8 @@ function FormGameRusults() {
         newLearn.length,
         callStr,
         sprint,
-        newLearn
+        newLearn,
+        usedWords
       )
       const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
       const learnedWords = userWords.filter(elem => elem.difficulty === 'learned')
@@ -96,50 +123,60 @@ function FormGameRusults() {
   const setStatistic = async () => {
     const curDate = Date.now() // date: Date.now()
     const totalWord = resultsArray.length
-    const numRightAnswers = resultsArray.filter((el) => el.isCatch === true).length
-    const numWrongAnswers = resultsArray.filter((el) => typeof el.isCatch === 'boolean' && el.isCatch === false).length
+    const numRightAnswers = resultsArray.filter(el => el.isCatch === true).length
+    const numWrongAnswers = resultsArray.filter(el => typeof el.isCatch === 'boolean' && el.isCatch === false).length
 
     let maxCatch = 0
     let curMaxCatch = 0
 
-    resultsArray.forEach((el) => {
-      if(el.isCatch) {
+    resultsArray.forEach(el => {
+      if (el.isCatch) {
         curMaxCatch += 1
       } else {
-        if(curMaxCatch > maxCatch) {
+        if (curMaxCatch > maxCatch) {
           maxCatch = curMaxCatch
         }
         curMaxCatch = 0
       }
     })
 
-    if(curMaxCatch > maxCatch) {
+    if (curMaxCatch > maxCatch) {
       maxCatch = curMaxCatch
     }
 
-    const curObj = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers, 'maxCatch': maxCatch}
-
-    console.log('curObj:', curObj)
+    const curObj = {
+      game,
+      curDate,
+      totalWord,
+      numRightAnswers,
+      numWrongAnswers,
+      maxCatch,
+    }
 
     const setStatisticData = async () => {
       const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
       const count = JSON.parse(data.learnedWords)
       const callStr = JSON.parse(data.optional.callgame)
       const sprint = JSON.parse(data.optional.sprintgame)
+      const usedWords = JSON.parse(data.optional.word)
       if (curObj.game === 'Call') {
-        console.log('Call')
         callStr.push(curObj)
       } else {
-        console.log('Sprint')
         sprint.push(curObj)
       }
       // const callStr = curObj.game === 'Call' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.callgame)
       // const sprint = curObj.game === 'Sprint' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.sprintgame)
       const learn = JSON.parse(data.optional.learned)
 
-      console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
-      console.log('resultsArray:', resultsArray, 'maxCatch:', maxCatch)
-      await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn)
+      await statisticsPut(
+        localStorage.demmiUserId,
+        localStorage.demmiUserToken,
+        count,
+        callStr,
+        sprint,
+        learn,
+        usedWords
+      ) // !!!
     }
     setStatisticData()
   }
