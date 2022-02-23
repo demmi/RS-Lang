@@ -12,7 +12,7 @@ import {
 import signIn from '@/components/api/signIn'
 import '@/components/forms/StylesForms.css'
 import IsLogged, { FormStatus } from '@/components/context'
-import { DT_DISABLED, DT_SIGNIN, DT_REGISTER } from '@/components/const';
+import { DT_DISABLED, DT_SIGNIN, DT_REGISTER } from '@/components/const'
 
 /* test user 'Andrew', 'aa@aa.ru', 'andrew123' */
 
@@ -30,7 +30,6 @@ function FormSignIn() {
   }
 
   const handleLogin = async () => {
-    // console.log('handleLogin', 'emailValue:', emailValue, 'passValue', passValue)
     const response = await signIn(emailValue, passValue)
     setPassError({ isPassError: false, errorPassText: '' })
     setMailError({ isMailError: false, errorMailText: '' })
@@ -60,54 +59,54 @@ function FormSignIn() {
   }
 
   const handleRegister = () => {
-      setDialogType(DT_REGISTER)
+    setDialogType(DT_REGISTER)
   }
 
-  const isOpen = dialogType === DT_SIGNIN;
+  const isOpen = dialogType === DT_SIGNIN
 
   return (
-      <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Sign in to get full access</DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="mail"
-            label="Email Address"
-            type="email"
-            fullWidth
-            onChange={handleMail}
-            error={isMailError}
-            helperText={errorMailText}
-          />
-          <TextField
-            margin="dense"
-            id="pass"
-            label="Password"
-            type="password"
-            fullWidth
-            onChange={handlePass}
-            error={isPassError}
-            helperText={errorPassText}
-          />
-        </DialogContent>
-        <DialogActions className="btn-group">
-          <Box>
-            <Button onClick={handleRegister} color="primary" variant="outlined">
-              Registration
-            </Button>
-          </Box>
-          <Box>
-            <Button onClick={handleLogin} color="primary">
-              Log in
-            </Button>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-          </Box>
-        </DialogActions>
-      </Dialog>
+    <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
+      <DialogContent>
+        <DialogContentText>Sign in to get full access</DialogContentText>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="mail"
+          label="Email Address"
+          type="email"
+          fullWidth
+          onChange={handleMail}
+          error={isMailError}
+          helperText={errorMailText}
+        />
+        <TextField
+          margin="dense"
+          id="pass"
+          label="Password"
+          type="password"
+          fullWidth
+          onChange={handlePass}
+          error={isPassError}
+          helperText={errorPassText}
+        />
+      </DialogContent>
+      <DialogActions className="btn-group">
+        <Box>
+          <Button onClick={handleRegister} color="primary" variant="outlined">
+            Registration
+          </Button>
+        </Box>
+        <Box>
+          <Button onClick={handleLogin} color="primary">
+            Log in
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+        </Box>
+      </DialogActions>
+    </Dialog>
   )
 }
 export default FormSignIn

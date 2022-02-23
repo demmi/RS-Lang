@@ -60,6 +60,8 @@ function TutorialPage() {
           setPaginationCount(30)
           setWords(newData)
         } else {
+          setWords([])
+          setPaginationCount(0)
           const filter = { 'userWord.difficulty': 'hard' }
           const userAggWordsData = await getAllUserAggWords(
             localStorage.demmiUserId,
@@ -73,9 +75,6 @@ function TutorialPage() {
 
           setPaginationCount(numPage)
           setWords(aggWords)
-
-          console.log('this is seven category')
-          console.log('aggWords:', userAggWordsData, 'aggWordsCount:', aggWordsCount, 'numPage:', numPage)
         }
       } else {
         setWords(data)

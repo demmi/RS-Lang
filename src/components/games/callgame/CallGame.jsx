@@ -26,7 +26,6 @@ const setWordsTranslation = async (words, newWordTranslation) => {
   let reserve
   if (words.length < 4) {
     reserve = await getWords(getRandomNumber(1, 5), getRandomNumber(1, 29))
-    console.log('резерв', reserve)
   }
   const arrOfTranslations = []
   arrOfTranslations.push(newWordTranslation)

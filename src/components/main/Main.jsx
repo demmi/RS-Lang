@@ -50,10 +50,6 @@ function Main() {
       break
   }
 
-  // sessionStorage.setItem(CUR_ROUTER_PAGE, routerPage);
-  // sessionStorage.setItem(CUR_CATEGORY, category);
-  // sessionStorage.setItem(CUR_CATEGORY_PAGE, page);
-
   if (routerPage === STATISTIC_PAGE && isLogged) {
     curPage = <StatisticPage />
   } else {
@@ -70,19 +66,14 @@ function Main() {
       case GAMES_PAGE:
         curPage = <SelectGame />
         break
-      // case STATISTIC_PAGE:
-      //   curPage = <StatisticPage />
-      //   break
       case LOAD_GAME:
         curPage = <LoadGame />
         break
       default:
-        curPage = <p>Пожалуйста войдите или зарегистрируйтесь</p>
+        curPage = <p>Для просмотра статистики войдите или зарегистрируйтесь</p>
         break
     }
   }
-
-  // console.log('function Main', routerPage)
 
   return (
     <div className="main">
