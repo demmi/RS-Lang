@@ -121,8 +121,17 @@ function Inside({ words }) {
   }, [wordCounter])
 
   const checkAnswer = event => {
-    const correct = event.target.dataset.answer === wordTranslation
+    let answerCheck
+
+    if (event.key) {
+      answerCheck = arrOfWords[event.key - 1]
+    } else {
+      answerCheck = event.target.dataset.answer
+    }
+
+    const correct = answerCheck === wordTranslation
     setAnswer(correct)
+
     if (correct) {
       playCorrect()
       enqueueSnackbar('Правильно', { variant: 'success' })
@@ -135,6 +144,19 @@ function Inside({ words }) {
     }
     setWordCounter(wordCounter + 1)
   }
+
+  const handlerKey = (event) => {
+    if (event.key === '1' || event.key === '2' || event.key === '3' || event.key === '4') {
+      checkAnswer(event)
+    } else if (event.key === ' ') {
+      playAudio(`${URL}${words[wordCounter].audio}`)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handlerKey)
+    return () => {document.removeEventListener('keydown', handlerKey)}
+  })
 
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={8}>
@@ -167,6 +189,17 @@ function Inside({ words }) {
             </Grid>
           ))}
         </Grid>
+      </Grid>
+      <Grid item>
+        <Typography variant="h6">
+          Кнопки управления:
+        </Typography>
+        <Typography variant="h6">
+          пробел - повтор слова
+        </Typography>
+        <Typography variant="h6">
+          1-2-3-4 - выбор ответа
+        </Typography>
       </Grid>
     </Grid>
   )

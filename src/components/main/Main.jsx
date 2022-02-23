@@ -29,7 +29,6 @@ function Main() {
   const { isLogged } = useContext(IsLogged)
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
-  const { isLogged } = useContext(IsLogged)
 
   let curForm
   let curPage

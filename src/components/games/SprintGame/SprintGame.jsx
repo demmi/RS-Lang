@@ -31,7 +31,7 @@ function Inside({ words }) {
   const { enqueueSnackbar } = useSnackbar()
   const [playError] = useSound(errorSound, { volume: 0.3 })
   const [playCorrect] = useSound(correctSound, { volume: 0.3 })
-  const [countDown, setTimer] = useState(60)
+  const [countDown, setTimer] = useState(5)
   const [stopGame, setStopGame] = useState(true)
 
   const [curNum, setCurNum] = useState(0)
@@ -45,8 +45,6 @@ function Inside({ words }) {
   const [arrIcons, setArrIcons] = useState([false, false, false])
   const [catched, setCatched] = useState(0)
   const [textColor, setTextColor] = useState('black')
-
-  // const { setRouterPage } = useContext(PageRouter)
 
   const classes = useStyles()
 
@@ -116,7 +114,17 @@ function Inside({ words }) {
   }
 
   const handlerAnswer = event => {
-    const boolValue = event.currentTarget.dataset.bool
+    let boolValue
+
+    if (event.key) {
+      if (event.key === 'ArrowLeft' || event.key === '1') {
+        boolValue = 'false'
+      } else if (event.key === 'ArrowRight' || event.key === '2') {
+        boolValue = 'true'
+      }
+    } else {
+      boolValue = event.currentTarget.dataset.bool
+    }
 
     if (boolValue === gameArr[curNum].isCorrect) {
       enqueueSnackbar('Правильно', { variant: 'success' })
@@ -150,9 +158,20 @@ function Inside({ words }) {
   }
 
   if (countDown === 0) {
-    setStopGame(false)
     displayGameResultsForm()
   }
+
+  const handlerKey = (event) => {
+    if (event.key === 'ArrowLeft' || event.key === '1' || event.key === 'ArrowRight' || event.key === '2') {
+      handlerAnswer(event)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handlerKey)
+    return () => {document.removeEventListener('keydown', handlerKey)}
+  })
+
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={4}>
       <Grid item>
@@ -204,6 +223,17 @@ function Inside({ words }) {
             Верно
           </Button>
         </Stack>
+      </Grid>
+      <Grid item>
+        <Typography variant="h6">
+          Кнопки управления:
+        </Typography>
+        <Typography variant="h6">
+          1 или стрелка влево - выбор кнопки "неправильно"
+        </Typography>
+        <Typography variant="h6">
+          2 или стрелка вправо - выбор кнопки "правильно"
+        </Typography>
       </Grid>
     </Grid>
   )
