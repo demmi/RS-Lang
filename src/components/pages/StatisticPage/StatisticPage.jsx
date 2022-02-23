@@ -1,76 +1,64 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react'
 import IsLogged from '@/components/context'
-
-import './StatisticPage.css'
 import statisticsGet from '@/components/api/statisticsGet'
-// import getAllUserWords from '@/components/api/getAllUserWords';
-// import statisticsPut from '@/components/api/statisticsPut';
-
-import Histogram from 'react-chart-histogram';
-import { CircularProgress } from '@mui/material';
-import { Sprint } from '@/assets/images/sprint.jpg';
+import { Card, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material'
+import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
 
 function StatisticPage() {
   const { isLogged } = useContext(IsLogged)
   const [loaded, setLoaded] = useState(false)
-  const [labelsSprint, setLabelsSprint] = useState([])
-  const [dataHSprint, setDataHSprint] = useState([])
-
-  const labels = ['2016', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018', '2017', '2018'];
-  const dataH = [56, 45, 70, 45, 70, 45, 70, 45, 70, 45, 70];
-  const options = { fillColor: '#FFFFFF', strokeColor: '#0000FF' };
+  const [seriesCall, setSeriesCall] = useState(0)
+  const [seriesSprint, setSeriesSprint] = useState(0)
+  const [learnCount, setLearnCount] = useState(0)
+  const [arrCall, setCall] = useState([])
+  const [arrSprint, setSprint] = useState([])
+  const [learned, setLearned] = useState([])
 
   useEffect(() => {
     if (isLogged) {
+      const arrCallExit = []
+      const arrSprintExit = []
+      const learnedExit = []
       const setStatistic = async () => {
         const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
-        // curDate: 1645542772479
-        // game: "Call"
-        // maxCatch: 18
-        // numRightAnswers: 19
-        // numWrongAnswers: 1
-        // totalWord: 20
-
-        // const data = [
-        //   {
-        //     name: "14 Feb",
-        //     'Правильно': 4000,
-        //     'Не правильно': 2400,
-        //   },
-        //   {
-        //     name: "Page B",
-        //     'Правильно': 3000,
-        //     'Не правильно': 1398,
-        //   },
-        // ];
         const callGameArr = JSON.parse(data.optional.callgame)
         const sprintGameArr = JSON.parse(data.optional.sprintgame)
         const learnedArr = JSON.parse(data.optional.learned)
-        console.log('data:', data)
-        //
-        const arrCallExit = []
-        const arrSprintExit = []
-        const learnedExit = []
 
         const makeGameExitArr = (arr, arrExit) => {
-          const tempArrDateIndex = arr.map((el) => {
-            const newEl = {...el}
+          if (arr[0].game === 'Call') {
+            setSeriesCall(
+              Math.max.apply(
+                null,
+                arr.map(elem => +elem.maxCatch)
+              )
+            )
+          } else {
+            setSeriesSprint(
+              Math.max.apply(
+                null,
+                arr.map(elem => +elem.maxCatch)
+              )
+            )
+          }
+          const tempArrDateIndex = arr.map(el => {
+            const newEl = { ...el }
             const date = new Date(el.curDate)
-            newEl.curDate = date.toLocaleString('en', {day: '2-digit', month: 'short'})
+            newEl.curDate = date.toLocaleString('en', { day: '2-digit', month: 'short' })
             return newEl
           })
           const tempArrDateIndexUniq = []
-          tempArrDateIndex.forEach((el) => {
-            if(!tempArrDateIndexUniq.includes(el.curDate)) tempArrDateIndexUniq.push(el.curDate)
+          tempArrDateIndex.forEach(el => {
+            if (!tempArrDateIndexUniq.includes(el.curDate)) tempArrDateIndexUniq.push(el.curDate)
           })
-          tempArrDateIndexUniq.forEach((el) => {
+          tempArrDateIndexUniq.forEach(el => {
             const newObj = {
               name: null,
-              'Правильно': 0,
-              'Неправильно': 0
+              Правильно: 0,
+              Неправильно: 0,
             }
-            tempArrDateIndex.forEach((elm) => {
-              if(elm.curDate === el) {
+            tempArrDateIndex.forEach(elm => {
+              if (elm.curDate === el) {
                 newObj.name = el
                 newObj['Правильно'] += elm.numRightAnswers
                 newObj['Неправильно'] += elm.numWrongAnswers
@@ -81,23 +69,24 @@ function StatisticPage() {
         }
 
         const makeLearnedExitArr = (arr, arrExit) => {
-          const tempArrDateIndex = arr.map((el) => {
-            const newEl = {...el}
+          setLearnCount(arr.length)
+          const tempArrDateIndex = arr.map(el => {
+            const newEl = { ...el }
             const date = new Date(el.date)
-            newEl.date = date.toLocaleString('en', {day: '2-digit', month: 'short'})
+            newEl.date = date.toLocaleString('en', { day: '2-digit', month: 'short' })
             return newEl
           })
           const tempArrDateIndexUniq = []
-          tempArrDateIndex.forEach((el) => {
-            if(!tempArrDateIndexUniq.includes(el.date)) tempArrDateIndexUniq.push(el.date)
+          tempArrDateIndex.forEach(el => {
+            if (!tempArrDateIndexUniq.includes(el.date)) tempArrDateIndexUniq.push(el.date)
           })
-          tempArrDateIndexUniq.forEach((el) => {
+          tempArrDateIndexUniq.forEach(el => {
             const newObj = {
               name: null,
-              'Количество': 0
+              Количество: 0,
             }
-            tempArrDateIndex.forEach((elm) => {
-              if(elm.date === el) {
+            tempArrDateIndex.forEach(elm => {
+              if (elm.date === el) {
                 newObj.name = el
                 newObj['Количество'] += 1
               }
@@ -110,51 +99,72 @@ function StatisticPage() {
         makeGameExitArr(sprintGameArr, arrSprintExit)
         makeLearnedExitArr(learnedArr, learnedExit)
 
-
-        console.log('arrCallExit:', arrCallExit, 'arrSprintExit:', arrSprintExit, 'learnedExit:', learnedExit)
-
-
-
-        //
-        setLabelsSprint(sprintGameArr.map((el) => {
-          const date = new Date(el.curDate)
-          return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-        }))
-        setDataHSprint(sprintGameArr.map((el) => (el.numRightAnswers / el.totalWord) * 100))
-        // console.log('time:', `${new Date( sprintGameArr[0].curDate).getFullYear()}` )
-
-        // console.log('sprintGameArr:', sprintGameArr, Array.isArray(sprintGameArr))
+        setCall(arrCallExit)
+        setSprint(arrSprintExit)
+        setLearned(learnedExit)
         setLoaded(true)
       }
       setStatistic()
     }
   }, [isLogged])
 
-  return (
-    <div className="statistic-page">
-      <div className="main-page-title">It is StatisticPage</div>
-
-      {loaded ? (
-          <>
-            <Histogram
-            xLabels={labels}
-            yValues={dataH}
-            width='400'
-            height='200'
-            options={options}
-            />
-            <Histogram
-            xLabels={labelsSprint}
-            yValues={dataHSprint}
-            width='600'
-            height='400'
-            options={options}
-            />
-          </>
-          ) : (
-            <CircularProgress sx={{ marginTop: '100px' }} />
-          )}
-    </div>
+  return loaded ? (
+    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
+      <Grid item>
+        <Paper elevation={3}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Количество изученных слов: {learnCount}</Typography>
+              <BarChart width={730} height={250} data={learned}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="Количество" fill="blue" />
+              </BarChart>
+            </CardContent>
+          </Card>
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Paper elevation={3}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Игра "Аудиовызов"</Typography>
+              <Typography variant="h6">Максимальная серия правильных ответов: {seriesCall}</Typography>
+              <BarChart width={730} height={250} data={arrCall}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="Правильно" stackId="a" fill="green" />
+                <Bar dataKey="Неправильно" stackId="a" fill="red" />
+              </BarChart>
+            </CardContent>
+          </Card>
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Paper elevation={3}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Игра "Спринт"</Typography>
+              <Typography variant="h6">Максимальная серия правильных ответов: {seriesSprint}</Typography>
+              <BarChart width={730} height={250} data={arrSprint}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="Правильно" stackId="a" fill="green" />
+                <Bar dataKey="Неправильно" stackId="a" fill="red" />
+              </BarChart>
+            </CardContent>
+          </Card>
+        </Paper>
+      </Grid>
+    </Grid>
+  ) : (
+    <CircularProgress sx={{ marginTop: '100px' }} />
   )
 }
 
