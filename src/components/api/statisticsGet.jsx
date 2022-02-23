@@ -11,7 +11,6 @@ async function statisticsGet(id, token) {
   })
   if (response.ok) {
     const stat = await response.json()
-    console.log(stat)
     return stat
   }
   return response.status

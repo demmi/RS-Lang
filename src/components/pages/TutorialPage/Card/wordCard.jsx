@@ -109,7 +109,6 @@ function WordCard({ data, setAudio }) {
     } else if (response === 401) {
       setLogged(false)
     }
-    console.log(response)
   }
 
   const handleLearned = async () => {

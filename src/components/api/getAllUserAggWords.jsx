@@ -3,7 +3,6 @@ import Url from '@/components/const'
 async function getAllUserAggWords(userId, userToken, page, filter) {
   // const filter = { "userWord.difficulty": "hard" }
   // const filterJSON = JSON.stringify(filter)
-  console.log(JSON.stringify(filter))
   const urlString = `${Url}users/${userId}/aggregatedWords?page=${page}&wordsPerPage=20&filter=${JSON.stringify(
     filter
   )}`

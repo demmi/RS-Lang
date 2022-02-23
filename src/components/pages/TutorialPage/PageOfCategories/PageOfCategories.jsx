@@ -12,7 +12,6 @@ function PageOfCategories() {
   const handleClickCategory = event => {
     const curTitle = event.target.innerText.toLowerCase()
     const curId = PAGE_OF_CATEGORIES.find(el => el.title === curTitle).id
-    console.log('curId:', curId)
     setCategory(curId)
     setPage(0)
   }
