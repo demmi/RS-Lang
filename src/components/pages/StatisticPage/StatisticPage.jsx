@@ -58,6 +58,25 @@ function StatisticPage() {
             })
             arrExit.push(newObj)
           })
+
+          let lastDate
+
+          if(arrExit.length === 0) {
+            lastDate = new Date()
+          } else {
+            lastDate = new Date(arr[arr.length - 1].curDate).getTime()
+          }
+
+          while(arrExit.length < 10) {
+            lastDate += 86400000
+              arrExit.push(
+                {
+                  name: new Date(lastDate).toLocaleString('en', { day: '2-digit', month: 'short' }),
+                  'Правильно': 0,
+                  'Неправильно': 0
+                }
+              )
+            }
         }
 
         const makeLearnedExitArr = (arr, arrExit) => {
@@ -85,6 +104,24 @@ function StatisticPage() {
             })
             arrExit.push(newObj)
           })
+
+          let lastDate
+
+          if(arrExit.length === 0) {
+            lastDate = new Date()
+          } else {
+            lastDate = new Date(arr[arr.length - 1].date).getTime()
+          }
+
+          while(arrExit.length < 10) {
+            lastDate += 86400000
+              arrExit.push(
+                {
+                  name: new Date(lastDate).toLocaleString('en', { day: '2-digit', month: 'short' }),
+                  'Количество': 0
+                }
+              )
+            }
         }
 
         makeGameExitArr(callGameArr, arrCallExit)
