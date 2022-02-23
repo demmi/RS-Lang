@@ -37,8 +37,6 @@ function App() {
   const [gameRoute, setGameRoute] = useState('')
   const [tempCount, setTempCount] = useState(0)
 
-  console.log('routerPage:', routerPage, 'category:', category, 'page:', page, 'paginationCount:', paginationCount)
-
   return (
     <SourceRoute.Provider value={{ gameRoute, setGameRoute }}>
       <SelectedGame.Provider value={{ game, setGame }}>

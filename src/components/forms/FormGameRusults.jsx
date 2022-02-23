@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '@/components/forms/StylesForms.css'
-import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute, SelectedGame, TempCount } from '@/components/context'
+import IsLogged, {
+  FormStatus,
+  ResultsArray,
+  PageRouter,
+  SourceRoute,
+  SelectedGame,
+  TempCount,
+} from '@/components/context'
 import {
   Button,
   Dialog,
@@ -67,12 +74,13 @@ function FormGameRusults() {
       const learn = JSON.parse(data.optional.learned)
       const usedWords = JSON.parse(data.optional.word)
 
-      const temp = resultsArray.filter((element) => element.isCatch === true || element.isCatch === false )
-        .map((elem) => ({id: elem.id, isCatch: elem.isCatch}))
+      const temp = resultsArray
+        .filter(element => element.isCatch === true || element.isCatch === false)
+        .map(elem => ({ id: elem.id, isCatch: elem.isCatch }))
       // let tempCount = 0
-      temp.forEach((elem) => {
-        if(!usedWords.map(el => el.id).includes(elem.id)) {
-          usedWords.push({id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1})
+      temp.forEach(elem => {
+        if (!usedWords.map(el => el.id).includes(elem.id)) {
+          usedWords.push({ id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1 })
           setTempCount(tempCount + 1)
         } else {
           usedWords.find(elm => elm.id === elem.id).count += 1
@@ -81,7 +89,6 @@ function FormGameRusults() {
             : usedWords.find(elm => elm.id === elem.id).errors + 1
         }
       })
-      console.log('temp:', temp, 'usedWords:', usedWords, 'tempCount', tempCount )
 
       const newLearn = learn.filter(
         elem =>
@@ -138,15 +145,13 @@ function FormGameRusults() {
     }
 
     const curObj = {
-      game: game,
-      curDate: curDate,
-      totalWord: totalWord,
-      numRightAnswers: numRightAnswers,
-      numWrongAnswers: numWrongAnswers,
-      maxCatch: maxCatch,
+      game,
+      curDate,
+      totalWord,
+      numRightAnswers,
+      numWrongAnswers,
+      maxCatch,
     }
-
-    console.log('curObj:', curObj)
 
     const setStatisticData = async () => {
       const data = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
@@ -155,18 +160,14 @@ function FormGameRusults() {
       const sprint = JSON.parse(data.optional.sprintgame)
       const usedWords = JSON.parse(data.optional.word)
       if (curObj.game === 'Call') {
-        console.log('Call')
         callStr.push(curObj)
       } else {
-        console.log('Sprint')
         sprint.push(curObj)
       }
       // const callStr = curObj.game === 'Call' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.callgame)
       // const sprint = curObj.game === 'Sprint' ? JSON.parse(data.optional.callgame).push(curObj) : JSON.parse(data.optional.sprintgame)
       const learn = JSON.parse(data.optional.learned)
 
-      console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
-      console.log('resultsArray:', resultsArray, 'maxCatch:', maxCatch)
       await statisticsPut(
         localStorage.demmiUserId,
         localStorage.demmiUserToken,

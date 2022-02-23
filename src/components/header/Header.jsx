@@ -8,11 +8,7 @@ import AvatarMenu from './AvatarMenu'
 import getUser from '../api/getUser'
 import { ROUTING_PAGES, CUR_ROUTER_PAGE } from '../const'
 
-/* https://mui.com/components/app-bar/ */
-
-// const pages = ['главная', 'учебник', 'игры', 'статистика']
 const pages = Object.keys(ROUTING_PAGES)
-// console.log(page2)
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null)
