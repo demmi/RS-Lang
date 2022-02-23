@@ -3,16 +3,19 @@ import React, { useContext, useEffect, useState } from 'react'
 import CallGame from '@/components/games/callgame/CallGame'
 import getWords from '@/components/api/getWords'
 import getAllUserAggWords from '@/components/api/getAllUserAggWords';
-import IsLogged, { Category, Page, SelectedGame } from '@/components/context'
+import IsLogged, { Category, Page, SelectedGame, SourceRoute } from '@/components/context'
 import { CircularProgress } from '@mui/material'
 import SprintGame from '@/components/games/SprintGame/SprintGame'
 import { shuffle, getRandomNumber } from '@/components/games/gameUtils';
+import getAllUserWords from '@/components/api/getAllUserWords';
+import { TUTORIAL_PAGE } from '@/components/const';
 
 function LoadGame() {
   const { game } = useContext(SelectedGame)
   const { category } = useContext(Category)
   const { isLogged } = useContext(IsLogged)
   const { page } = useContext(Page)
+  const { gameRoute } = useContext(SourceRoute)
   const [words, setWords] = useState(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -20,7 +23,28 @@ function LoadGame() {
     const loadData = async () => {
 
       if(category < 6) {
-        const data = await getWords(category, page)
+        let data = await getWords(category, page)
+
+        if (gameRoute === TUTORIAL_PAGE && isLogged) {
+          const allUserWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
+
+          const temp = data.filter((elem) => !allUserWords.filter((el) => el.difficulty === 'learned').map((el) => el.wordId).includes(elem.id))
+
+          while(temp.length < 20) {
+            const temp1 = await getWords(category, getRandomNumber(0, 29))
+            const temp2 = temp1.filter((elem) => !allUserWords.filter((el) => el.difficulty === 'learned').map((el) => el.wordId).includes(elem.id))
+
+            temp2.forEach((el) => {
+              if (!temp.map((elem) => elem.id).includes(el.id)) {
+                if (temp.length < 20) {
+                  temp.push(el)
+                }
+              }
+            })
+          }
+
+          data = temp
+        }
 
         if (game === 'Call') {
           setWords(data)
