@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import IsLogged from '@/components/context'
 import statisticsGet from '@/components/api/statisticsGet'
 import { Card, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material'
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 function StatisticPage() {
   const { isLogged } = useContext(IsLogged)
@@ -58,6 +58,23 @@ function StatisticPage() {
             })
             arrExit.push(newObj)
           })
+
+          let lastDate
+
+          if (arrExit.length === 0) {
+            lastDate = new Date()
+          } else {
+            lastDate = new Date(arr[arr.length - 1].curDate).getTime()
+          }
+
+          while (arrExit.length < 10) {
+            lastDate += 86400000
+            arrExit.push({
+              name: new Date(lastDate).toLocaleString('en', { day: '2-digit', month: 'short' }),
+              Правильно: 0,
+              Неправильно: 0,
+            })
+          }
         }
 
         const makeLearnedExitArr = (arr, arrExit) => {
@@ -85,6 +102,22 @@ function StatisticPage() {
             })
             arrExit.push(newObj)
           })
+
+          let lastDate
+
+          if (arrExit.length === 0) {
+            lastDate = new Date()
+          } else {
+            lastDate = new Date(arr[arr.length - 1].date).getTime()
+          }
+
+          while (arrExit.length < 10) {
+            lastDate += 86400000
+            arrExit.push({
+              name: new Date(lastDate).toLocaleString('en', { day: '2-digit', month: 'short' }),
+              Количество: 0,
+            })
+          }
         }
 
         makeGameExitArr(callGameArr, arrCallExit)

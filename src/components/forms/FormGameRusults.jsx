@@ -64,6 +64,24 @@ function FormGameRusults() {
       const callStr = JSON.parse(data.optional.callgame)
       const sprint = JSON.parse(data.optional.sprintgame)
       const learn = JSON.parse(data.optional.learned)
+
+      const usedWords = JSON.parse(data.optional.word)
+      const temp = resultsArray.filter((element) => element.isCatch === true || element.isCatch === false )
+        .map((elem) => ({id: elem.id, isCatch: elem.isCatch}))
+      let tempCount = 0
+      temp.forEach((elem) => {
+        if(!usedWords.map(el => el.id).includes(elem.id)) {
+          usedWords.push({id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1})
+          tempCount += 1
+        } else {
+          usedWords.find((elm) => elm.id === elem.id).count += 1
+          usedWords.find((elm) => elm.id === elem.id).errors = elem.isCatch
+            ? usedWords.find((elm) => elm.id === elem.id).errors
+            : usedWords.find((elm) => elm.id === elem.id).errors + 1
+        }
+      })
+      console.log('temp:', temp, 'usedWords:', usedWords)
+
       const newLearn = learn.filter(
         elem =>
           !resultsArray
@@ -77,7 +95,8 @@ function FormGameRusults() {
         newLearn.length,
         callStr,
         sprint,
-        newLearn
+        newLearn,
+        usedWords
       )
       const userWords = await getAllUserWords(localStorage.demmiUserId, localStorage.demmiUserToken)
       const learnedWords = userWords.filter(elem => elem.difficulty === 'learned')
@@ -126,6 +145,7 @@ function FormGameRusults() {
       const count = JSON.parse(data.learnedWords)
       const callStr = JSON.parse(data.optional.callgame)
       const sprint = JSON.parse(data.optional.sprintgame)
+      const usedWords = JSON.parse(data.optional.word)
       if (curObj.game === 'Call') {
         console.log('Call')
         callStr.push(curObj)
@@ -139,7 +159,7 @@ function FormGameRusults() {
 
       console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
       console.log('resultsArray:', resultsArray, 'maxCatch:', maxCatch)
-      await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn)
+      await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn, usedWords)// !!!
     }
     setStatisticData()
   }

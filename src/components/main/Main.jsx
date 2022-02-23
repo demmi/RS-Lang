@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import './Main.css'
-import { FormStatus, PageRouter } from '@/components/context'
+import IsLogged, { FormStatus, PageRouter } from '@/components/context'
 import {
   DT_SIGNIN,
   DT_REGISTER,
@@ -28,6 +28,7 @@ import TutorialChoice from '../pages/TutorialChoice/TutorialChoice'
 function Main() {
   const { dialogType } = useContext(FormStatus)
   const { routerPage } = useContext(PageRouter)
+  const { isLogged } = useContext(IsLogged)
 
   let curForm
   let curPage
@@ -53,30 +54,30 @@ function Main() {
   // sessionStorage.setItem(CUR_CATEGORY, category);
   // sessionStorage.setItem(CUR_CATEGORY_PAGE, page);
 
-  switch (routerPage) {
-    case MAIN_PAGE:
-      curPage = <MainPage />
-      break
-    case TUTORIAL_PAGE:
-      curPage = <TutorialPage />
-      break
-    case TUTORIAL_CHOICE:
-      curPage = <TutorialChoice />
-      break
-    case GAMES_PAGE:
-      curPage = <SelectGame />
-      break
-    case STATISTIC_PAGE:
-      curPage = <StatisticPage />
-      break
-    case LOAD_GAME:
-      curPage = <LoadGame />
-      break
-    default:
-      break
+  if(routerPage === STATISTIC_PAGE && isLogged) {
+    curPage = <StatisticPage />
+  } else {
+    switch (routerPage) {
+      case MAIN_PAGE:
+        curPage = <MainPage />
+        break
+      case TUTORIAL_PAGE:
+        curPage = <TutorialPage />
+        break
+      case TUTORIAL_CHOICE:
+        curPage = <TutorialChoice />
+        break
+      case GAMES_PAGE:
+        curPage = <SelectGame />
+        break
+      case LOAD_GAME:
+        curPage = <LoadGame />
+        break
+      default:
+        curPage = <p>Для просмотра статистики войдите или зарегистрируйтесь</p>
+        break
+    }
   }
-
-  // console.log('function Main', routerPage)
 
   return (
     <div className="main">
