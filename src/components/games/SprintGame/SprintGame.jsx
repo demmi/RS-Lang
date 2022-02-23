@@ -31,7 +31,7 @@ function Inside({ words }) {
   const { enqueueSnackbar } = useSnackbar()
   const [playError] = useSound(errorSound, { volume: 0.3 })
   const [playCorrect] = useSound(correctSound, { volume: 0.3 })
-  const [countDown, setTimer] = useState(5)
+  const [countDown, setTimer] = useState(60)
   const [stopGame, setStopGame] = useState(true)
 
   const [curNum, setCurNum] = useState(0)
@@ -161,7 +161,7 @@ function Inside({ words }) {
     displayGameResultsForm()
   }
 
-  const handlerKey = (event) => {
+  const handlerKey = event => {
     if (event.key === 'ArrowLeft' || event.key === '1' || event.key === 'ArrowRight' || event.key === '2') {
       handlerAnswer(event)
     }
@@ -169,7 +169,9 @@ function Inside({ words }) {
 
   useEffect(() => {
     document.addEventListener('keydown', handlerKey)
-    return () => {document.removeEventListener('keydown', handlerKey)}
+    return () => {
+      document.removeEventListener('keydown', handlerKey)
+    }
   })
 
   return (
@@ -225,15 +227,9 @@ function Inside({ words }) {
         </Stack>
       </Grid>
       <Grid item>
-        <Typography variant="h6">
-          Кнопки управления:
-        </Typography>
-        <Typography variant="h6">
-          1 или стрелка влево - выбор кнопки "неправильно"
-        </Typography>
-        <Typography variant="h6">
-          2 или стрелка вправо - выбор кнопки "правильно"
-        </Typography>
+        <Typography variant="h6">Кнопки управления:</Typography>
+        <Typography variant="h6">1 или стрелка влево - выбор кнопки "неправильно"</Typography>
+        <Typography variant="h6">2 или стрелка вправо - выбор кнопки "правильно"</Typography>
       </Grid>
     </Grid>
   )
