@@ -64,20 +64,20 @@ function FormGameRusults() {
       const callStr = JSON.parse(data.optional.callgame)
       const sprint = JSON.parse(data.optional.sprintgame)
       const learn = JSON.parse(data.optional.learned)
-
       const usedWords = JSON.parse(data.optional.word)
-      const temp = resultsArray.filter((element) => element.isCatch === true || element.isCatch === false )
-        .map((elem) => ({id: elem.id, isCatch: elem.isCatch}))
+      const temp = resultsArray
+        .filter(element => element.isCatch === true || element.isCatch === false)
+        .map(elem => ({ id: elem.id, isCatch: elem.isCatch }))
       let tempCount = 0
-      temp.forEach((elem) => {
-        if(!usedWords.map(el => el.id).includes(elem.id)) {
-          usedWords.push({id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1})
+      temp.forEach(elem => {
+        if (!usedWords.map(el => el.id).includes(elem.id)) {
+          usedWords.push({ id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1 })
           tempCount += 1
         } else {
-          usedWords.find((elm) => elm.id === elem.id).count += 1
-          usedWords.find((elm) => elm.id === elem.id).errors = elem.isCatch
-            ? usedWords.find((elm) => elm.id === elem.id).errors
-            : usedWords.find((elm) => elm.id === elem.id).errors + 1
+          usedWords.find(elm => elm.id === elem.id).count += 1
+          usedWords.find(elm => elm.id === elem.id).errors = elem.isCatch
+            ? usedWords.find(elm => elm.id === elem.id).errors
+            : usedWords.find(elm => elm.id === elem.id).errors + 1
         }
       })
       console.log('temp:', temp, 'usedWords:', usedWords)
@@ -115,28 +115,35 @@ function FormGameRusults() {
   const setStatistic = async () => {
     const curDate = Date.now() // date: Date.now()
     const totalWord = resultsArray.length
-    const numRightAnswers = resultsArray.filter((el) => el.isCatch === true).length
-    const numWrongAnswers = resultsArray.filter((el) => typeof el.isCatch === 'boolean' && el.isCatch === false).length
+    const numRightAnswers = resultsArray.filter(el => el.isCatch === true).length
+    const numWrongAnswers = resultsArray.filter(el => typeof el.isCatch === 'boolean' && el.isCatch === false).length
 
     let maxCatch = 0
     let curMaxCatch = 0
 
-    resultsArray.forEach((el) => {
-      if(el.isCatch) {
+    resultsArray.forEach(el => {
+      if (el.isCatch) {
         curMaxCatch += 1
       } else {
-        if(curMaxCatch > maxCatch) {
+        if (curMaxCatch > maxCatch) {
           maxCatch = curMaxCatch
         }
         curMaxCatch = 0
       }
     })
 
-    if(curMaxCatch > maxCatch) {
+    if (curMaxCatch > maxCatch) {
       maxCatch = curMaxCatch
     }
 
-    const curObj = {'game': game, 'curDate': curDate, 'totalWord': totalWord, 'numRightAnswers': numRightAnswers, 'numWrongAnswers': numWrongAnswers, 'maxCatch': maxCatch}
+    const curObj = {
+      game: game,
+      curDate: curDate,
+      totalWord: totalWord,
+      numRightAnswers: numRightAnswers,
+      numWrongAnswers: numWrongAnswers,
+      maxCatch: maxCatch,
+    }
 
     console.log('curObj:', curObj)
 
@@ -159,7 +166,15 @@ function FormGameRusults() {
 
       console.log('data:', data, 'len:', count, 'callStr+:', callStr, 'sprint+:', sprint, 'learn:', learn)
       console.log('resultsArray:', resultsArray, 'maxCatch:', maxCatch)
-      await statisticsPut(localStorage.demmiUserId, localStorage.demmiUserToken, count, callStr, sprint, learn, usedWords)// !!!
+      await statisticsPut(
+        localStorage.demmiUserId,
+        localStorage.demmiUserToken,
+        count,
+        callStr,
+        sprint,
+        learn,
+        usedWords
+      ) // !!!
     }
     setStatisticData()
   }

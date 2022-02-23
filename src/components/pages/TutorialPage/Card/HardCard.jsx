@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Alert,
   Box,
@@ -12,6 +12,7 @@ import {
   IconButton,
   Paper,
   Snackbar,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver'
@@ -21,6 +22,8 @@ import { styled } from '@mui/styles'
 import deleteUserWord from '@/components/api/deleteUserWord'
 import updateUserWord from '@/components/api/updateUserWord'
 import addWordStat from '@/components/pages/TutorialPage/Card/addWordStat'
+import statisticsGet from '@/components/api/statisticsGet'
+import AssessmentIcon from '@mui/icons-material/Assessment'
 
 function DangerousString({ name }) {
   return <span dangerouslySetInnerHTML={{ __html: name }} />
@@ -39,6 +42,8 @@ function HardCard({ data, setAudio }) {
   const [btnDisable, setBtnDisable] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
   const [openLearned, setOpenLearned] = useState(false)
+  const [count, setCount] = useState(0)
+  const [error, setError] = useState(0)
 
   const {
     _id,
@@ -56,6 +61,14 @@ function HardCard({ data, setAudio }) {
     textMeaningTranslate,
     wordTranslate,
   } = data
+
+  useEffect(async () => {
+    const dataWords = await statisticsGet(localStorage.demmiUserId, localStorage.demmiUserToken)
+    const usedWords = JSON.parse(dataWords.optional.word)
+    const elem = usedWords.find(e => e.id === _id)
+    setCount(elem ? elem.count : 0)
+    setError(elem ? elem.count - elem.errors : 0)
+  })
 
   const speakWord = () => {
     setAudio(`${URL}${audio}`)
@@ -112,6 +125,9 @@ function HardCard({ data, setAudio }) {
             <CardMedia component="img" image={`${URL}${image}`} alt={word} />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
               <Typography variant="h4">
+                <Tooltip title={`Слово появлялось в играх ${count} раз(a), правильных ответов ${error}`}>
+                  <AssessmentIcon sx={{ margin: '10px' }} />
+                </Tooltip>
                 {word} : {transcription}
               </Typography>
               <IconButton aria-label="play/pause" onClick={speakWord}>
