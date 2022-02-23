@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
-import IsLogged from '@/components/context'
+import IsLogged, {TempCount} from '@/components/context'
 import statisticsGet from '@/components/api/statisticsGet'
 import { Card, CardContent, CircularProgress, Grid, Paper, Typography } from '@mui/material'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 function StatisticPage() {
   const { isLogged } = useContext(IsLogged)
+  const { tempCount } = useContext(TempCount)
   const [loaded, setLoaded] = useState(false)
   const [seriesCall, setSeriesCall] = useState(0)
   const [seriesSprint, setSeriesSprint] = useState(0)
@@ -133,6 +134,7 @@ function StatisticPage() {
     }
   }, [isLogged])
 
+  console.log('learned:', learned)
   return loaded ? (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
       <Grid item>
@@ -140,6 +142,7 @@ function StatisticPage() {
           <Card>
             <CardContent>
               <Typography variant="h6">Количество изученных слов: {learnCount}</Typography>
+              <Typography variant="h6">Количество новых слов: {tempCount}</Typography>
               <BarChart width={730} height={250} data={learned}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />

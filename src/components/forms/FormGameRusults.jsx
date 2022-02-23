@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import '@/components/forms/StylesForms.css'
-import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute, SelectedGame } from '@/components/context'
+import IsLogged, { FormStatus, ResultsArray, PageRouter, SourceRoute, SelectedGame, TempCount } from '@/components/context'
 import {
   Button,
   Dialog,
@@ -53,6 +53,7 @@ function FormGameRusults() {
   const { gameRoute } = useContext(SourceRoute)
   const { isLogged } = useContext(IsLogged)
   const { game } = useContext(SelectedGame)
+  const { tempCount, setTempCount } = useContext(TempCount)
   const audioRef = useRef(new Audio(audioSrc))
   const isOpen = dialogType === DT_GAME_RESULTS
   const catched = resultsArray.filter(el => el.isCatch).length
@@ -65,14 +66,14 @@ function FormGameRusults() {
       const sprint = JSON.parse(data.optional.sprintgame)
       const learn = JSON.parse(data.optional.learned)
       const usedWords = JSON.parse(data.optional.word)
-      const temp = resultsArray
-        .filter(element => element.isCatch === true || element.isCatch === false)
-        .map(elem => ({ id: elem.id, isCatch: elem.isCatch }))
-      let tempCount = 0
-      temp.forEach(elem => {
-        if (!usedWords.map(el => el.id).includes(elem.id)) {
-          usedWords.push({ id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1 })
-          tempCount += 1
+
+      const temp = resultsArray.filter((element) => element.isCatch === true || element.isCatch === false )
+        .map((elem) => ({id: elem.id, isCatch: elem.isCatch}))
+      // let tempCount = 0
+      temp.forEach((elem) => {
+        if(!usedWords.map(el => el.id).includes(elem.id)) {
+          usedWords.push({id: elem.id, count: 1, errors: elem.isCatch ? 0 : 1})
+          setTempCount(tempCount + 1)
         } else {
           usedWords.find(elm => elm.id === elem.id).count += 1
           usedWords.find(elm => elm.id === elem.id).errors = elem.isCatch
@@ -80,7 +81,7 @@ function FormGameRusults() {
             : usedWords.find(elm => elm.id === elem.id).errors + 1
         }
       })
-      console.log('temp:', temp, 'usedWords:', usedWords)
+      console.log('temp:', temp, 'usedWords:', usedWords, 'tempCount', tempCount )
 
       const newLearn = learn.filter(
         elem =>
