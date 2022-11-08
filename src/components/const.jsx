@@ -1,6 +1,6 @@
 /* Swagger http://localhost:5050/doc/# */
 
-const Url = 'https://rs-lang-serv.herokuapp.com/'
+const Url = 'https://rs-language-api.herokuapp.com/'
 
 export const DT_DISABLED = 'disabled'
 export const DT_SIGNIN = 'signInForm'
